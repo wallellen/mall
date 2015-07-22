@@ -12,96 +12,58 @@
     </style>
 </head>
 <body>
-	<div style="padding-bottom:5px;">
-        <span>登录名：</span><input type="text" id="search_like_loginId"  />
-        <span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span>真实姓名：</span><input type="text" id="search_like_userName"  />
-        <input type="button" value="查找" onclick="search()"/>
-        <span >&nbsp;</span>
-        <input type="button" value="重置" onclick="reset()"/>
-    </div>
-        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
-            <table style="width:100%;">
-                <tr>
-                    <td style="width:100%;">
-                        <a class="mini-button" iconCls="icon-add" onclick="add()">增加用户</a>
-                        <a class="mini-button" iconCls="icon-edit" onclick="edit()">修改用户</a>
-                        <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除用户</a>  
-                       <!--  <a class="mini-button" iconCls="icon-users" onclick="bandUserInfo()">绑定用户组</a>        -->
-                        <a class="mini-button" iconCls="icon-role" onclick="bandRoleInfo()">绑定角色</a>       
-                             
-                    </td>
-                </tr>
-            </table>           
-        </div>
-    <div class="mini-fit" >
-    <div id="userDategrid" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true"
-        url="${ctx}/admin/merUser/list"  idField="user_id" multiSelect="true" >
-        <div property="columns">
-        	<div type="indexcolumn"></div>
-            <!-- <div type="checkcolumn"></div> -->
-            <div field="login_id" width="120" headerAlign="center" allowSort="true">登录名称</div>    
-            <div field="user_name" width="120" headerAlign="center" allowSort="true">真实姓名</div>    
-            <div field="user_status" width="120"  renderer="onDict" headerAlign="center" allowSort="true">用户状态</div>    
-           <!--  <div field="user_type" width="120"  renderer="onDict" headerAlign="center" allowSort="true">用户状态</div>   -->  
-        </div>
-    </div>
-    </div>
-    <div id="addWindow" class="mini-window" title="增加" style="width:350px;"  showModal="true" allowResize="true" allowDrag="true" >
-	    <div id="addform" class="form" >
-	        <input class="mini-hidden" name="user_id"/>
-	        <table style="width:100%;">
-	            <tr>
-	                <td style="width:80px;">登录名称：</td>
-	                <td style="width:150px;">
-	                	<input name="login_id" class="mini-textbox" required="true" />
-	                </td>
-	            </tr>
-	          <tr>
-	                <td style="width:80px;">真实姓名：</td>
-	                <td style="width:150px;"><input name="user_name" class="mini-textbox" required="true"/></td>
-	            </tr>
-	            <tr>
-	                <td style="width:80px;">登录密码：</td>
-	                <td style="width:150px;"><input id="pwds" onvalidation="onPwdsValidation" class="mini-password" required="true"/></td>
-	            </tr>
-	            <tr>
-	                <td style="width:80px;">确认密码：</td>
-	                <td style="width:150px;"><input name="pwd" onvalidation="onPwdValidation" class="mini-password" required="true"/></td>
-	            </tr>
-	            <tr>
-	                <td style="width:80px;">用户状态：</td>
-	                <td style="width:150px;"><input name="user_status" url="${ctx}/combox/dict/USER_STATUS" class="mini-combobox" required="true"/></td>
-	            </tr>
-	            <tr>
-	                <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="6">
-	                    <a class="Update_Button" href="javascript:insertUser()">确定</a> 
-	                    <a class="Cancel_Button" href="javascript:cancel()">取消</a>
-	                </td>                
-	            </tr>
-	        </table>
-	    </div>
-	</div>
-	<div id="editWindow" class="mini-window" title="修改" style="width:350px;"  showModal="true" allowResize="true" allowDrag="true" >
-	    <div id="editform" class="form" >
-	        <input class="mini-hidden" name="user_id"/>
-	        <table style="width:100%;">
-	          	<tr>
-	                <td style="width:80px;">真实姓名：</td>
-	                <td style="width:150px;"><input name="user_name" class="mini-textbox" required="true"/></td>
-	            </tr>
-	            <tr>
-	                <td style="width:80px;">用户状态：</td>
-	                <td style="width:150px;"><input name="user_status" url="${ctx}/combox/dict/USER_STATUS" class="mini-combobox"/></td>
-	            </tr>
-	            <tr>
-	                <td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="6">
-	                    <a class="Update_Button" href="javascript:updateUser()">确定</a> 
-	                    <a class="Cancel_Button" href="javascript:cancel()">取消</a>
-	                </td>                
-	            </tr>
-	        </table>
-	    </div>
+	<div class="mini-splitter" style="width:100%;height:100%;" borderStyle="border:1;">
+            <div size="240" showCollapseButton="true">
+            	 <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">                
+		            <span style="padding-left:5px;">名称：</span>
+		            <input class="mini-textbox" name="site_name" id="site_name" />
+		            <a class="mini-button" iconCls="icon-search" plain="true" onclick="searchSite()">查找</a>                  
+		        </div>
+		        <div class="mini-fit">
+		            <ul id="tree1" class="mini-tree" url="${ctx}/site/all" style="width:300px;margin-top: 10px;" 
+	                    showTreeIcon="true" textField="site_name" parentField="par_id" idField="site_id" 
+						expandOnLoad="true" resultAsTree="false" onnodeselect="onSelectNode">        
+	                </ul>
+		        </div>
+                
+            </div>
+            <div showCollapseButton="false" style="border:0;">
+			<div style="padding-bottom:5px;">
+		        <span>登录名：</span><input type="text" id="search_like_loginId"  />
+		        <span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		        <span>真实姓名：</span><input type="text" id="search_like_userName"  />
+		        <input type="button" value="查找" onclick="search()"/>
+		        <span >&nbsp;</span>
+		        <input type="button" value="重置" onclick="reset()"/>
+		    </div>
+		        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+		            <table style="width:100%;">
+		                <tr>
+		                    <td style="width:100%;">
+		                        <a class="mini-button" iconCls="icon-add" onclick="add()">增加用户</a>
+		                        <a class="mini-button" iconCls="icon-edit" onclick="edit()">修改用户</a>
+		                        <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除用户</a>  
+		                       <!--  <a class="mini-button" iconCls="icon-users" onclick="bandUserInfo()">绑定用户组</a>        -->
+		                        <a class="mini-button" iconCls="icon-role" onclick="bandRoleInfo()">绑定角色</a>       
+		                             
+		                    </td>
+		                </tr>
+		            </table>           
+		        </div>
+		    <div class="mini-fit" >
+		    <div id="userDategrid" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true"
+		        url="${ctx}/admin/merUser/list"  idField="user_id" multiSelect="true" >
+		        <div property="columns">
+		        	<div type="indexcolumn"></div>
+		            <!-- <div type="checkcolumn"></div> -->
+		            <div field="login_id" width="120" headerAlign="center" allowSort="true">登录名称</div>    
+		            <div field="user_name" width="120" headerAlign="center" allowSort="true">真实姓名</div>    
+		            <div field="user_status" width="120"  renderer="onDict" headerAlign="center" allowSort="true">用户状态</div>    
+		           <!--  <div field="user_type" width="120"  renderer="onDict" headerAlign="center" allowSort="true">用户状态</div>   -->  
+		        </div>
+		    </div>
+		    </div>
+		    </div>
 	</div>
 	<div id="userBindWindow" class="mini-window" title="用户组绑定" style="width:350px;"  showModal="true" allowResize="true" allowDrag="true" >
 		    <div id="listUser" class="mini-listbox" style="width:340px;height:120px;"   showCheckBox="true" multiSelect="true" >     
@@ -139,22 +101,43 @@
         var roleBindWindow =  mini.get("roleBindWindow");
         var listUser = mini.get("listUser");
         var listRole = mini.get("listRole");
+    	var tree = mini.get("tree1");
+        
+        function searchSite() {
+			var site_name = mini.get("site_name").getValue();
+			tree.load("${ctx}/site/all?site_name="+site_name);
+		}
+        function onSelectNode(e) {
+            var tree = e.sender;
+            var node = tree.getSelectedNode();
+            grid.load({
+            	site_id:node.site_id
+            });
+            //document.getElementById("nodeText").innerHTML = node.text;
+        }
+        
         
         function add() {
-        	var data = { action : "new" };
-        	mini.open({
-				url : "${ctx }/admin/merUser/add",
-				title : "新增",
-				width : 650,
-				height : 350,
-				onload : function() {
-					var iframe = this.getIFrameEl();
-					iframe.contentWindow.SetData(data);
-				},
-				ondestroy : function(action) {
-					grid.reload();
-				}
-			});
+        	var node = tree.getSelectedNode();
+        	if(node ){
+        		var data = { action : "new",site_id:node.site_id };
+            	mini.open({
+    				url : "${ctx }/admin/merUser/add",
+    				title : "新增",
+    				width : 650,
+    				height : 350,
+    				onload : function() {
+    					var iframe = this.getIFrameEl();
+    					iframe.contentWindow.SetData(data);
+    				},
+    				ondestroy : function(action) {
+    					grid.reload();
+    				}
+    			});
+        	}else{
+        		alert("清先选择树节点！");
+        	}
+        	
         }
         function remove() {   
        	 var row = grid.getSelected();

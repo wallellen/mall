@@ -15,6 +15,7 @@
 	<form id="form" method="post">
     <div>
 	        <input class="mini-hidden" name="user_id"/>
+	        <input class="mini-hidden" name="site_id" id="site_id"/>
 	        <table style="width:100%;">
 	            <tr>
 	                <td style="width:80px;">登录名称：</td>
@@ -34,10 +35,10 @@
 	                <td style="width:80px;">确认密码：</td>
 	                <td style="width:150px;"><input name="pwd" onvalidation="onPwdValidation" class="mini-password" required="true"/></td>
 	            </tr>
-	            <tr>
+	          <%--   <tr>
 	                <td style="width:80px;">用户类型：</td>
 	                <td style="width:150px;"><input name="user_type" url="${ctx}/combox/dict/USER_TYPE" class="mini-combobox" required="true"/></td>
-	            </tr>
+	            </tr> --%>
 	            <tr>
 	                <td style="width:80px;">用户状态：</td>
 	                <td style="width:150px;"><input name="user_status" url="${ctx}/combox/dict/STATE" class="mini-combobox" required="true"/></td>
@@ -62,8 +63,9 @@
         if (form.isValid() == true) {
         	var o = form.getData();
             var json = mini.encode(o);
+            console.log(json);
             $.ajax({
-                url: "${ctx}//admin/merUser/save",
+                url: "${ctx}/admin/merUser/save",
                 type:"POST", 
                 dataType:"json",      
                 contentType:'application/json;charset=UTF-8',  
@@ -98,7 +100,10 @@
 					$("#pwdTr").hide();
 				}
 			});
-		} 
+		} else{
+			data = mini.clone(data);
+			mini.get("site_id").setValue(data.site_id);
+		}
 	}
 
 	function GetData() {
