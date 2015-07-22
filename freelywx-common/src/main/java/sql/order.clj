@@ -11,6 +11,8 @@
        {"order_status" "o.order_status != ?" }
 	   ( "order_id" "o.order_id = ?" )
        ( "member_id" "o.member_id = ?" )
+       ( "site_id" "o.site_id = ?" )
+       { "site_id" "o.site_id = ?" }
        ( "create_time_le" "o.create_time <= ?" ) 
        ( "create_time_ge" "o.create_time >= ?" ) 
        ( "order_status" "o.order_status = ?" )

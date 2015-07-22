@@ -13,7 +13,9 @@
 		   ("status" " T1.status = ?" )
        ("prod_name" " T1.prod_name like ?"  "%" "%")
        ("prod_code" " T1.prod_code like ?"  "%" "%")
-		   ("category_id" " T1.CATEGORY_ID in 
+       ("site_id" " T1.site_id = ?")
+       {"site_id" " T1.site_id = ?"}
+       ("category_id" " T1.CATEGORY_ID in 
                         (select distinct CHILD_CATEGORY_ID from T_P_CATEGORY_TREE where CATEGORY_ID = ? )" )
     	   )
    :page true
@@ -28,6 +30,8 @@
             left join  T_P_BRAND T3 ON T1.brand_id = T3.brand_id"
    :where (AND 
 		   {"status" " T1.status = ?" }
+      ("site_id" " T1.site_id = ?")
+       {"site_id" " T1.site_id = ?"}
 		   ("prod_type_id" " T1.prod_id IN( SELECT prod_id from T_P_RECOMMEND where prod_type_id = ?)" )
     	   )
    :page true
