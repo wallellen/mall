@@ -660,7 +660,7 @@ to {-webkit-transform: rotate(360deg);}
 				sessionStorage.notCheckLBS = true;
 
 				var url = window.location.href.replace("siteselector",	"productlist");
-				window.location.href = "${ctx}/product";
+				window.location.href = "${ctx}/product?site_id="+site.site_id;
 			} else {
 				showTip("请先选择办公楼哦", "#mainContent");
 				return false;
