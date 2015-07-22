@@ -10,46 +10,46 @@ public class TPUser {
 	@Id
 	@GenerateByDb
 	private Integer user_id;
+	private Integer site_id;
 
-	/**登录名*/
+	/** 登录名 */
 	private String login_id;
 
 	private String pwd;
 
 	private String salt;
 
-	/**用户类型。1、系统用户；2、微信商户*/
+	/** 用户类型。1、系统用户；2、微信商户 */
 	private String user_type;
 
-	/**用户真实姓名/商户名称*/
+	/** 用户真实姓名/商户名称 */
 	private String user_name;
 
 	private String user_status;
 
-	/**省份*/
+	/** 省份 */
 	private String province;
 
-	/**城市*/
+	/** 城市 */
 	private String city;
 
-	/**区*/
+	/** 区 */
 	private String district;
 
-	/**电话号码*/
+	/** 电话号码 */
 	private String phone;
 
-	/**邮箱*/
+	/** 邮箱 */
 	private String email;
 
-	/**QQ*/
+	/** QQ */
 	private String qq;
-	
+
 	@ColumnIgnore
 	private String mCode;
 	@ColumnIgnore
 	private String mSecret;
 
-	
 	public Integer getUser_id() {
 		return user_id;
 	}
@@ -57,7 +57,15 @@ public class TPUser {
 	public void setUser_id(Integer user_id) {
 		this.user_id = user_id;
 	}
-	
+
+	public Integer getSite_id() {
+		return site_id;
+	}
+
+	public void setSite_id(Integer site_id) {
+		this.site_id = site_id;
+	}
+
 	public String getLogin_id() {
 		return login_id;
 	}
@@ -65,7 +73,7 @@ public class TPUser {
 	public void setLogin_id(String login_id) {
 		this.login_id = login_id;
 	}
-	
+
 	public String getPwd() {
 		return pwd;
 	}
@@ -73,7 +81,7 @@ public class TPUser {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	
+
 	public String getSalt() {
 		return salt;
 	}
@@ -81,7 +89,7 @@ public class TPUser {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	
+
 	public String getUser_type() {
 		return user_type;
 	}
@@ -89,7 +97,7 @@ public class TPUser {
 	public void setUser_type(String user_type) {
 		this.user_type = user_type;
 	}
-	
+
 	public String getUser_name() {
 		return user_name;
 	}
@@ -97,7 +105,7 @@ public class TPUser {
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-	
+
 	public String getUser_status() {
 		return user_status;
 	}
@@ -105,7 +113,7 @@ public class TPUser {
 	public void setUser_status(String user_status) {
 		this.user_status = user_status;
 	}
-	
+
 	public String getProvince() {
 		return province;
 	}
@@ -113,7 +121,7 @@ public class TPUser {
 	public void setProvince(String province) {
 		this.province = province;
 	}
-	
+
 	public String getCity() {
 		return city;
 	}
@@ -121,7 +129,7 @@ public class TPUser {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 	public String getDistrict() {
 		return district;
 	}
@@ -129,7 +137,7 @@ public class TPUser {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	
+
 	public String getPhone() {
 		return phone;
 	}
@@ -137,7 +145,7 @@ public class TPUser {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -145,7 +153,7 @@ public class TPUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getQq() {
 		return qq;
 	}
@@ -169,6 +177,5 @@ public class TPUser {
 	public void setmSecret(String mSecret) {
 		this.mSecret = mSecret;
 	}
-
 
 }
