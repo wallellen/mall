@@ -2,6 +2,7 @@ package com.freelywx.admin.shiro;
 
 import java.io.Serializable;
 
+import com.freelywx.common.model.store.TmSite;
 import com.freelywx.common.model.user.TPMerchantWx;
 import com.freelywx.common.model.user.TPUser;
 
@@ -13,8 +14,10 @@ public class ShiroUser extends TPUser implements Serializable {
 
 	private String menuData;
 	private TPMerchantWx merchantWx;
+	private TmSite site;
 
-	public ShiroUser(Integer userId, String loginId, String userName,String userType) {
+	public ShiroUser(Integer userId, String loginId, String userName,
+			String userType) {
 		super.setUser_id(userId);
 		super.setLogin_id(loginId);
 		super.setUser_name(userName);
@@ -36,6 +39,7 @@ public class ShiroUser extends TPUser implements Serializable {
 		this.menuData = menuData;
 	}
 
+	
 	public TPMerchantWx getMerchantWx() {
 		return merchantWx;
 	}
@@ -44,6 +48,12 @@ public class ShiroUser extends TPUser implements Serializable {
 		this.merchantWx = merchantWx;
 	}
 
-	
-	
+	public TmSite getSite() {
+		return site;
+	}
+
+	public void setSite(TmSite site) {
+		this.site = site;
+	}
+
 }

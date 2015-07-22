@@ -158,6 +158,7 @@ public class ProductController {
 						product.setCreate_time(new Date());
 						product.setCreated_by(user.getUser_id());
 						product.setStatus(SystemConstant.ProdShelf.ENABLE);
+						product.setSite_id(user.getSite_id());
 						// product.setStatus("2");
 						D.insert(product);
 						

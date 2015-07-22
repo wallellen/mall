@@ -61,9 +61,6 @@ public class MenuController {
 	@RequestMapping(value="/apply")
 	public boolean apply(){
 		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		/*ApiConfig.setToken(loginUser.getMerchantWx().getToken());
-		ApiConfig.setAppId(loginUser.getMerchantWx().getApp_id());
-		ApiConfig.setAppSecret(loginUser.getMerchantWx().getApp_secret());*/
 		
 		//父按钮
 		ArrayList<Button> listParent=new ArrayList<Button>();

@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,8 +60,12 @@ public class MerUserController {
 	@ResponseBody
 	@RequestMapping(value = "list")
 	public PageModel list(HttpServletRequest request) {
+		String siteId = request.getParameter("site_id");
 		HashMap<String,Object> map = new  HashMap<String,Object>();
 		map.put("user_type", SystemConstant.UserType.MERCHANT_USER);
+		if(StringUtils.isNotBlank(siteId)){
+			map.put("site_id", siteId);
+		}
 		return PageUtil.getPageModel(TPUser.class, "sql.tpuser/getPageUser",request,map);
 	}
 	/*

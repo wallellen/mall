@@ -21,6 +21,7 @@ import org.apache.shiro.util.ByteSource;
 
 import com.freelywx.common.common.JsonMapper;
 import com.freelywx.common.config.SystemConstant;
+import com.freelywx.common.model.store.TmSite;
 import com.freelywx.common.model.user.TPMerchantWx;
 import com.freelywx.common.model.user.TPUser;
 import com.freelywx.common.model.user.TpMenue;
@@ -56,8 +57,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 					user.getLogin_id(), user.getUser_name(),user.getUser_type());
 			shiroUser.setMenuData(JsonMapper.nonEmptyMapper().toJson(getMenuList(user.getUser_id(),user.getUser_type())));
 			
-			//如果味商户类型，则插入商户信息
+			//如果为商户类型，则插入商户信息
 			if(StringUtils.equals( shiroUser.getUser_type(),SystemConstant.UserType.MERCHANT_USER)){
+				TmSite site = D.sql("select * from t_m_site where user_id = ? ").oneOrNull(TmSite.class, shiroUser.getUser_id());
+				shiroUser.setSite(site);
+			}else{
 				TPMerchantWx merchantWx = D.sql("select * from  t_p_merchant_wx where user_id = ? ").oneOrNull(TPMerchantWx.class, shiroUser.getUser_id());
 				shiroUser.setMerchantWx(merchantWx);
 			}
