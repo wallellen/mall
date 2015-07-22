@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.freelywx.admin.shiro.ShiroUser;
 import com.freelywx.common.cache.DictCache;
 import com.freelywx.common.config.Config;
 import com.freelywx.common.model.member.MemberRule;
@@ -45,7 +47,9 @@ public class OrderController {
 	@ResponseBody
 	@RequestMapping("/list")
 	public PageModel list(HttpServletRequest request, HttpServletResponse response)  {
-		Map<String,Object> map = new HashMap<String,Object>();
+		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		Map<String,Object> map = new HashMap<>();
+		map.put("site_id", user.getSite_id());
 		map.put("order_status", 0);
 		PageModel page = PageUtil.getPageModel(Order.class, "sql.order/getOrderlist", request,map);
 		return page;

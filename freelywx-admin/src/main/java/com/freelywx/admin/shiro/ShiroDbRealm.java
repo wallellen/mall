@@ -54,12 +54,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				throw new CaptchaException("验证码错误");
 			}*/
 			ShiroUser shiroUser = new ShiroUser(user.getUser_id(),
-					user.getLogin_id(), user.getUser_name(),user.getUser_type());
+					user.getLogin_id(), user.getUser_name(),user.getUser_type(),user.getSite_id());
 			shiroUser.setMenuData(JsonMapper.nonEmptyMapper().toJson(getMenuList(user.getUser_id(),user.getUser_type())));
 			
 			//如果为商户类型，则插入商户信息
 			if(StringUtils.equals( shiroUser.getUser_type(),SystemConstant.UserType.MERCHANT_USER)){
-				TmSite site = D.sql("select * from t_m_site where user_id = ? ").oneOrNull(TmSite.class, shiroUser.getUser_id());
+				TmSite site = D.sql("select * from t_m_site where site_id = ? ").oneOrNull(TmSite.class, shiroUser.getSite_id());
 				shiroUser.setSite(site);
 			}else{
 				TPMerchantWx merchantWx = D.sql("select * from  t_p_merchant_wx where user_id = ? ").oneOrNull(TPMerchantWx.class, shiroUser.getUser_id());

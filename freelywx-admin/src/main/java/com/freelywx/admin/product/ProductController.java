@@ -58,7 +58,10 @@ public class ProductController {
 	@RequestMapping("/list")
 	@ResponseBody
 	public PageModel list(HttpServletRequest request, HttpServletResponse response)  {
-		PageModel page = PageUtil.getPageModel(TpProduct.class, "sql.product/getProdlist", request);
+		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		Map<String,Object> map = new HashMap<>();
+		map.put("site_id", user.getSite_id());
+		PageModel page = PageUtil.getPageModel(TpProduct.class, "sql.product/getProdlist", request,map);
 		return page;
 	}
 

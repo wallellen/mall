@@ -17,11 +17,12 @@ public class ShiroUser extends TPUser implements Serializable {
 	private TmSite site;
 
 	public ShiroUser(Integer userId, String loginId, String userName,
-			String userType) {
+			String userType,int siteId) {
 		super.setUser_id(userId);
 		super.setLogin_id(loginId);
 		super.setUser_name(userName);
 		super.setUser_type(userType);
+		super.setSite_id(siteId);
 	}
 
 	/**
