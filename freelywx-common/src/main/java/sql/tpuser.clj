@@ -15,10 +15,10 @@
  (defsql getPageUser
   {
    :sql "select * from T_P_USER  "
-   :where (AND 
-        "user_status != '3' " 
+   :where (AND  "user_status != '3' " 
 		  ("login_id"  "login_id like ?" "%" "%")
 		  ("user_name"  " user_name like ?" "%" "%")
+		  ("site_id"  " site_id = ? ")
       {"user_type"  " user_type = ?"}
 	)
    :page true
