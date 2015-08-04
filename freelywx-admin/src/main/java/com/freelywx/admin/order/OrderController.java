@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.freelywx.admin.shiro.ShiroUser;
 import com.freelywx.common.cache.DictCache;
 import com.freelywx.common.config.Config;
+import com.freelywx.common.config.SystemConstant;
 import com.freelywx.common.model.member.MemberRule;
 import com.freelywx.common.model.order.Order;
 import com.freelywx.common.model.order.OrderDetail;
@@ -82,30 +83,17 @@ public class OrderController {
 	}
 
 	@RequestMapping("/send/{order_id}")
-	public String send(@PathVariable("order_id") Long order_id, Model model)   {
-		Order order = D.selectById(Order.class, order_id);
-		model.addAttribute("order", order);
-		return "order/send";
-	}
-
 	@ResponseBody
-	@RequestMapping("/sendSave")
-	public boolean sendSave(@RequestBody Order order, Model model)   {
-		String updateSql = "update T_O_ORDER set ORDER_STATUS = ?,LOGISTICS_ID=?,SENDER_TIME = now() where ORDER_ID = ?";
-	//	int rows = D.sql(updateSql).update(,order.getLogistics_id(), order.getOrder_id());
-		//return rows != 0;
-		return true;
+	public boolean send(@PathVariable("order_id") Long order_id, Model model)   {
+		String updateSql = "update T_O_ORDER set ORDER_STATUS = ? ,SENDER_TIME = now() where ORDER_ID = ?";
+		return D.sql(updateSql).update(SystemConstant.OrderStatus.DELIVER, order_id) >0;
 	}
 
 	@ResponseBody
 	@RequestMapping("/receive/{order_id}")
 	public boolean receive(@PathVariable("order_id") Long order_id, Model model)  {
-		/*int rows = D.sql(
-				"update T_O_ORDER set ORDER_STATUS = ?, SENDER_TIME = now() where ORDER_ID = ? and ORDER_STATUS = ?")
-				.update(dictService.getDictParamValue("ORDER_STATUS", "RECEIVER"), order_id,
-						dictService.getDictParamValue("ORDER_STATUS", "SENDER"));*/
-	//	return rows != 0;
-		return true;
+		String updateSql = "update T_O_ORDER set ORDER_STATUS = ? ,SENDER_TIME = now() where ORDER_ID = ?";
+		return D.sql(updateSql).update(SystemConstant.OrderStatus.RECEIVED, order_id) >0;
 	}
 
 	
