@@ -1,13 +1,16 @@
-package com.freelywx.admin.menu;
+package com.freelywx.admin.publish;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,16 +28,17 @@ import com.freelywx.admin.wx.menu.CommonButton2;
 import com.freelywx.admin.wx.menu.ComplexButton;
 import com.freelywx.admin.wx.menu.Menu;
 import com.freelywx.common.cache.DictCache;
+import com.freelywx.common.config.SystemConstant;
 import com.freelywx.common.model.pub.TPubMenu;
+import com.freelywx.common.model.user.TPUser;
+import com.freelywx.common.util.PageModel;
+import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
 
-/**
- * 用户控制器类
- * 方法上的注释为页面中Button的标题
- */
+ 
 @Controller
-@RequestMapping("/wxmenu")
-public class MenuController {
+@RequestMapping("/wxMenu")
+public class WxMenuController {
 	@Autowired
 	DictCache dictCache;
 	
