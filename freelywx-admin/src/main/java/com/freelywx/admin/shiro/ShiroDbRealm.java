@@ -55,7 +55,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			}*/
 			ShiroUser shiroUser = new ShiroUser(user.getUser_id(),
 					user.getLogin_id(), user.getUser_name(),user.getUser_type());
-			shiroUser.setMenuData(JsonMapper.nonEmptyMapper().toJson(getMenuList(user.getUser_id(),user.getUser_type())));
+			shiroUser.setMenuData(JsonMapper.nonEmptyMapper().toJson(getMenuList(user.getUser_id())));
 			
 			//如果为商户类型，则插入商户信息
 		/*	if(StringUtils.equals( shiroUser.getUser_type(),SystemConstant.UserType.MERCHANT_USER)){
@@ -106,9 +106,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private Collection getMenuList(Integer userId,String userType) {
+	private Collection getMenuList(Integer userId ) {
 		// 查询根节点
-		List<SysMenue> rootMenuList = D.sql("select * from t_sys_menue where par_menue_id = 1 and user_type = ?  order by sort").many(SysMenue.class,userType);
+		List<SysMenue> rootMenuList = D.sql("select * from t_sys_menue where par_menue_id = 1 order by sort").many(SysMenue.class);
 		Map<Integer, String> rootMenuMap = Maps.newLinkedHashMap();
 		for (SysMenue root : rootMenuList) {
 			rootMenuMap.put(root.getMenue_id(), root.getMenue_nm());
@@ -119,7 +119,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			List<Map> menuMap = D.sqlAt("sql.sysrole/getMenueByUserId").many(Map.class, userId,userId);
 			for (Map<String, Object> map : menuMap) {
 				// Integer parMenueId =	// ((BigDecimal)map.get("PAR_MENUE_ID")).toBigInteger().intValue();
-				Integer parMenueId = ((Integer) map.get("PAR_MENUE_ID"));
+				Integer parMenueId = ((Integer) map.get("par_menue_id"));
 				Map parMenue = (Map) result.get(parMenueId);
 				if (parMenue == null) {
 					String menueName = rootMenuMap.get(parMenueId);
@@ -131,8 +131,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 					result.put(parMenueId, parMenue);
 				}
 				((List) parMenue.get("children")).add(ImmutableMap.of("id",
-						map.get("MENUE_ID"), "url", map.get("URL"), "text",
-						map.get("MENUE_NM")));
+						map.get("menue_id"), "url", map.get("url"), "text",
+						map.get("menue_nm")));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
