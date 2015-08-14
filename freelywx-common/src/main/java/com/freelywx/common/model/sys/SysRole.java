@@ -1,11 +1,11 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_ROLE")
-public class TpRole {
+@Table("t_sys_role")
+public class SysRole {
 	@Id
 	@GenerateByDb
 	private Integer role_id;

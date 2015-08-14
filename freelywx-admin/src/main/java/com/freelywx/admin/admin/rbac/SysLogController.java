@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.freelywx.common.model.user.TpSysLog;
+import com.freelywx.common.model.sys.TpSysLog;
 import com.freelywx.common.util.Collections3;
 import com.freelywx.common.util.Excels;
 import com.freelywx.common.util.PageModel;

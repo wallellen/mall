@@ -1,4 +1,4 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_FUN_OPT")
-public class TpFunOpt {
+@Table("t_sys_fun_opt")
+public class SysFunOpt {
 	@Id
 	@GenerateByDb
 	private Integer fun_opt_id;
@@ -24,7 +24,7 @@ public class TpFunOpt {
 	private String user_type;
 
 	@ColumnIgnore
-	private List<TpFunOpt> children;
+	private List<SysFunOpt> children;
 
 	public Integer getFun_opt_id() {
 		return fun_opt_id;
@@ -74,11 +74,11 @@ public class TpFunOpt {
 		this.user_type = user_type;
 	}
 
-	public List<TpFunOpt> getChildren() {
+	public List<SysFunOpt> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<TpFunOpt> children) {
+	public void setChildren(List<SysFunOpt> children) {
 		this.children = children;
 	}
 

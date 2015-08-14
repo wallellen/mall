@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.common.cache.DictCache;
-import com.freelywx.common.model.user.TbDictDetail;
+import com.freelywx.common.model.sys.SysDictDetail;
 import com.freelywx.common.util.PageModel;
 import com.rps.util.D;
 
@@ -33,7 +33,7 @@ public class DictDetailController {
 	@ResponseBody
 	@RequestMapping(value = "list")
 	public PageModel list(String dictId){
-		List<TbDictDetail> ddList = D.sql("select * from  T_B_DICT_DETAIL where dict_id = ?").many(TbDictDetail.class, dictId);
+		List<SysDictDetail> ddList = D.sql("select * from  T_B_DICT_DETAIL where dict_id = ?").many(SysDictDetail.class, dictId);
 		return new PageModel(ddList.size(), ddList);
 	}
 	/*
@@ -41,7 +41,7 @@ public class DictDetailController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "create")
-	public boolean create(@RequestBody TbDictDetail dictDetail){
+	public boolean create(@RequestBody SysDictDetail dictDetail){
 		D.insert(dictDetail);
 		dictCache.reload();
 		return true;
@@ -51,9 +51,9 @@ public class DictDetailController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "{dictId}/{dictParamValue}/{dictParamName}")
-	public TbDictDetail get(@PathVariable("dictId") String dictId, 
+	public SysDictDetail get(@PathVariable("dictId") String dictId, 
 			@PathVariable("dictParamValue") String dictParamValue, @PathVariable("dictParamName") String dictParamName){
-		TbDictDetail d = D.sql("select * from T_B_DICT_DETAIL where dict_id = ? and dict_param_value = ?  ").oneOrNull(TbDictDetail.class,dictId,dictParamValue);
+		SysDictDetail d = D.sql("select * from T_B_DICT_DETAIL where dict_id = ? and dict_param_value = ?  ").oneOrNull(SysDictDetail.class,dictId,dictParamValue);
 		return d;
 	}
 	/*
@@ -61,7 +61,7 @@ public class DictDetailController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "update")
-	public boolean update(@RequestBody TbDictDetail dictDetail){
+	public boolean update(@RequestBody SysDictDetail dictDetail){
 		try{
 			D.updateWithoutNull(dictDetail);
 			dictCache.reload();
@@ -83,8 +83,8 @@ public class DictDetailController {
 	
 	@ResponseBody
 	@RequestMapping(value = "all")
-	public List<TbDictDetail> listAll(String dictId){
-		List<TbDictDetail> list = D.sql("select * from T_B_DICT_DETAIL where dict_id = ?").many(TbDictDetail.class, dictId);
+	public List<SysDictDetail> listAll(String dictId){
+		List<SysDictDetail> list = D.sql("select * from T_B_DICT_DETAIL where dict_id = ?").many(SysDictDetail.class, dictId);
 		return list;
 	}
 }

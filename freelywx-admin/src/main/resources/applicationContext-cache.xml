@@ -15,16 +15,16 @@
 		<property name="cacheList">
 			<list>
 				<ref bean="dictCache"/>
-				<ref bean="wxCache"/>
+				<!-- <ref bean="wxCache"/>
 				<ref bean="menuCache"/>
-				<ref bean="tokenCache"/>
+				<ref bean="tokenCache"/> -->
 			</list>
 		</property>
 	</bean>
 	
 	<bean id="dictCache" class="com.freelywx.common.cache.DictCache" />
-	<bean id="wxCache" class="com.freelywx.common.cache.WxCache" />
+	<!-- <bean id="wxCache" class="com.freelywx.common.cache.WxCache" />
 	<bean id="menuCache" class="com.freelywx.common.cache.WxMenuCache" />
-	<bean id="tokenCache" class="com.freelywx.admin.cache.TokenCache" />
+	<bean id="tokenCache" class="com.freelywx.admin.cache.TokenCache" /> -->
 	
 </beans>

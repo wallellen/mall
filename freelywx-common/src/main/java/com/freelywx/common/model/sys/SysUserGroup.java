@@ -1,10 +1,10 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
-@Table("T_P_USER_GRP")
-public class TpUserGroup {
+@Table("t_sys_user_grp")
+public class SysUserGroup {
 	@Id
 	@GenerateByDb
 	private Integer grp_id;

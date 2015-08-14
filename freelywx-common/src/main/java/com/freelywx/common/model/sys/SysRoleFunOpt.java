@@ -1,10 +1,10 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import com.rps.util.dao.annotation.Pk;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_ROLE_FUN_OPT")
-public class TpRoleFunOpt {
+@Table("t_sts_role_fun_opt")
+public class SysRoleFunOpt {
 
 	@Pk
 	private Integer role_id;

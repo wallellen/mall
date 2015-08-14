@@ -2,7 +2,7 @@ package com.freelywx.common.cache;
 
 import java.util.List;
 
-import com.freelywx.common.model.user.TPMerchantWx;
+import com.freelywx.common.model.sys.TPMerchantWx;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.rps.util.D;

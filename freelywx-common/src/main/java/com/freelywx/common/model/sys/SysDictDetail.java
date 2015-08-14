@@ -1,11 +1,11 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_B_DICT_DETAIL")
-public class TbDictDetail {
+@Table("t_sys_dict_detail")
+public class SysDictDetail {
 	@Id
 	@GenerateByDb
 	private String dict_detail_id;

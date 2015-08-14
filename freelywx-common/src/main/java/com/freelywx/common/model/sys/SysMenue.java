@@ -1,4 +1,4 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import java.util.List;
 
@@ -8,22 +8,22 @@ import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
 @Table("T_P_MENUE")
-public class TpMenue {
+public class SysMenue {
 	@Id
 	@GenerateByDb
-	private Integer menue_id;
+	private int menue_id;
 
 	private String menue_nm;
 
-	private Integer par_menue_id;
+	private int par_menue_id;
 
 	private String remarks;
 
 	private String state;
 
-	private Short menue_order;
+	private int sort;
 
-	private Integer fun_opt_id;
+	private int fun_opt_id;
 	
 	private String user_type;
 	
@@ -31,13 +31,13 @@ public class TpMenue {
 	private String url;
 
 	@ColumnIgnore
-	private List<TpMenue> children;
+	private List<SysMenue> children;
 
-	public Integer getMenue_id() {
+	public int getMenue_id() {
 		return menue_id;
 	}
 
-	public void setMenue_id(Integer menue_id) {
+	public void setMenue_id(int menue_id) {
 		this.menue_id = menue_id;
 	}
 
@@ -50,11 +50,11 @@ public class TpMenue {
 	}
 
 
-	public Integer getPar_menue_id() {
+	public int getPar_menue_id() {
 		return par_menue_id;
 	}
 
-	public void setPar_menue_id(Integer par_menue_id) {
+	public void setPar_menue_id(int par_menue_id) {
 		this.par_menue_id = par_menue_id;
 	}
 
@@ -74,27 +74,27 @@ public class TpMenue {
 		this.state = state;
 	}
 
-	public Short getMenue_order() {
-		return menue_order;
+	public int getSort() {
+		return sort;
 	}
 
-	public void setMenue_order(Short menue_order) {
-		this.menue_order = menue_order;
+	public void setSort(int sort) {
+		this.sort = sort;
 	}
 
-	public Integer getFun_opt_id() {
+	public int getFun_opt_id() {
 		return fun_opt_id;
 	}
 
-	public void setFun_opt_id(Integer fun_opt_id) {
+	public void setFun_opt_id(int fun_opt_id) {
 		this.fun_opt_id = fun_opt_id;
 	}
 
-	public List<TpMenue> getChildren() {
+	public List<SysMenue> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<TpMenue> children) {
+	public void setChildren(List<SysMenue> children) {
 		this.children = children;
 	}
 

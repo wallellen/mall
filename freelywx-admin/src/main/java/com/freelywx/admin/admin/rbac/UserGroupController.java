@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.freelywx.common.model.user.TPUser;
-import com.freelywx.common.model.user.TPUserGroupRole;
-import com.freelywx.common.model.user.TPUserGroupUser;
-import com.freelywx.common.model.user.TpRole;
-import com.freelywx.common.model.user.TpUserGroup;
+import com.freelywx.common.model.sys.SysRole;
+import com.freelywx.common.model.sys.SysUser;
+import com.freelywx.common.model.sys.SysUserGroup;
+import com.freelywx.common.model.sys.SysUserGroupRole;
+import com.freelywx.common.model.sys.SysUserGroupUser;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.google.common.collect.Lists;
@@ -43,7 +43,7 @@ public class UserGroupController {
 	@ResponseBody
 	@RequestMapping(value = "list")
 	public PageModel list(HttpServletRequest request) {
-		return PageUtil.getPageModel(TpUserGroup.class, "sql.tpUserGroupUser/getPageUserGroup",request);
+		return PageUtil.getPageModel(SysUserGroup.class, "sql.sysuserGroupUser/getPageUserGroup",request);
 	}
 	/*
 	 * 检查-用户组信息是否合法
@@ -51,7 +51,7 @@ public class UserGroupController {
 	@ResponseBody
 	@RequestMapping(value = "check")
 	public boolean check(String grpNm) {
-		List<TpUserGroup> list = D.sql("select * from T_P_USER_GRP where grp_nm = ?").many(TpUserGroup.class, grpNm);
+		List<SysUserGroup> list = D.sql("select * from T_P_USER_GRP where grp_nm = ?").many(SysUserGroup.class, grpNm);
 		return list.isEmpty();
 	}
 	
@@ -60,7 +60,7 @@ public class UserGroupController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "create")
-	public boolean create(@RequestBody TpUserGroup userGroup) {
+	public boolean create(@RequestBody SysUserGroup userGroup) {
 		//userGroup.setGrpId(seqService.getSeq(UserGroup.class));
 		D.insert(userGroup);
 		return true;
@@ -70,15 +70,15 @@ public class UserGroupController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "{grpId}")
-	public TpUserGroup get(@PathVariable("grpId") Long grpId) {
-		return D.selectById(TpUserGroup.class, grpId);
+	public SysUserGroup get(@PathVariable("grpId") Long grpId) {
+		return D.selectById(SysUserGroup.class, grpId);
 	}
 	/*
 	 * 修改用户组
 	 */
 	@ResponseBody
 	@RequestMapping(value = "update")
-	public boolean update(@RequestBody  TpUserGroup userGroup) {
+	public boolean update(@RequestBody  SysUserGroup userGroup) {
 		try {
 			D.updateWithoutNull(userGroup);
 			return true;
@@ -94,12 +94,12 @@ public class UserGroupController {
 	@RequestMapping(value = "delete/{grpId}")
 	public boolean delete(@PathVariable("grpId") Long grpId) {
 		//1、判断该用户组中是否已绑定有用户
-		List<TPUserGroupUser> list = D.sql("select * from T_P_USER_GRP_USER where grp_id = ?").many(TPUserGroupUser.class, grpId);
+		List<SysUserGroupUser> list = D.sql("select * from T_P_USER_GRP_USER where grp_id = ?").many(SysUserGroupUser.class, grpId);
 		if(list.size() > 0){
 			return false;
 		}		
 		//2、删除未绑定用户的用户组
-		D.deleteById(TpUserGroup.class, grpId);
+		D.deleteById(SysUserGroup.class, grpId);
 		return true;
 	}
 	/*
@@ -108,7 +108,7 @@ public class UserGroupController {
 	@ResponseBody
 	@RequestMapping(value ="checkExits/{grpId}")
 	public boolean checkExits(@PathVariable("grpId") Long grpId){
-		List<TPUserGroupUser> list = D.sql("select * from T_P_USER_GRP_USER where grp_id = ?").many(TPUserGroupUser.class, grpId);
+		List<SysUserGroupUser> list = D.sql("select * from T_P_USER_GRP_USER where grp_id = ?").many(SysUserGroupUser.class, grpId);
 		return list.isEmpty();
 	}
 	/*
@@ -118,11 +118,11 @@ public class UserGroupController {
 	@RequestMapping(value = "getUserNameByGrpId/{grpId}")
 	public List<Map<String, Object>> getUserNameByGrpId(@PathVariable("grpId") String grpId) {
 		// 1、查询出所有的用户登录名称和用户状态
-		List<TPUser> userList = D.sql("select * from T_P_USER where user_id in (select user_id from T_P_USER_GRP_USER where grp_id = ?)").many(TPUser.class, grpId);
+		List<SysUser> userList = D.sql("select * from T_P_USER where user_id in (select user_id from T_P_USER_GRP_USER where grp_id = ?)").many(SysUser.class, grpId);
 		// 2、初始化treeList
 		List<Map<String, Object>> treeList = Lists.newArrayList();
 		// 3、将用户分为有有效和无效的保存到treeList中
-		for (TPUser user : userList) {
+		for (SysUser user : userList) {
 			Map<String, Object> map = Maps.newHashMap();
 			if("1".equals(user.getUser_status())){ 
 				map.put("text", user.getLogin_id());
@@ -141,14 +141,14 @@ public class UserGroupController {
 	@RequestMapping(value = "getAllUser/{grpId}")
 	public List<Map<String, Object>> getAllUser(@PathVariable("grpId") Integer grpId){
 		// 1、查询出所有用户
-		List<TPUser> userList = D.sql("select * from T_P_USER").many(TPUser.class);
+		List<SysUser> userList = D.sql("select * from T_P_USER").many(SysUser.class);
 		
 		// 2、找出与用户组用户关联的信息
-		List<TPUserGroupUser> list = D.sql("select * from T_P_USER_GRP_USER where grp_id = ?").many(TPUserGroupUser.class, grpId);
+		List<SysUserGroupUser> list = D.sql("select * from T_P_USER_GRP_USER where grp_id = ?").many(SysUserGroupUser.class, grpId);
 		
 		// 3、将用户组用户关联的用户编号保存到Set集合中
 		Set<Integer> userIdSet = Sets.newHashSet();
-		for (TPUserGroupUser key : list) {
+		for (SysUserGroupUser key : list) {
 			userIdSet.add(key.getUser_id());
 		}
 		
@@ -156,7 +156,7 @@ public class UserGroupController {
 		List<Map<String, Object>> treeList = Lists.newArrayList();
 		
 		// 5、将与用户组用户关联的用户默认选中并添加到treeList中
-		for (TPUser user : userList) {
+		for (SysUser user : userList) {
 			if("1".equals(user.getUser_status())){ //有效用户
 				Map<String, Object> map = Maps.newHashMap();
 				map.put("id", user.getUser_id());
@@ -184,7 +184,7 @@ public class UserGroupController {
 					// TODO Auto-generated method stub
 					D.sql("delete from T_P_USER_GRP_USER where grp_id = ?").update(grpId);
 					for(Integer userId : userIds){
-						TPUserGroupUser tp = new TPUserGroupUser();
+						SysUserGroupUser tp = new SysUserGroupUser();
 						tp.setGrp_id(grpId);
 						tp.setUser_id(userId);
 						D.insert(tp);
@@ -206,14 +206,14 @@ public class UserGroupController {
 	@RequestMapping(value = "getAllRole/{grpId}")
 	public List<Map<String, Object>> getAllRole(@PathVariable("grpId") Long grpId) {
 		// 1、查询出所有角色
-		List<TpRole> roleList = D.selectAll(TpRole.class);
+		List<SysRole> roleList = D.selectAll(SysRole.class);
 		
 		// 2、找出与用户组角色关联的信息
-		List<TPUserGroupRole> keyList = D.sql("select * from T_P_USER_GRP_ROLE where grp_id = ?").many(TPUserGroupRole.class, grpId);
+		List<SysUserGroupRole> keyList = D.sql("select * from T_P_USER_GRP_ROLE where grp_id = ?").many(SysUserGroupRole.class, grpId);
 		
 		// 3、将与用户组角色关联的角色编号保存到Set集合中
 		Set<Integer> roleIdSet = Sets.newHashSet();
-		for (TPUserGroupRole key : keyList) {
+		for (SysUserGroupRole key : keyList) {
 			roleIdSet.add(key.getRole_id());
 		}
 		
@@ -221,7 +221,7 @@ public class UserGroupController {
 		List<Map<String, Object>> treeList = Lists.newArrayList();
 		
 		// 5、将与用户组角色关联的角色默认选中并添加到treeList中
-		for (TpRole role : roleList) {
+		for (SysRole role : roleList) {
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("id", role.getRole_id());
 			map.put("text", role.getRole_nm());
@@ -248,7 +248,7 @@ public class UserGroupController {
 					// TODO Auto-generated method stub
 					D.sql("delete from T_P_USER_GRP_ROLE where grp_id = ?").update(grpId);
 					for(Integer roleId : roleIds){
-						TPUserGroupRole tp = new TPUserGroupRole();
+						SysUserGroupRole tp = new SysUserGroupRole();
 						tp.setGrp_id(grpId);
 						tp.setRole_id(roleId);
 						D.insert(tp);

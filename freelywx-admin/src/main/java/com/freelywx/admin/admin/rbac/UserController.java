@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
 import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.user.TPUser;
-import com.freelywx.common.model.user.TPUserGroupUser;
-import com.freelywx.common.model.user.TpRole;
-import com.freelywx.common.model.user.TpUserGroup;
-import com.freelywx.common.model.user.TpUserRole;
+import com.freelywx.common.model.sys.SysRole;
+import com.freelywx.common.model.sys.SysUser;
+import com.freelywx.common.model.sys.SysUserGroup;
+import com.freelywx.common.model.sys.SysUserGroupUser;
+import com.freelywx.common.model.sys.SysUserRole;
 import com.freelywx.common.util.Digests;
 import com.freelywx.common.util.Encodes;
 import com.freelywx.common.util.PageModel;
@@ -61,7 +61,7 @@ public class UserController {
 	public PageModel list(HttpServletRequest request) {
 		HashMap<String,Object> map = new  HashMap<String,Object>();
 		map.put("user_type", SystemConstant.UserType.SYSTEM_USER);
-		return PageUtil.getPageModel(TPUser.class, "sql.tpuser/getPageUser",request,map);
+		return PageUtil.getPageModel(SysUser.class, "sql.sysuser/getPageUser",request,map);
 	}
 	/*
 	 * 检查-用户信息是否合法
@@ -71,11 +71,11 @@ public class UserController {
 	public boolean check(HttpServletRequest request) {
 		String user_name = request.getParameter("user_name");
 		String login_id = request.getParameter("login_id");
-		TPUser user;
+		SysUser user;
 		if(!"".equals(user_name)){
-			user = D.sql("select * from T_P_USER where LOGIN_ID = ? and user_name != ?").oneOrNull(TPUser.class, login_id,user_name);
+			user = D.sql("select * from T_P_USER where LOGIN_ID = ? and user_name != ?").oneOrNull(SysUser.class, login_id,user_name);
 		}else{
-			user = D.sql("select * from T_P_USER where LOGIN_ID = ?").oneOrNull(TPUser.class, login_id);
+			user = D.sql("select * from T_P_USER where LOGIN_ID = ?").oneOrNull(SysUser.class, login_id);
 		}
 		if(user == null){
 			return true;
@@ -88,7 +88,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "save")
-	public boolean save(@RequestBody final TPUser user){
+	public boolean save(@RequestBody final SysUser user){
 		try{
 			if(null != user.getUser_id() && user.getUser_id() > 0 ){
 				user.setPwd(null);
@@ -125,14 +125,14 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "{userId}")
-	public TPUser get(@PathVariable("userId") Long user_id) {
-		TPUser u = D.selectById(TPUser.class, user_id);
+	public SysUser get(@PathVariable("userId") Long user_id) {
+		SysUser u = D.selectById(SysUser.class, user_id);
 		return u;
 	}
 	@ResponseBody
 	@RequestMapping(value = "/delete/{userId}")
 	public boolean delete(@PathVariable("userId") Long user_id) {
-		TPUser u = D.selectById(TPUser.class, user_id);
+		SysUser u = D.selectById(SysUser.class, user_id);
 		u.setUser_status(SystemConstant.UserStatus.DELETE);
 		return D.updateWithoutNull(u) > 0;
 	}
@@ -146,7 +146,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="updatePwd")
-	public boolean updatePwd(TPUser user){
+	public boolean updatePwd(SysUser user){
 		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		try {
 			user.setUser_id(loginUser.getUser_id());
@@ -169,18 +169,18 @@ public class UserController {
 	public List<Map<String, Object>> getAllUserGroup(@PathVariable("userId") Integer userId){
 		// 1、查询出所有用户组
 //		List<UserGroup> userGroupList = userGroupService.selectByExample(null);
-		List<TpUserGroup> userGroupList = D.sql("select * from   T_P_USER_GRP  ").many(TpUserGroup.class);
+		List<SysUserGroup> userGroupList = D.sql("select * from   T_P_USER_GRP  ").many(SysUserGroup.class);
 		// 2、找出与用户组关联的信息
-		List<TPUserGroupUser> keyList = D.sql("select * from   T_P_USER_GRP_USER where user_id = ?  ").many(TPUserGroupUser.class,userId);
+		List<SysUserGroupUser> keyList = D.sql("select * from   T_P_USER_GRP_USER where user_id = ?  ").many(SysUserGroupUser.class,userId);
 		// 3、将与用户关联的用户组信息保存到Set中
 		Set<Integer> userGroupUserSet = Sets.newHashSet();
-		for (TPUserGroupUser key : keyList) {
+		for (SysUserGroupUser key : keyList) {
 			userGroupUserSet.add(key.getGrp_id());
 		}
 		// 4、初始化treeList
 		List<Map<String, Object>> treeList = Lists.newArrayList();
 		// 5、将与用户关联的用户组默认选中并添加到treeList中
-		for (TpUserGroup userGroup : userGroupList) {
+		for (SysUserGroup userGroup : userGroupList) {
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("id", userGroup.getGrp_id());
 			map.put("text", userGroup.getGrp_nm());
@@ -207,7 +207,7 @@ public class UserController {
 					// 2、添加用户组用户
 					if(boundInfos!=null){
 						for(Integer grpId : boundInfos){
-							TPUserGroupUser tp = new TPUserGroupUser();
+							SysUserGroupUser tp = new SysUserGroupUser();
 							tp.setGrp_id(grpId);
 							tp.setUser_id(userId);
 							D.insert(tp);
@@ -231,20 +231,20 @@ public class UserController {
 	public List<Map<String, Object>> getAllRole(
 			@PathVariable("uesrId") Long uesrId) {
 		// 1、查询出所有角色
-		List<TpRole> roleList = D.sql("select * from T_P_ROLE where user_type = ? ").many(TpRole.class,SystemConstant.UserType.SYSTEM_USER);
+		List<SysRole> roleList = D.sql("select * from T_P_ROLE where user_type = ? ").many(SysRole.class,SystemConstant.UserType.SYSTEM_USER);
 		// 2、找出与用户角色关联的信息
-		List<TpUserRole> keyList = D.sql("select * from T_P_USER_ROLE where user_id = ?").many(TpUserRole.class,uesrId);
+		List<SysUserRole> keyList = D.sql("select * from T_P_USER_ROLE where user_id = ?").many(SysUserRole.class,uesrId);
 		
 		// 3、将与用户关联的角色编号保存到Set集合中
 		Set<Integer> roleIdSet = Sets.newHashSet();
-		for (TpUserRole key : keyList) {
+		for (SysUserRole key : keyList) {
 			roleIdSet.add(key.getRole_id());
 		}
 		// 4、初始化treeList
 		List<Map<String, Object>> treeList = Lists.newArrayList();
 		
 		// 5、将与用户角色关联的角色默认选中并添加到treeList中
-		for (TpRole role : roleList) {
+		for (SysRole role : roleList) {
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("id", role.getRole_id());
 			map.put("text", role.getRole_nm());
@@ -272,7 +272,7 @@ public class UserController {
 					// 2、添加用户组用户
 					if(boundInfos!=null){
 						for(Integer roleId : boundInfos){
-							TpUserRole tp = new TpUserRole();
+							SysUserRole tp = new SysUserRole();
 							tp.setRole_id(roleId);
 							tp.setUser_id(userId);
 							D.insert(tp);
@@ -292,7 +292,7 @@ public class UserController {
 	/**
 	 * 设定安全的密码，生成随机的salt并经过1024次 sha-1 hash
 	 */
-	private void entryptPassword(TPUser user) {
+	private void entryptPassword(SysUser user) {
 		byte[] salt = Digests.generateSalt(Securities.SALT_SIZE);
 		user.setSalt(Encodes.encodeHex(salt));
 

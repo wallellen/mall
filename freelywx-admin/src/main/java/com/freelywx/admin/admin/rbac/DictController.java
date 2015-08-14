@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.freelywx.common.model.user.TbDict;
+import com.freelywx.common.model.sys.SysDict;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
@@ -35,7 +35,7 @@ public class DictController {
 	@ResponseBody
 	@RequestMapping(value = "list")
 	public PageModel list(HttpServletRequest request){
-		return PageUtil.getPageModel(TbDict.class, "sql.tbDict/getPageDict",request);
+		return PageUtil.getPageModel(SysDict.class, "sql.sysdict/getPageDict",request);
 	}
 	/*
 	 * 检查-字典信息是否合法
@@ -48,13 +48,13 @@ public class DictController {
 				return false;
 			}
 		}
-		List<TbDict> list = D.sql("select * from T_B_DICT where dict_id = ?   ").many(TbDict.class, dictId);
+		List<SysDict> list = D.sql("select * from T_B_DICT where dict_id = ?   ").many(SysDict.class, dictId);
 		return list.size() > 0 ? true : false;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "save/{type}")
-	public boolean save(@RequestBody TbDict dict,@PathVariable("type") String type) {
+	public boolean save(@RequestBody SysDict dict,@PathVariable("type") String type) {
 		if(StringUtils.equals(type, "2")){
 			D.updateWithoutNull(dict);
 		}else{
@@ -69,8 +69,8 @@ public class DictController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/{dictId}")
-	public TbDict get(@PathVariable("dictId") String dictId){
-		return D.selectById(TbDict.class, dictId);
+	public SysDict get(@PathVariable("dictId") String dictId){
+		return D.selectById(SysDict.class, dictId);
 	}
 	 
 	/*
@@ -79,7 +79,7 @@ public class DictController {
 	@ResponseBody
 	@RequestMapping(value = "delete/{dictId}")
 	public boolean delete(@PathVariable("dictId") String dictId){	
-		D.deleteById(TbDict.class, dictId);
+		D.deleteById(SysDict.class, dictId);
 		return true;
 	}
 }

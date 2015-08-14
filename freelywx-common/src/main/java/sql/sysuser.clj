@@ -5,16 +5,16 @@
            [java.util ArrayList]))
 
 (def getUserByLoginID
-   "select * from T_P_USER where LOGIN_ID = ?"
+   "select * from t_sys_user where login_id = ?"
   )
  
 (def getUserById
-   "select * from T_P_USER where USER_ID = ?"
+   "select * from t_sys_user where user_id = ?"
   )
 
  (defsql getPageUser
   {
-   :sql "select * from T_P_USER  "
+   :sql "select * from t_sys_user  "
    :where (AND  "user_status != '3' " 
 		  ("login_id"  "login_id like ?" "%" "%")
 		  ("user_name"  " user_name like ?" "%" "%")

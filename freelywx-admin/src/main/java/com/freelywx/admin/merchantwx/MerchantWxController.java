@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
-import com.freelywx.common.model.user.TPMerchantWx;
+import com.freelywx.common.model.sys.TPMerchantWx;
 import com.freelywx.common.util.CodeUtil;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;

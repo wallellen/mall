@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.common.common.JsonMapper;
 import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.user.TpMenue;
+import com.freelywx.common.model.sys.SysMenue;
 import com.rps.util.D;
 
  
@@ -36,12 +36,12 @@ public class MerMenueController {
 	
 	@ResponseBody
 	@RequestMapping(value = "save")
-	public boolean save(@RequestBody TpMenue menue) {
+	public boolean save(@RequestBody SysMenue menue) {
 		//menue.setMenueId((int) seqService.getSeq(Menue.class));
-		if (menue.getPar_menue_id() == null) {
+		if (menue.getPar_menue_id() == 0) {
 			menue.setPar_menue_id(1);
 		}
-		if(menue.getMenue_id()  != null  ){
+		if(menue.getMenue_id()  > 0  ){
 			D.updateWithoutNull(menue);
 		}else{
 			menue.setUser_type(SystemConstant.UserType.MERCHANT_USER);
@@ -56,8 +56,8 @@ public class MerMenueController {
 	 */
 	@RequestMapping(value = "listAll")
 	public void listAll(HttpServletRequest request,HttpServletResponse response)throws IOException {
-		List<TpMenue> allMenue = D.sql("select * from T_P_MENUE where user_type = ?  order by MENUE_ORDER ASC").many(TpMenue.class,SystemConstant.UserType.MERCHANT_USER);
-		for(TpMenue funOpt : allMenue){
+		List<SysMenue> allMenue = D.sql("select * from T_P_MENUE where user_type = ?  order by MENUE_ORDER ASC").many(SysMenue.class,SystemConstant.UserType.MERCHANT_USER);
+		for(SysMenue funOpt : allMenue){
 			if(funOpt.getPar_menue_id() == 0){
 				allMenue.remove(funOpt);
 				break;
@@ -75,12 +75,12 @@ public class MerMenueController {
 	@RequestMapping(value = "check")
 	public boolean check(String menueNm,String menuId) {
 		if(!StringUtils.isEmpty(menuId)){
-			TpMenue menue = D.selectById(TpMenue.class, Integer.parseInt(menuId));
+			SysMenue menue = D.selectById(SysMenue.class, Integer.parseInt(menuId));
 			if(StringUtils.equals(menueNm, menue.getMenue_nm())){
 				return false;
 			}
 		}
-		List<TpMenue> list = D.sql("select * from T_P_MENUE where menue_nm = ? and  user_type = ? ").many(TpMenue.class, menueNm,SystemConstant.UserType.MERCHANT_USER);
+		List<SysMenue> list = D.sql("select * from T_P_MENUE where menue_nm = ? and  user_type = ? ").many(SysMenue.class, menueNm,SystemConstant.UserType.MERCHANT_USER);
 		return list.size() > 0 ? true : false;
 	}
 
@@ -92,7 +92,7 @@ public class MerMenueController {
 	@ResponseBody
 	@RequestMapping(value = "fredelcheck/{menueId}")
 	public boolean fredelcheck(@PathVariable("menueId") Integer menueId) {
-		TpMenue menue = D.selectById(TpMenue.class, menueId);
+		SysMenue menue = D.selectById(SysMenue.class, menueId);
 		return menue!=null?true:false; 
 	}
 	
@@ -104,7 +104,7 @@ public class MerMenueController {
 	@ResponseBody
 	@RequestMapping(value = "checkChild/{menueId}")
 	public boolean checkChild(@PathVariable("menueId") Integer menueId) {
-		List<TpMenue> list = D.sql("select * from T_P_MENUE where par_menue_id = ?").many(TpMenue.class, menueId);
+		List<SysMenue> list = D.sql("select * from T_P_MENUE where par_menue_id = ?").many(SysMenue.class, menueId);
 		 return list.isEmpty();
 	}
 
@@ -117,7 +117,7 @@ public class MerMenueController {
 	@ResponseBody
 	@RequestMapping(value = "deleteMenue/{menueId}")
 	public boolean deleteMenue(@PathVariable("menueId") Integer menueId) {
-		D.deleteById(TpMenue.class, menueId);
+		D.deleteById(SysMenue.class, menueId);
 	    return true;
 	}
 
@@ -128,8 +128,8 @@ public class MerMenueController {
 	 */
 	@ResponseBody
 	@RequestMapping("getMenueById/{menueId}")
-	public TpMenue getFunIds(@PathVariable("menueId") Integer menueId) {
-		return D.selectById(TpMenue.class, menueId);
+	public SysMenue getFunIds(@PathVariable("menueId") Integer menueId) {
+		return D.selectById(SysMenue.class, menueId);
 	}
 
 }

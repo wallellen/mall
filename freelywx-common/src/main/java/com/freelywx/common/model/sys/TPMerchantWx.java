@@ -1,4 +1,4 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;

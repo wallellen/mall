@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.common.cache.ZoneCache;
-import com.freelywx.common.model.user.TBZone;
+import com.freelywx.common.model.sys.SysZone;
 
 /**
  * 首页控制类
@@ -25,20 +25,20 @@ public class ZoneController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/province")
-	public List<TBZone> province() {
+	public List<SysZone> province() {
 		return zoneCache.getProvince();
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/city/{parId}")
-	public List<TBZone> city(@PathVariable int parId) {
+	public List<SysZone> city(@PathVariable int parId) {
 	 
 		return  zoneCache.getCity(parId);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/district/{parId}")
-	public List<TBZone> dictrict(@PathVariable int parId) {
+	public List<SysZone> dictrict(@PathVariable int parId) {
 		return zoneCache.getDistrict(parId);
 	}
 

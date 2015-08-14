@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.freelywx.common.common.JsonMapper;
-import com.freelywx.common.model.user.TBZone;
+import com.freelywx.common.model.sys.SysZone;
 import com.freelywx.common.redis.JedisTemplate;
 import com.rps.util.D;
 
@@ -19,46 +19,46 @@ public class ZoneCache {
 		ZoneCache.jedisTemplate = jedisTemplate;
 	}
 
-	public List<TBZone> getProvince() {
-		List<TBZone> list = new ArrayList<TBZone>();
+	public List<SysZone> getProvince() {
+		List<SysZone> list = new ArrayList<SysZone>();
 		String key = PROVINCE_KEY ;
 		String str = jedisTemplate.get(key);
 		if(StringUtils.isEmpty(str)){
 			list = D.sql(
-					"select * from T_B_ZONE where node_class = 1   ")
-					.list(TBZone.class );
+					"select * from t_sys_zone where node_class = 1   ")
+					.list(SysZone.class );
 			jedisTemplate.set(key, JsonMapper.alwaysMapper().toJson(list));
 		}else {
-			list = JsonMapper.alwaysMapper().fromJson(str,  JsonMapper.alwaysMapper().createCollectionType(ArrayList.class, TBZone.class));
+			list = JsonMapper.alwaysMapper().fromJson(str,  JsonMapper.alwaysMapper().createCollectionType(ArrayList.class, SysZone.class));
 		}
 		return list;
 	}
-	public List<TBZone> getCity(int parId) {
-		List<TBZone> list = new ArrayList<TBZone>();
+	public List<SysZone> getCity(int parId) {
+		List<SysZone> list = new ArrayList<SysZone>();
 		String key = CITY_KEY +":"+ String.valueOf(parId);
 		String str = jedisTemplate.get(key);
 		if(StringUtils.isEmpty(str)){
 			list = D.sql(
-					"select * from T_B_ZONE where node_class = 2 and parent_code = ? ")
-					.list(TBZone.class, parId);
+					"select * from t_sys_zone where node_class = 2 and parent_code = ? ")
+					.list(SysZone.class, parId);
 			jedisTemplate.set(key, JsonMapper.alwaysMapper().toJson(list));
 		}else {
-			list = JsonMapper.alwaysMapper().fromJson(str,  JsonMapper.alwaysMapper().createCollectionType(ArrayList.class, TBZone.class));
+			list = JsonMapper.alwaysMapper().fromJson(str,  JsonMapper.alwaysMapper().createCollectionType(ArrayList.class, SysZone.class));
 		}
 		return list;
 	}
 	
-	public List<TBZone> getDistrict(int parId) {
-		List<TBZone> list = new ArrayList<TBZone>();
+	public List<SysZone> getDistrict(int parId) {
+		List<SysZone> list = new ArrayList<SysZone>();
 		String key = DISTRICT_KEY +":"+ String.valueOf(parId);
 		String str = jedisTemplate.get(key);
 		if(StringUtils.isEmpty(str)){
 			list = D.sql(
-					"select * from T_B_ZONE where node_class = 3 and parent_code = ? ")
-					.list(TBZone.class, parId);
+					"select * from t_sys_zone where node_class = 3 and parent_code = ? ")
+					.list(SysZone.class, parId);
 			jedisTemplate.set(key, JsonMapper.alwaysMapper().toJson(list));
 		}else {
-			list = JsonMapper.alwaysMapper().fromJson(str,  JsonMapper.alwaysMapper().createCollectionType(ArrayList.class, TBZone.class));
+			list = JsonMapper.alwaysMapper().fromJson(str,  JsonMapper.alwaysMapper().createCollectionType(ArrayList.class, SysZone.class));
 		}
 		return list;
 	}

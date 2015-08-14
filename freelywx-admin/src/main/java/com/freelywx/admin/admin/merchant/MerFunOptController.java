@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.common.common.JsonMapper;
 import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.user.TpFunOpt;
+import com.freelywx.common.model.sys.SysFunOpt;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.rps.util.D;
@@ -34,20 +34,20 @@ public class MerFunOptController {
 	@RequestMapping(value = "listAll")
 	public void listAll(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		List<TpFunOpt> allFunOpt = D.sql("Select * from T_P_FUN_OPT where user_type = ? ").many(TpFunOpt.class,SystemConstant.UserType.MERCHANT_USER);
-		List<TpFunOpt> rootFunOpt = Lists.newArrayList();
-		Map<Integer, TpFunOpt> allFunOptMap = Maps.newHashMap();
+		List<SysFunOpt> allFunOpt = D.sql("Select * from T_P_FUN_OPT where user_type = ? ").many(SysFunOpt.class,SystemConstant.UserType.MERCHANT_USER);
+		List<SysFunOpt> rootFunOpt = Lists.newArrayList();
+		Map<Integer, SysFunOpt> allFunOptMap = Maps.newHashMap();
 
-		for (TpFunOpt funOpt : allFunOpt) {
+		for (SysFunOpt funOpt : allFunOpt) {
 			allFunOptMap.put(funOpt.getFun_opt_id(), funOpt);
 		}
-		for (TpFunOpt funOpt : allFunOpt) {
+		for (SysFunOpt funOpt : allFunOpt) {
 			Integer parentId = funOpt.getParent_fun_opt_id();
 			if (parentId != null) {
-				TpFunOpt parent = allFunOptMap.get(parentId);
+				SysFunOpt parent = allFunOptMap.get(parentId);
 				if (parent != null) {
 					if (parent.getChildren() == null) {
-						parent.setChildren(new ArrayList<TpFunOpt>());
+						parent.setChildren(new ArrayList<SysFunOpt>());
 					}
 					parent.getChildren().add(funOpt);
 				}
@@ -64,7 +64,7 @@ public class MerFunOptController {
 	
 	@ResponseBody
 	@RequestMapping(value = "save")
-	public boolean save(@RequestBody TpFunOpt funopt) {
+	public boolean save(@RequestBody SysFunOpt funopt) {
 		if(funopt.getFun_opt_id()  != null  ){
 			D.updateWithoutNull(funopt);
 		}else{
@@ -79,12 +79,12 @@ public class MerFunOptController {
 	@RequestMapping(value = "check")
 	public boolean check(String fun_opt_nm,String fun_opt_id) {
 		if(!StringUtils.isEmpty(fun_opt_id)){
-			TpFunOpt funopt = D.selectById(TpFunOpt.class, Integer.parseInt(fun_opt_id));
+			SysFunOpt funopt = D.selectById(SysFunOpt.class, Integer.parseInt(fun_opt_id));
 			if(StringUtils.equals(fun_opt_nm, funopt.getFun_opt_nm())){
 				return false;
 			}
 		}
-		List<TpFunOpt> foList = D.sql("select * from T_P_FUN_OPT where fun_opt_nm = ?").many(TpFunOpt.class, fun_opt_nm);
+		List<SysFunOpt> foList = D.sql("select * from T_P_FUN_OPT where fun_opt_nm = ?").many(SysFunOpt.class, fun_opt_nm);
 		return foList.size() > 0 ? true : false;
 	}
  
@@ -92,12 +92,12 @@ public class MerFunOptController {
 	@RequestMapping(value = "checkUrl")
 	public boolean checkUrl(String url,String fun_opt_id) { 
 		if(!StringUtils.isEmpty(fun_opt_id)){
-			TpFunOpt funopt = D.selectById(TpFunOpt.class, Integer.parseInt(fun_opt_id));
+			SysFunOpt funopt = D.selectById(SysFunOpt.class, Integer.parseInt(fun_opt_id));
 			if(StringUtils.equals(url, funopt.getUrl())){
 				return false;
 			}
 		}
-		List<TpFunOpt> foList = D.sql("select * from T_P_FUN_OPT where url = ?").many(TpFunOpt.class, url);
+		List<SysFunOpt> foList = D.sql("select * from T_P_FUN_OPT where url = ?").many(SysFunOpt.class, url);
 		return foList.size() > 0 ? true : false;
 //		String regEx = "^[A-Za-z]+$";
 //		Pattern pat = Pattern.compile(regEx);
@@ -111,13 +111,13 @@ public class MerFunOptController {
 
 	@ResponseBody
 	@RequestMapping(value = "getFunopt/{funOptId}")
-	public TpFunOpt getFunopt(@PathVariable("funOptId") Long funOptId) {
-		return D.selectById(TpFunOpt.class, funOptId);
+	public SysFunOpt getFunopt(@PathVariable("funOptId") Long funOptId) {
+		return D.selectById(SysFunOpt.class, funOptId);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "update")
-	public boolean update(@RequestBody TpFunOpt funopt) {
+	public boolean update(@RequestBody SysFunOpt funopt) {
 		D.updateWithoutNull(funopt);
 		return true;
 	}
@@ -125,21 +125,21 @@ public class MerFunOptController {
 	@ResponseBody
 	@RequestMapping(value = "delFreCheck/{funOptId}")
 	public boolean delFreCheck(@PathVariable("funOptId") Long funOptId) {
-		TpFunOpt funopt = D.selectById(TpFunOpt.class, funOptId);
+		SysFunOpt funopt = D.selectById(SysFunOpt.class, funOptId);
 		return funopt == null ? false : true;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "checkChild/{funOptId}")
 	public boolean checkChild(@PathVariable("funOptId") Long funOptId) {
-		List<TpFunOpt> list = D.sql("select * from T_P_FUN_OPT where parent_fun_opt_id = ?").many(TpFunOpt.class, funOptId);
+		List<SysFunOpt> list = D.sql("select * from T_P_FUN_OPT where parent_fun_opt_id = ?").many(SysFunOpt.class, funOptId);
 		return list.isEmpty();
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "delete/{funOptId}")
 	public boolean delete(@PathVariable("funOptId") Long funOptId) {
-		D.deleteById(TpFunOpt.class, funOptId);
+		D.deleteById(SysFunOpt.class, funOptId);
 		return true;
 	}
 
@@ -147,8 +147,8 @@ public class MerFunOptController {
 	@RequestMapping("selFunopt")
 	public List<Map<String, Object>> selFunopt() {
 		List<Map<String, Object>> treeList = Lists.newArrayList(); 
-		List<TpFunOpt> list = D.sql("select * from T_P_FUN_OPT where parent_fun_opt_id is not null and user_type = ? ").many(TpFunOpt.class, SystemConstant.UserType.MERCHANT_USER) ;
-		for (TpFunOpt fo : list) {
+		List<SysFunOpt> list = D.sql("select * from T_P_FUN_OPT where parent_fun_opt_id is not null and user_type = ? ").many(SysFunOpt.class, SystemConstant.UserType.MERCHANT_USER) ;
+		for (SysFunOpt fo : list) {
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("id", fo.getFun_opt_id());
 			map.put("text", fo.getFun_opt_nm());

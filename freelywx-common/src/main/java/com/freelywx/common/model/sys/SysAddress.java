@@ -1,4 +1,4 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -6,8 +6,8 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_B_ADDRESS")
-public class TBAddress {
+@Table("t_sys_address")
+public class SysAddress {
 	@GenerateByDb
 	@Id
 	private Long address_id;

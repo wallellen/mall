@@ -1,4 +1,4 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import java.util.Date;
 

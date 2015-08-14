@@ -1,4 +1,4 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import java.io.Serializable;
 
@@ -6,8 +6,8 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_B_ZONE")
-public class TBZone implements  Serializable{
+@Table("t_sys_zone")
+public class SysZone implements  Serializable{
 	private static final long serialVersionUID = 1191157140145825097L;
 
 	@GenerateByDb

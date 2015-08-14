@@ -22,9 +22,9 @@ import org.apache.shiro.util.ByteSource;
 import com.freelywx.common.common.JsonMapper;
 import com.freelywx.common.config.SystemConstant;
 import com.freelywx.common.model.store.TmSite;
-import com.freelywx.common.model.user.TPMerchantWx;
-import com.freelywx.common.model.user.TPUser;
-import com.freelywx.common.model.user.TpMenue;
+import com.freelywx.common.model.sys.SysUser;
+import com.freelywx.common.model.sys.TPMerchantWx;
+import com.freelywx.common.model.sys.SysMenue;
 import com.freelywx.common.util.Encodes;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -45,7 +45,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken authcToken) throws AuthenticationException {
 		CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
-		TPUser user = getUserByLoginId(token.getUsername());
+		SysUser user = getUserByLoginId(token.getUsername());
 		if (user != null) {
 			// 增加判断验证码逻辑
 			/*String captcha = token.getCaptcha();
@@ -54,17 +54,17 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				throw new CaptchaException("验证码错误");
 			}*/
 			ShiroUser shiroUser = new ShiroUser(user.getUser_id(),
-					user.getLogin_id(), user.getUser_name(),user.getUser_type(),user.getSite_id());
+					user.getLogin_id(), user.getUser_name(),user.getUser_type());
 			shiroUser.setMenuData(JsonMapper.nonEmptyMapper().toJson(getMenuList(user.getUser_id(),user.getUser_type())));
 			
 			//如果为商户类型，则插入商户信息
-			if(StringUtils.equals( shiroUser.getUser_type(),SystemConstant.UserType.MERCHANT_USER)){
+		/*	if(StringUtils.equals( shiroUser.getUser_type(),SystemConstant.UserType.MERCHANT_USER)){
 				TmSite site = D.sql("select * from t_m_site where site_id = ? ").oneOrNull(TmSite.class, shiroUser.getSite_id());
 				shiroUser.setSite(site);
 			}else{
 				TPMerchantWx merchantWx = D.sql("select * from  t_p_merchant_wx where user_id = ? ").oneOrNull(TPMerchantWx.class, shiroUser.getUser_id());
 				shiroUser.setMerchantWx(merchantWx);
-			}
+			}*/
 			byte[] salt = Encodes.decodeHex(user.getSalt());
 			return new SimpleAuthenticationInfo(shiroUser, user.getPwd(),
 					ByteSource.Util.bytes(salt), getName());
@@ -83,8 +83,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		System.out.println("鉴权");
 		ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		List roleNameList = D.sqlAt("sql.tprole/getRoleName").many(String.class, shiroUser.getUser_id(),shiroUser.getUser_id());
-		List funOptUrlList = D.sqlAt("sql.tprole/getOptUrl").many(String.class, shiroUser.getUser_id(),shiroUser.getUser_id());;
+		List roleNameList = D.sqlAt("sql.sysrole/getRoleName").many(String.class, shiroUser.getUser_id(),shiroUser.getUser_id());
+		List funOptUrlList = D.sqlAt("sql.sysrole/getOptUrl").many(String.class, shiroUser.getUser_id(),shiroUser.getUser_id());;
 		info.setRoles(Sets.newLinkedHashSet(roleNameList));
 		 info.setStringPermissions(Sets.newLinkedHashSet(funOptUrlList));
 		return info;
@@ -101,22 +101,22 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		setCredentialsMatcher(matcher);
 	}
 
-	private TPUser getUserByLoginId(String loginId) {
-		return D.sql("select * from  T_P_USER where login_id = ? ").oneOrNull(TPUser.class, loginId);
+	private SysUser getUserByLoginId(String loginId) {
+		return D.sql("select * from  t_sys_user where login_id = ? ").oneOrNull(SysUser.class, loginId);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Collection getMenuList(Integer userId,String userType) {
 		// 查询根节点
-		List<TpMenue> rootMenuList = D.sql("select * from T_P_MENUE where par_menue_id = 1 and user_type = ?  order by MENUE_ORDER").many(TpMenue.class,userType);
+		List<SysMenue> rootMenuList = D.sql("select * from t_sys_menue where par_menue_id = 1 and user_type = ?  order by sort").many(SysMenue.class,userType);
 		Map<Integer, String> rootMenuMap = Maps.newLinkedHashMap();
-		for (TpMenue root : rootMenuList) {
+		for (SysMenue root : rootMenuList) {
 			rootMenuMap.put(root.getMenue_id(), root.getMenue_nm());
 		}
 		// 查询该用户可访问的菜单
 		Map result = Maps.newLinkedHashMap();
 		try {
-			List<Map> menuMap = D.sqlAt("sql.tprole/getMenueByUserId").many(Map.class, userId,userId);
+			List<Map> menuMap = D.sqlAt("sql.sysrole/getMenueByUserId").many(Map.class, userId,userId);
 			for (Map<String, Object> map : menuMap) {
 				// Integer parMenueId =	// ((BigDecimal)map.get("PAR_MENUE_ID")).toBigInteger().intValue();
 				Integer parMenueId = ((Integer) map.get("PAR_MENUE_ID"));

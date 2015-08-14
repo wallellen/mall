@@ -30,7 +30,7 @@ import com.freelywx.admin.wx.menu.Menu;
 import com.freelywx.common.cache.DictCache;
 import com.freelywx.common.config.SystemConstant;
 import com.freelywx.common.model.pub.TPubMenu;
-import com.freelywx.common.model.user.TPUser;
+import com.freelywx.common.model.sys.SysUser;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;

@@ -5,13 +5,13 @@
            [java.util ArrayList]))
 
 (def delRelation
-   "delete from T_P_USER_GRP_USER where USER_ID = ?"
+   "delete from t_sys_user_grp_user where user_id = ?"
   )
   
 
 (defsql getPageUserGroup
   {
-   :sql "select * from T_P_USER_GRP "
+   :sql "select * from t_sys_user_grp "
    :where (AND 
 		   ("grp_nm"  "grp_nm like ?" "%" "%")
 	)

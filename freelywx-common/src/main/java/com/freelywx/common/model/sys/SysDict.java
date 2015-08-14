@@ -1,10 +1,10 @@
-package com.freelywx.common.model.user;
+package com.freelywx.common.model.sys;
 
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_B_DICT")
-public class TbDict {
+@Table("t_sys_dict")
+public class SysDict {
 	@Id
     private String dict_id;
 

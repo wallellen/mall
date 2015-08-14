@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.druid.util.StringUtils;
 import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.user.TPUser;
-import com.freelywx.common.model.user.TpFunOpt;
-import com.freelywx.common.model.user.TpRole;
-import com.freelywx.common.model.user.TpRoleFunOpt;
-import com.freelywx.common.model.user.TpUserRole;
+import com.freelywx.common.model.sys.SysFunOpt;
+import com.freelywx.common.model.sys.SysRole;
+import com.freelywx.common.model.sys.SysRoleFunOpt;
+import com.freelywx.common.model.sys.SysUser;
+import com.freelywx.common.model.sys.SysUserRole;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.google.common.collect.Lists;
@@ -46,13 +46,13 @@ public class RoleController {
 		 */
 		HashMap<String,Object> map = new  HashMap<String,Object>();
 		map.put("user_type", SystemConstant.UserType.SYSTEM_USER);
-		return PageUtil.getPageModel(TpRole.class, "sql.tprole/getPageRole", request,map);
+		return PageUtil.getPageModel(SysRole.class, "sql.sysrole/getPageRole", request,map);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "{roleId}")
-	public TpRole get(@PathVariable("roleId") String roleId) {
-		return D.selectById(TpRole.class, roleId);
+	public SysRole get(@PathVariable("roleId") String roleId) {
+		return D.selectById(SysRole.class, roleId);
 	}
 
 	@ResponseBody
@@ -60,11 +60,11 @@ public class RoleController {
 	public boolean checkRoleNm(HttpServletRequest request) {
 		String roleNm = request.getParameter("role_nm");
 		String roleId = request.getParameter("role_id");
-		TPUser user;
+		SysUser user;
 		if(!StringUtils.isEmpty(roleId)){
-			user = D.sql("select * from T_P_ROLE where role_id = ? and role_name != ?").oneOrNull(TPUser.class, roleId,roleNm);
+			user = D.sql("select * from T_P_ROLE where role_id = ? and role_name != ?").oneOrNull(SysUser.class, roleId,roleNm);
 		}else{
-			user = D.sql("select * from T_P_ROLE where role_nm = ?").oneOrNull(TPUser.class, roleNm);
+			user = D.sql("select * from T_P_ROLE where role_nm = ?").oneOrNull(SysUser.class, roleNm);
 		}
 		if(user == null){
 			return true;
@@ -75,7 +75,7 @@ public class RoleController {
 
 	@ResponseBody
 	@RequestMapping(value = "create")
-	public boolean create(@RequestBody TpRole role) {
+	public boolean create(@RequestBody SysRole role) {
 		try {
 			role.setUser_type(SystemConstant.UserType.SYSTEM_USER);
 			D.insert(role);
@@ -88,7 +88,7 @@ public class RoleController {
 
 	@ResponseBody
 	@RequestMapping(value = "update")
-	public boolean update(@RequestBody TpRole role) {
+	public boolean update(@RequestBody SysRole role) {
 		try {
 			D.updateWithoutNull(role);
 			return true;
@@ -103,18 +103,18 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping(value = "allOpt/{roleId}")
 	public List<Map<String, Object>> allOpt(@PathVariable("roleId") Integer roleId) {
-		List<TpRoleFunOpt> funRoleList = D.sql("select * from T_P_ROLE_FUN_OPT   where role_id = ?").many(TpRoleFunOpt.class, roleId);
+		List<SysRoleFunOpt> funRoleList = D.sql("select * from T_P_ROLE_FUN_OPT   where role_id = ?").many(SysRoleFunOpt.class, roleId);
 		
 		Set<Integer> idList = Sets.newHashSet();// 已绑定资源Id
-		for (TpRoleFunOpt key : funRoleList) {
+		for (SysRoleFunOpt key : funRoleList) {
 			idList.add(key.getFun_opt_id());
 		}
 
-		List<TpFunOpt> list = D.sql("select *  from T_P_FUN_OPT where user_type = ? ").many(TpFunOpt.class,SystemConstant.UserType.SYSTEM_USER);
+		List<SysFunOpt> list = D.sql("select *  from T_P_FUN_OPT where user_type = ? ").many(SysFunOpt.class,SystemConstant.UserType.SYSTEM_USER);
 		Map<Integer, Map<String, Object>> allFunOptMap = Maps.newHashMap();
 		List<Map<String, Object>> rootFunOptList = Lists.newArrayList();
 
-		for (TpFunOpt opt : list) {
+		for (SysFunOpt opt : list) {
 			Map<String, Object> node = Maps.newHashMapWithExpectedSize(3);
 			int funOptId = opt.getFun_opt_id();
 			node.put("id", funOptId);
@@ -165,7 +165,7 @@ public class RoleController {
 						// TODO Auto-generated method stub
 						D.sql("delete from T_P_ROLE_FUN_OPT where role_id = ?").update( roleId);
 						for(Integer id : detailId){
-							TpRoleFunOpt tp = new TpRoleFunOpt();
+							SysRoleFunOpt tp = new SysRoleFunOpt();
 							tp.setRole_id(Integer.parseInt (roleId));
 							tp.setFun_opt_id(id);
 							D.insert(tp);
@@ -193,7 +193,7 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping(value = "delCheckExits/{roleId}")
 	public boolean delCheckExits(@PathVariable("roleId") Integer roleId) {
-		TpRole role = D.selectById(TpRole.class, roleId);
+		SysRole role = D.selectById(SysRole.class, roleId);
 		return role == null ? false : true;
 	}
 
@@ -207,7 +207,7 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping(value = "roleCheckExits/{roleId}")
 	public boolean roleCheckExits(@PathVariable("roleId") Integer roleId) {
-		List<TpUserRole> userRoleKey = D.sql("select * from T_P_USER_ROLE where role_id = ?").many(TpUserRole.class, roleId);
+		List<SysUserRole> userRoleKey = D.sql("select * from T_P_USER_ROLE where role_id = ?").many(SysUserRole.class, roleId);
 		return userRoleKey.size() >0 ? false:true;
 	}
 
