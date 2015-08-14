@@ -51,12 +51,12 @@ public class MemberInfoController {
 		String httpPath = Config.SERVER_BASE;
 		for (Member member : memberList) {
 			// 用户图像
-			String member_img = member.getMember_img();
+			String member_img = member.getImg();
 			if (!checkUrlOk(member_img)) {
 				// 如果图片不存在的情况，就用本地图片
 				member_img = request.getContextPath() + "/res/images/member/default.png";
 			}
-			member.setMember_img(member_img);
+			member.setImg(member_img);
 		}
 		return page;
 	}

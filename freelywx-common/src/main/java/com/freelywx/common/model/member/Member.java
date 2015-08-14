@@ -1,8 +1,6 @@
 package com.freelywx.common.model.member;
 
 import java.util.Date;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
 
 import com.rps.util.dao.annotation.ColumnIgnore;
 import com.rps.util.dao.annotation.GenerateByDb;
@@ -16,21 +14,21 @@ public class Member {
 	private Integer member_id;
 
 	/** 商户编号 */
-	private Integer uid;
+	private Integer merchant_id;
 
-	private String open_id;
+	private String openid;
 
-	private String member_name;
+	private String nickname;
 
-	private String member_sex;
+	private String sex;
 
-	private String member_province;
+	private String province;
 
-	private String member_city;
+	private String city;
 
-	private String member_country;
+	private String country;
 
-	private String member_img;
+	private String img;
 
 	private int member_level;
 
@@ -39,7 +37,7 @@ public class Member {
 	/** 1、关注；2、未关注 */
 	private String status;
 
-	private Date last_update_time;
+	private Date update_time;
 
 	@ColumnIgnore
 	private String user_name;
@@ -52,67 +50,68 @@ public class Member {
 		this.member_id = member_id;
 	}
 
-	public Integer getUid() {
-		return uid;
+	public Integer getMerchant_id() {
+		return merchant_id;
 	}
 
-	public void setUid(Integer uid) {
-		this.uid = uid;
+	public void setMerchant_id(Integer merchant_id) {
+		this.merchant_id = merchant_id;
 	}
 
-	public String getOpen_id() {
-		return open_id;
+	public String getOpenid() {
+		return openid;
 	}
 
-	public void setOpen_id(String open_id) {
-		this.open_id = open_id;
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 
-	public String getMember_name() {
-		if (StringUtils.isNotEmpty(member_name)) {
-			return new String(Base64.decodeBase64(member_name));
-		}
-		return member_name;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setMember_name(String member_name) {
-		this.member_name = member_name;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
-	public String getMember_sex() {
-		return member_sex;
+	public String getSex() {
+		return sex;
 	}
 
-	public void setMember_sex(String member_sex) {
-		this.member_sex = member_sex;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
-	public String getMember_province() {
-		return member_province;
+	public String getProvince() {
+		return province;
 	}
 
-	public void setMember_province(String member_province) {
-		this.member_province = member_province;
+	public void setProvince(String province) {
+		this.province = province;
 	}
 
-	public String getMember_city() {
-		return member_city;
+	public String getCity() {
+		return city;
 	}
 
-	public void setMember_city(String member_city) {
-		this.member_city = member_city;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-	public String getMember_country() {
-		return member_country;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setMember_country(String member_country) {
-		this.member_country = member_country;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
-	public String getMember_img() {
-		return member_img;
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	public int getMember_level() {
@@ -121,10 +120,6 @@ public class Member {
 
 	public void setMember_level(int member_level) {
 		this.member_level = member_level;
-	}
-
-	public void setMember_img(String member_img) {
-		this.member_img = member_img;
 	}
 
 	public Date getCreate_time() {
@@ -143,12 +138,12 @@ public class Member {
 		this.status = status;
 	}
 
-	public Date getLast_update_time() {
-		return last_update_time;
+	public Date getUpdate_time() {
+		return update_time;
 	}
 
-	public void setLast_update_time(Date last_update_time) {
-		this.last_update_time = last_update_time;
+	public void setUpdate_time(Date update_time) {
+		this.update_time = update_time;
 	}
 
 	public String getUser_name() {
@@ -158,5 +153,6 @@ public class Member {
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
+
 
 }

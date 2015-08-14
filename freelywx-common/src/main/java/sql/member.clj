@@ -7,10 +7,9 @@
  
 (defsql getPageMember
   {
-   :sql "select t.* ,m.user_name from t_m_member  t  left join t_p_user m on t.uid = m.user_id "
+   :sql "select t.*   from t_m_member  t   "
    :where (AND 
         ("member_id"  "t.member_id like ?" "%" "%")
-		    ("user_name"  " m.user_name like ?" "%" "%")
      
 	)
    :page true
