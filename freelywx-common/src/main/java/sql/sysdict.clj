@@ -1,4 +1,4 @@
-(ns sql.tbDict
+(ns sql.sysdict
   (:use [com.rps.util.dao.cljutil.daoutil2] )
   (:import [javax.servlet.http HttpServletRequest]
            [com.rps.util.dao SqlAndParams]

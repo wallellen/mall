@@ -1,4 +1,4 @@
-(ns sql.tprole
+(ns sql.sysrole
   (:use [com.rps.util.dao.cljutil.daoutil2] )
   (:import [javax.servlet.http HttpServletRequest]
            [com.rps.util.dao SqlAndParams]
@@ -48,8 +48,8 @@
    )
    
    (def getMenueByUserId
-   	"SELECT menue_id, menue_name, url, par_menue_id, sort FROM (
-		SELECT DISTINCT menue_id, M.menue_name, F.url, M.par_menue_id, M.sort
+   	"SELECT menue_id, menue_nm, url, par_menue_id, sort FROM (
+		SELECT DISTINCT menue_id, M.menue_nm, F.url, M.par_menue_id, M.sort
 		  FROM t_sys_menue M
 		  JOIN t_sys_fun_opt F 
 		    ON M.fun_opt_id = F.fun_opt_id
