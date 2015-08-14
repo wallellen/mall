@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.common.config.Config;
-import com.freelywx.common.model.advertise.TaAdvertisement;
+import com.freelywx.common.model.advertise.Advertisement;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
@@ -28,13 +28,13 @@ public class AdvertiseController {
 
 	@RequestMapping("")
 	public String init()  {
-		return "adv/advert/advert";
+		return "adv/advert";
 	}
 	
 	@RequestMapping("/list")
 	@ResponseBody
 	public PageModel list(HttpServletRequest request, HttpServletResponse response){
-		PageModel page = PageUtil.getPageModel(TaAdvertisement.class, "sql.advert/getAdvertList", request);
+		PageModel page = PageUtil.getPageModel(Advertisement.class, "sql.advertisement/getAdvertList", request);
 		return page;
 	}
 	
@@ -47,7 +47,7 @@ public class AdvertiseController {
 	@RequestMapping("/edit")
 	public String editCategory(HttpServletRequest request,Model model) {
 		model.addAttribute("server_url",Config.SERVER_BASE);
-		return "adv/advert/editAdvert";
+		return "adveditAdvert";
 	}
 	
 	/**
@@ -58,10 +58,10 @@ public class AdvertiseController {
 	 */
 	@RequestMapping("/editData")
 	@ResponseBody
-	public TaAdvertisement getCategory(HttpServletRequest request) {
+	public Advertisement getCategory(HttpServletRequest request) {
 		try {
 			Long ad_id = Long.valueOf(request.getParameter("ad_id"));
-			return D.selectById(TaAdvertisement.class, ad_id);
+			return D.selectById(Advertisement.class, ad_id);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -71,7 +71,7 @@ public class AdvertiseController {
 	
 	@RequestMapping("/save")
 	@ResponseBody
-	public boolean saveCategory(@RequestBody TaAdvertisement advert, HttpServletRequest request) {
+	public boolean saveCategory(@RequestBody Advertisement advert, HttpServletRequest request) {
 		try {
 			if (advert.getAd_id()!= null) {
 				D.updateWithoutNull(advert);
@@ -91,7 +91,7 @@ public class AdvertiseController {
 		final HashMap<String, String> map = new HashMap<String, String>();
 		try {
 			Long ad_id = Long.valueOf(request.getParameter("ad_id"));
-			D.deleteById(TaAdvertisement.class, ad_id);
+			D.deleteById(Advertisement.class, ad_id);
 			map.put("status", "2");
 		} catch (Exception e) {
 			// TODO: handle exception

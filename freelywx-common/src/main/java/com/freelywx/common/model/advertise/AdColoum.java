@@ -4,8 +4,8 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_A_COLOUM")
-public class TaColoum {
+@Table("t_a_coloum")
+public class AdColoum {
 
 	@GenerateByDb
 	@Id
@@ -13,7 +13,7 @@ public class TaColoum {
 	private String coloum_name;
 	private String coloum_code;
 	private String type;
-	private String desciption;
+	private String desc;
 	private String status;
 
 	public Integer getColoum_id() {
@@ -48,12 +48,12 @@ public class TaColoum {
 		this.type = type;
 	}
 
-	public String getDesciption() {
-		return desciption;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setDesciption(String desciption) {
-		this.desciption = desciption;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getStatus() {

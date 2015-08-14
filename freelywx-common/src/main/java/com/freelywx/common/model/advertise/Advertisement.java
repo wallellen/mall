@@ -8,8 +8,8 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_A_ADVERTISEMENT")
-public class TaAdvertisement {
+@Table("t_ad_advertise")
+public class Advertisement {
 
 	@GenerateByDb
 	@Id
@@ -19,7 +19,7 @@ public class TaAdvertisement {
 	/** 广告名称 */
 	private String ad_name;
 	/** 描述 */
-	private String desciption;
+	private String desc;
 	/** 图片链接 */
 	private String pic_url;
 	/** 连接地址 */
@@ -51,11 +51,11 @@ public class TaAdvertisement {
 	public void setAd_name(String ad_name) {
 		this.ad_name = ad_name;
 	}
-	public String getDesciption() {
-		return desciption;
+	public String getDesc() {
+		return desc;
 	}
-	public void setDesciption(String desciption) {
-		this.desciption = desciption;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 	public String getPic_url() {
 		return pic_url;

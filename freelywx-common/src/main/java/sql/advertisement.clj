@@ -1,4 +1,4 @@
-(ns sql.advert
+(ns sql.advertisement
    (:use [com.rps.util.dao.cljutil.daoutil2] )
    (:import [javax.servlet.http HttpServletRequest]
            [com.rps.util.dao SqlAndParams]
@@ -6,7 +6,7 @@
 
 (defsql getAdvertList
   {
-   :sql " select a.*,c.coloum_name from T_A_ADVERTISEMENT a left join T_A_COLOUM c on a.coloum_id=c.coloum_id"
+   :sql " select a.*,c.coloum_name from t_ad_coloum a left join t_a_coloum c on a.coloum_id=c.coloum_id"
    :where (AND 
 		   ("ad_name" " ad_name like ?" "%" "%")
     	   )
@@ -14,6 +14,17 @@
    :orderby true
    :orderby-default " order by a.start_time desc"
    })
+   
+   
+(defsql getColoumList
+  {
+   :sql " select * from T_A_COLOUM"
+   :where (AND 
+		   ("coloum_name" " coloum_name like ?" "%" "%")
+    	   )
+   :page true
+   })
+   
 
 (defsql tipPage {
    :sql " SELECT * FROM T_A_TIP "

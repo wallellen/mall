@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.common.config.Config;
 import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.advertise.TaAdvertisement;
-import com.freelywx.common.model.advertise.TaColoum;
+import com.freelywx.common.model.advertise.Advertisement;
+import com.freelywx.common.model.advertise.AdColoum;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
@@ -31,13 +31,13 @@ public class ColoumController {
 
 	@RequestMapping("")
 	public String init()   {
-		return "adv/coloum/coloum";
+		return "adv/coloum";
 	}
 	
 	@RequestMapping("/list")
 	@ResponseBody
 	public PageModel list(HttpServletRequest request, HttpServletResponse response){
-		PageModel page = PageUtil.getPageModel(TaColoum.class, "sql.coloum/getColoumList", request);
+		PageModel page = PageUtil.getPageModel(AdColoum.class, "sql.advertisement/getColoumList", request);
 		return page;
 	}
 	
@@ -50,7 +50,7 @@ public class ColoumController {
 	@RequestMapping("/edit")
 	public String editCategory(HttpServletRequest request,Model model) {
 		model.addAttribute("server_url", Config.SERVER_BASE);
-		return "adv/coloum/editColoum";
+		return "adv/editColoum";
 	}
 	
 	/**
@@ -61,10 +61,10 @@ public class ColoumController {
 	 */
 	@RequestMapping("/editData")
 	@ResponseBody
-	public TaColoum getCategory(HttpServletRequest request) {
+	public AdColoum getCategory(HttpServletRequest request) {
 		try {
 			Long coloum_id = Long.valueOf(request.getParameter("coloum_id"));
-			return D.selectById(TaColoum.class, coloum_id);
+			return D.selectById(AdColoum.class, coloum_id);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -74,7 +74,7 @@ public class ColoumController {
 	
 	@RequestMapping("/save")
 	@ResponseBody
-	public boolean saveCategory(@RequestBody TaColoum coloum, HttpServletRequest request) {
+	public boolean saveCategory(@RequestBody AdColoum coloum, HttpServletRequest request) {
 		try {
 			if (coloum.getColoum_id() != null) {
 				D.updateWithoutNull(coloum);
@@ -94,11 +94,11 @@ public class ColoumController {
 		final HashMap<String, String> map = new HashMap<String, String>();
 		try {
 			Long coloum_id = Long.valueOf(request.getParameter("coloum_id"));
-			List<TaAdvertisement> advertList = D.sql("select * from T_A_ADVERTISEMENT where coloum_id=?").many(TaAdvertisement.class, coloum_id);
+			List<Advertisement> advertList = D.sql("select * from t_ad_advertise where coloum_id=?").many(Advertisement.class, coloum_id);
 			if (advertList != null && !advertList.isEmpty()){
 				map.put("status", "1");
 			}else{
-				D.deleteById(TaColoum.class, coloum_id);
+				D.deleteById(AdColoum.class, coloum_id);
 				map.put("status", "2");
 			}
 		} catch (Exception e) {
@@ -111,7 +111,7 @@ public class ColoumController {
 	
 	@RequestMapping("/coloumlist")
 	@ResponseBody
-	public List<TaColoum> coloumList(){
-		return D.sql("select * from T_A_COLOUM where status=?").many(TaColoum.class, SystemConstant.EnableState.ENABLE);
+	public List<AdColoum> coloumList(){
+		return D.sql("select * from t_a_coloum where status=?").many(AdColoum.class, SystemConstant.EnableState.ENABLE);
 	}
 }
