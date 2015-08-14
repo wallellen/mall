@@ -82,7 +82,7 @@ public class MemberRuleController {
 	@ResponseBody
 	public boolean checkName(MemberRule memberRule, HttpServletRequest request) {
 
-		String sql = "SELECT rule_id FROM T_M_RULE WHERE rule_id <> ? and rule_name = ?";
+		String sql = "SELECT rule_id FROM t_m_rule WHERE rule_id <> ? and rule_name = ?";
 		List<MemberRule> list = D.sql(sql).many(MemberRule.class, memberRule.getRule_id(), memberRule.getRule_name());
 		if (list != null && list.size() > 0) {
 			// 存在重复名称的情况
