@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
 import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.pub.TPubImg;
-import com.freelywx.common.model.pub.TPubKeyword;
+import com.freelywx.common.model.wx.WxImg;
+import com.freelywx.common.model.wx.WxKeyword;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
@@ -52,7 +52,7 @@ public class ImgNewsController {
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("uid", user.getUser_id()); 
 		
-		return PageUtil.getPageModel(TPubImg.class, "sql.publish/getImgPage",request,map);
+		return PageUtil.getPageModel(WxImg.class, "sql.publish/getImgPage",request,map);
 	}
 	 
 	@ResponseBody
@@ -60,12 +60,12 @@ public class ImgNewsController {
 	public boolean check(String keyword,String id) {
 		if(!StringUtils.isEmpty(id)){
 			int keyId = Integer.parseInt(id);
-			TPubImg key = D.selectById(TPubImg.class, keyId);
-			if(StringUtils.equals(key.getKeyword(), keyword)){
+			WxImg key = D.selectById(WxImg.class, keyId);
+			if(key == null){
 				return true;
 			}
 		} 
-		List<TPubKeyword> list = D.sql("select * from T_PUB_KEYWORD where keyword = ?").many(TPubKeyword.class, keyword);
+		List<WxKeyword> list = D.sql("select * from T_PUB_KEYWORD where keyword = ?").many(WxKeyword.class, keyword);
 		if(list != null && list.size() > 0 ){
 			return false;
 		}else{
@@ -75,17 +75,14 @@ public class ImgNewsController {
 	 
 	@ResponseBody
 	@RequestMapping(value = "save")
-	public boolean save(@RequestBody final TPubImg img){
+	public boolean save(@RequestBody final WxImg img){
 		try{
 			if(null != img.getId() && img.getId() > 0 ){
 				D.startTranSaction(new Callable() {
 					@Override
 					public Object call() throws Exception {
 						D.updateWithoutNull(img);
-						TPubKeyword keyword =  D.selectById(TPubKeyword.class,img.getId());
-						keyword.setKeyword(img.getKeyword());
-						keyword.setType(img.getType());
-						keyword.setModule(SystemConstant.ReplyType.REPLY_GRAPHIC);
+						WxKeyword keyword =  D.selectById(WxKeyword.class,img.getId());
 						D.updateWithoutNull(keyword);
 						return true;
 					}
@@ -96,15 +93,9 @@ public class ImgNewsController {
 					public Object call() throws Exception {
 						ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 						//text.setWx_id(user.getMerchantWx().getWx_id());
-						img.setUid(user.getUser_id());
 						int id = D.insertAndReturnInteger(img);
-						TPubKeyword keyword = new TPubKeyword();
-						keyword.setKeyword(img.getKeyword());
-						keyword.setContent_id(id);
-						keyword.setModule(SystemConstant.ReplyType.REPLY_GRAPHIC);
-						keyword.setType(img.getType());
+						WxKeyword keyword = new WxKeyword();
 					//	keyword.setWx_id(user.getMerchantWx().getWx_id());
-						keyword.setUid(user.getUser_id());
 						D.insert(keyword);
 						return true;
 					}
@@ -120,8 +111,8 @@ public class ImgNewsController {
 	
 	@ResponseBody
 	@RequestMapping(value = "getImg/{id}")
-	public TPubImg getText(@PathVariable("id") int id) {
-		TPubImg img = D.selectById(TPubImg.class, id);
+	public WxImg getText(@PathVariable("id") int id) {
+		WxImg img = D.selectById(WxImg.class, id);
 		return img;
 	}
 	
@@ -133,8 +124,8 @@ public class ImgNewsController {
 				@Override
 				public Object call() throws Exception {
 					for (Integer id : ids) {
-						D.deleteById(TPubImg.class, id);
-						D.deleteByWhere(TPubKeyword.class, "content_id = ? and MODULE = ?",  id,SystemConstant.ReplyType.REPLY_GRAPHIC);
+						D.deleteById(WxImg.class, id);
+						D.deleteByWhere(WxKeyword.class, "content_id = ? and MODULE = ?",  id,SystemConstant.ReplyType.REPLY_GRAPHIC);
 					}
 					return true;
 				}

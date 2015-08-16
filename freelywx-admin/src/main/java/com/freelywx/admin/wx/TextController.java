@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
 import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.pub.TPubKeyword;
-import com.freelywx.common.model.pub.TPubText;
+import com.freelywx.common.model.wx.WxKeyword;
+import com.freelywx.common.model.wx.WxText;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
@@ -44,7 +44,7 @@ public class TextController {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("uid", user.getUser_id());
-		return PageUtil.getPageModel(TPubText.class, "sql.publish/getTextPage",request,map);
+		return PageUtil.getPageModel(WxText.class, "sql.publish/getTextPage",request,map);
 	}
 	 
 	@ResponseBody
@@ -52,12 +52,12 @@ public class TextController {
 	public boolean check(String keyword,String id) {
 		if(!StringUtils.isEmpty(id)){
 			int keyId = Integer.parseInt(id);
-			TPubText key = D.selectById(TPubText.class, keyId);
-			if(StringUtils.equals(key.getKeyword(), keyword)){
+			WxText key = D.selectById(WxText.class, keyId);
+			if(key == null){
 				return true;
 			}
 		} 
-		List<TPubKeyword> list = D.sql("select * from T_PUB_KEYWORD where keyword = ?").many(TPubKeyword.class, keyword);
+		List<WxKeyword> list = D.sql("select * from T_PUB_KEYWORD where keyword = ?").many(WxKeyword.class, keyword);
 		if(list != null && list.size() > 0 ){
 			return false;
 		}else{
@@ -67,17 +67,14 @@ public class TextController {
 	 
 	@ResponseBody
 	@RequestMapping(value = "save")
-	public boolean save(@RequestBody final TPubText text){
+	public boolean save(@RequestBody final WxText text){
 		try{
 			if(null != text.getId() && text.getId() > 0 ){
 				D.startTranSaction(new Callable() {
 					@Override
 					public Object call() throws Exception {
 						D.updateWithoutNull(text);
-						TPubKeyword keyword =  D.selectById(TPubKeyword.class,text.getId());
-						keyword.setKeyword(text.getKeyword());
-						keyword.setType(text.getType());
-						keyword.setModule(SystemConstant.ReplyType.REPLY_TEXT);
+						WxKeyword keyword =  D.selectById(WxKeyword.class,text.getId());
 						D.updateWithoutNull(keyword);
 						return true;
 					}
@@ -89,15 +86,9 @@ public class TextController {
 					public Object call() throws Exception {
 						ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 						//text.setWx_id(user.getMerchantWx().getWx_id());
-						text.setUid(user.getUser_id());
 						int id = D.insertAndReturnInteger(text);
-						TPubKeyword keyword = new TPubKeyword();
-						keyword.setKeyword(text.getKeyword());
-						keyword.setContent_id(id);
-						keyword.setModule(SystemConstant.ReplyType.REPLY_TEXT);
-						keyword.setType(text.getType());
+						WxKeyword keyword = new WxKeyword();
 					//	keyword.setWx_id(user.getMerchantWx().getWx_id());
-						keyword.setUid(user.getUser_id());
 						D.insert(keyword);
 						return true;
 					}
@@ -114,8 +105,8 @@ public class TextController {
 	
 	@ResponseBody
 	@RequestMapping(value = "getText/{id}")
-	public TPubText getText(@PathVariable("id") int id) {
-		TPubText text = D.selectById(TPubText.class, id);
+	public WxText getText(@PathVariable("id") int id) {
+		WxText text = D.selectById(WxText.class, id);
 		return text;
 	}
 	
@@ -127,8 +118,8 @@ public class TextController {
 				@Override
 				public Object call() throws Exception {
 					for (Integer id : ids) {
-						D.deleteById(TPubText.class, id);
-						D.deleteByWhere(TPubKeyword.class, "content_id = ? and MODULE = ?",  id,SystemConstant.ReplyType.REPLY_TEXT);
+						D.deleteById(WxText.class, id);
+						D.deleteByWhere(WxKeyword.class, "content_id = ? and MODULE = ?",  id,SystemConstant.ReplyType.REPLY_TEXT);
 					}
 					return true;
 				}
