@@ -5,19 +5,19 @@ import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
 @Table("t_wx_info")
-public class WxInfo  { 
+public class WxInfo {
 
 	@Id
 	@GenerateByDb
-private Integer wx_id;
+	private Integer wx_id;
 
-	/**公众号名称*/
+	/** 公众号名称 */
 	private String public_name;
 
-	/**公众原始号ID*/
+	/** 公众原始号ID */
 	private String original_id;
 
-	/**微信号*/
+	/** 微信号 */
 	private String wx_number;
 
 	private String token;
@@ -30,21 +30,21 @@ private Integer wx_id;
 
 	private String encodetype;
 
-	/**默认无匹配回复关键词*/
+	/** 默认无匹配回复关键词 */
 	private String matching;
 
-	/**图像地址*/
+	/** 图像地址 */
 	private String img_url;
 
-	/**接口地址*/
+	/** 接口地址 */
 	private String port_url;
 
-	/**公众号类型.1、订阅号；2、服务号*/
+	/** 公众号类型.1、订阅号；2、服务号 */
 	private String public_type;
 
 	private String qr_url;
 
-	/**公众号详情说明.图文详情最下面的二维码及对应的文字说明*/
+	/** 公众号详情说明.图文详情最下面的二维码及对应的文字说明 */
 	private String wx_text;
 
 	public Integer getWx_id() {
@@ -166,6 +166,5 @@ private Integer wx_id;
 	public void setWx_text(String wx_text) {
 		this.wx_text = wx_text;
 	}
-
 
 }
