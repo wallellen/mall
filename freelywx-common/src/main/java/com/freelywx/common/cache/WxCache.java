@@ -2,7 +2,7 @@ package com.freelywx.common.cache;
 
 import java.util.List;
 
-import com.freelywx.common.model.sys.TPMerchantWx;
+import com.freelywx.common.model.wx.WxInfo;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.rps.util.D;
@@ -11,14 +11,14 @@ import com.rps.util.D;
  * @author eric
  *
  */
-public class WxCache extends AbstractCache<String, TPMerchantWx> {
+public class WxCache extends AbstractCache<String, WxInfo> {
  
 	@Override
 	public void loadCache() {
-		List<TPMerchantWx> wxList = D.selectAll(TPMerchantWx.class);
-		Cache<String,TPMerchantWx> c = CacheBuilder.newBuilder().initialCapacity(wxList.size()).build();
+		List<WxInfo> wxList = D.selectAll(WxInfo.class);
+		Cache<String,WxInfo> c = CacheBuilder.newBuilder().initialCapacity(wxList.size()).build();
 		if(wxList != null && wxList.size() > 0 ){
-			for(TPMerchantWx merchantWx : wxList){
+			for(WxInfo merchantWx : wxList){
 				//查询对应的奖品信息
 				c.put(merchantWx.getOriginal_id(), merchantWx);
 			}

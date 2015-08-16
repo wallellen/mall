@@ -7,13 +7,12 @@
  
 (defsql getPageMerchantWx
   {
-   :sql "select *  from t_p_merchant_wx  "
+   :sql "select *  from t_wx_info  "
    :where (AND 
-        ("user_id"  "user_id like ?" "%" "%")
-		    ("public_name"  "public_name like ?" "%" "%")
+		   ("public_name"  "public_name like ?" "%" "%")
      
 	)
    :page true
    :orderby true
-   :orderby-default " order by WX_ID "
+   :orderby-default " order by wx_id "
    })
