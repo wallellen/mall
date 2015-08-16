@@ -5,44 +5,42 @@ import java.util.List;
 
 import com.freelywx.common.model.product.TpProduct;
 import com.rps.util.dao.annotation.ColumnIgnore;
-import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_O_ORDER")
+@Table("t_o_order")
 public class Order {
 	@Id
-	@GenerateByDb
 	private Integer order_id;
+
+	private Integer site_id;
 
 	private String order_type;
 
 	private Integer member_id;
 
-	private Integer pay_member_id;
+	private Integer level;
 
-	private Integer member_level;
-
+	/**订购商品的种类数量*/
 	private Integer type_amount;
 
 	private Integer prod_amount;
 
-	private Integer total_prod_price;
+	/**参考总价*/
+	private Integer retail_price;
 
-	private Integer total_discount_price;
+	private Integer amount_price;
+
+	private Integer discount_price;
+
+	/**积分抵用金额*/
+	private Integer integral_price;
 
 	private Integer total_coupon_price;
 
 	private Integer transit_price;
 
-	/** 实际需要支付总金额 */
 	private Integer payment_price;
-
-	/** 已经支付金额 */
-	private Integer payed_amount;
-
-	/** 预定金额（众筹已经预定但是没有完成支付的金额） */
-	private Integer reserve_amount;
 
 	private String payment_type;
 
@@ -52,7 +50,7 @@ public class Order {
 
 	private String shipper;
 
-	/** 工作日（周一至周五），双休（周六、周日），所有时间段 */
+	/**工作日（周一至周五），双休（周六、周日），所有时间段*/
 	private String payment_delivery;
 
 	private String address;
@@ -69,9 +67,9 @@ public class Order {
 
 	private Date payment_time;
 
-	private Date sender_time;
+	private Date send_time;
 
-	private Date receiver_time;
+	private Date receive_time;
 
 	private String invoice_type;
 
@@ -81,28 +79,23 @@ public class Order {
 
 	private String order_status;
 
-	private Date last_update_time;
+	private Date update_time;
 
-	/** 门店编号 */
-	private Integer store_id;
+	/**是否返还积分*/
+	private String is_return;
 
-	/** 留言信息 */
-	private String message;
+	/**总返还数量*/
+	private Integer integral_num;
 
-	/** 类型（预留） */
-	private String type;
+	private String cycle_id;
 
-	private Integer share_id;
+	/**返还周期*/
+	private Integer cycle_num;
 
-	private String ext1;
-
-	private String ext2;
-
-	private String ext3;
-
-	private String ext4;
-
-	private String ext5;
+	/**是否计算返还任务*/
+	private String is_computed;
+	@ColumnIgnore
+	private String nickname;
 	
 	@ColumnIgnore
 	private List<TpProduct> prodList;
@@ -123,6 +116,14 @@ public class Order {
 		this.order_type = order_type;
 	}
 
+	public Integer getSite_id() {
+		return site_id;
+	}
+
+	public void setSite_id(Integer site_id) {
+		this.site_id = site_id;
+	}
+
 	public Integer getMember_id() {
 		return member_id;
 	}
@@ -131,20 +132,12 @@ public class Order {
 		this.member_id = member_id;
 	}
 
-	public Integer getPay_member_id() {
-		return pay_member_id;
+	public Integer getLevel() {
+		return level;
 	}
 
-	public void setPay_member_id(Integer pay_member_id) {
-		this.pay_member_id = pay_member_id;
-	}
-
-	public Integer getMember_level() {
-		return member_level;
-	}
-
-	public void setMember_level(Integer member_level) {
-		this.member_level = member_level;
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 
 	public Integer getType_amount() {
@@ -163,20 +156,36 @@ public class Order {
 		this.prod_amount = prod_amount;
 	}
 
-	public Integer getTotal_prod_price() {
-		return total_prod_price;
+	public Integer getRetail_price() {
+		return retail_price;
 	}
 
-	public void setTotal_prod_price(Integer total_prod_price) {
-		this.total_prod_price = total_prod_price;
+	public void setRetail_price(Integer retail_price) {
+		this.retail_price = retail_price;
 	}
 
-	public Integer getTotal_discount_price() {
-		return total_discount_price;
+	public Integer getAmount_price() {
+		return amount_price;
 	}
 
-	public void setTotal_discount_price(Integer total_discount_price) {
-		this.total_discount_price = total_discount_price;
+	public void setAmount_price(Integer amount_price) {
+		this.amount_price = amount_price;
+	}
+
+	public Integer getDiscount_price() {
+		return discount_price;
+	}
+
+	public void setDiscount_price(Integer discount_price) {
+		this.discount_price = discount_price;
+	}
+
+	public Integer getIntegral_price() {
+		return integral_price;
+	}
+
+	public void setIntegral_price(Integer integral_price) {
+		this.integral_price = integral_price;
 	}
 
 	public Integer getTotal_coupon_price() {
@@ -201,22 +210,6 @@ public class Order {
 
 	public void setPayment_price(Integer payment_price) {
 		this.payment_price = payment_price;
-	}
-
-	public Integer getPayed_amount() {
-		return payed_amount;
-	}
-
-	public void setPayed_amount(Integer payed_amount) {
-		this.payed_amount = payed_amount;
-	}
-
-	public Integer getReserve_amount() {
-		return reserve_amount;
-	}
-
-	public void setReserve_amount(Integer reserve_amount) {
-		this.reserve_amount = reserve_amount;
 	}
 
 	public String getPayment_type() {
@@ -315,20 +308,20 @@ public class Order {
 		this.payment_time = payment_time;
 	}
 
-	public Date getSender_time() {
-		return sender_time;
+	public Date getSend_time() {
+		return send_time;
 	}
 
-	public void setSender_time(Date sender_time) {
-		this.sender_time = sender_time;
+	public void setSend_time(Date send_time) {
+		this.send_time = send_time;
 	}
 
-	public Date getReceiver_time() {
-		return receiver_time;
+	public Date getReceive_time() {
+		return receive_time;
 	}
 
-	public void setReceiver_time(Date receiver_time) {
-		this.receiver_time = receiver_time;
+	public void setReceive_time(Date receive_time) {
+		this.receive_time = receive_time;
 	}
 
 	public String getInvoice_type() {
@@ -363,84 +356,60 @@ public class Order {
 		this.order_status = order_status;
 	}
 
-	public Date getLast_update_time() {
-		return last_update_time;
+	public Date getUpdate_time() {
+		return update_time;
 	}
 
-	public void setLast_update_time(Date last_update_time) {
-		this.last_update_time = last_update_time;
+	public void setUpdate_time(Date update_time) {
+		this.update_time = update_time;
 	}
 
-	public Integer getStore_id() {
-		return store_id;
+	public String getIs_return() {
+		return is_return;
 	}
 
-	public void setStore_id(Integer store_id) {
-		this.store_id = store_id;
+	public void setIs_return(String is_return) {
+		this.is_return = is_return;
 	}
 
-	public String getMessage() {
-		return message;
+	public Integer getIntegral_num() {
+		return integral_num;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setIntegral_num(Integer integral_num) {
+		this.integral_num = integral_num;
 	}
 
-	public String getType() {
-		return type;
+	public String getCycle_id() {
+		return cycle_id;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setCycle_id(String cycle_id) {
+		this.cycle_id = cycle_id;
 	}
 
-	public Integer getShare_id() {
-		return share_id;
+	public Integer getCycle_num() {
+		return cycle_num;
 	}
 
-	public void setShare_id(Integer share_id) {
-		this.share_id = share_id;
+	public void setCycle_num(Integer cycle_num) {
+		this.cycle_num = cycle_num;
 	}
 
-	public String getExt1() {
-		return ext1;
+	public String getIs_computed() {
+		return is_computed;
 	}
 
-	public void setExt1(String ext1) {
-		this.ext1 = ext1;
+	public void setIs_computed(String is_computed) {
+		this.is_computed = is_computed;
+	}
+	
+	public String getNickname() {
+		return nickname;
 	}
 
-	public String getExt2() {
-		return ext2;
-	}
-
-	public void setExt2(String ext2) {
-		this.ext2 = ext2;
-	}
-
-	public String getExt3() {
-		return ext3;
-	}
-
-	public void setExt3(String ext3) {
-		this.ext3 = ext3;
-	}
-
-	public String getExt4() {
-		return ext4;
-	}
-
-	public void setExt4(String ext4) {
-		this.ext4 = ext4;
-	}
-
-	public String getExt5() {
-		return ext5;
-	}
-
-	public void setExt5(String ext5) {
-		this.ext5 = ext5;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public List<TpProduct> getProdList() {
@@ -450,6 +419,6 @@ public class Order {
 	public void setProdList(List<TpProduct> prodList) {
 		this.prodList = prodList;
 	}
-	
+
 	
 }

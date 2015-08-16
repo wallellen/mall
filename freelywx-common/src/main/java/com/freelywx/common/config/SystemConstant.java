@@ -32,6 +32,16 @@ public class SystemConstant {
 		/** 视频 **/
 		public static final String VIDEO = "2";
 	}
+	
+	/** 时间类型 **/
+	public static class DateType {
+		/** 系统级 **/
+		public static final String DAY = "1";
+		/** 业务级 **/
+		public static final String WEEK = "2";
+		/** 业务级 **/
+		public static final String MONTH = "3";
+	}
 
 	/** 字典类型 **/
 	public static class DictType {

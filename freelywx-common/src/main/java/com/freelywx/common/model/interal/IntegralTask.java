@@ -2,12 +2,14 @@ package com.freelywx.common.model.interal;
 
 import java.util.Date;
 
+import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
 @Table("t_integral_task")
 public class IntegralTask {
 	@Id
+	@GenerateByDb
 	private Integer id;
 
 	private Integer member_id;

@@ -82,7 +82,7 @@ public class TpProduct {
 	private Integer integral_num;
 
 	/** 积分周期 */
-	private Integer cycle_id;
+	private String cycle_id;
 
 	private Integer cycle_num;
 
@@ -332,11 +332,11 @@ public class TpProduct {
 		this.integral_num = integral_num;
 	}
 
-	public Integer getCycle_id() {
+	public String getCycle_id() {
 		return cycle_id;
 	}
 
-	public void setCycle_id(Integer cycle_id) {
+	public void setCycle_id(String cycle_id) {
 		this.cycle_id = cycle_id;
 	}
 
