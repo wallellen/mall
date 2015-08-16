@@ -6,18 +6,31 @@ import com.rps.util.dao.annotation.Table;
 
 @Table("T_P_PROD_CATEGORY")
 public class TpProdCategory {
-	@GenerateByDb
+	/** 主键 */
 	@Id
-	private Integer prod_catagory_id;
-	private Integer category_id;
+	@GenerateByDb
+	private Integer id;
+
+	/** 属性ID */
 	private Integer prod_id;
 
-	public Integer getProd_catagory_id() {
-		return prod_catagory_id;
+	/** 分类ID */
+	private Integer category_id;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setProd_catagory_id(Integer prod_catagory_id) {
-		this.prod_catagory_id = prod_catagory_id;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getProd_id() {
+		return prod_id;
+	}
+
+	public void setProd_id(Integer prod_id) {
+		this.prod_id = prod_id;
 	}
 
 	public Integer getCategory_id() {
@@ -28,11 +41,4 @@ public class TpProdCategory {
 		this.category_id = category_id;
 	}
 
-	public Integer getProd_id() {
-		return prod_id;
-	}
-
-	public void setProd_id(Integer prod_id) {
-		this.prod_id = prod_id;
-	}
 }

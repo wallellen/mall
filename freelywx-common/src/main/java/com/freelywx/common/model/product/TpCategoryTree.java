@@ -6,18 +6,30 @@ import com.rps.util.dao.annotation.Table;
 
 @Table("T_P_CATEGORY_TREE")
 public class TpCategoryTree {
-	@GenerateByDb
 	@Id
-	private Integer category_tree_id;
-	private Integer category_id;
-	private Integer child_category_id;
+	@GenerateByDb
+	private Integer id;
 
-	public Integer getCategory_tree_id() {
-		return category_tree_id;
+	/** 子分类ID */
+	private Integer child_id;
+
+	/** 分类ID */
+	private Integer category_id;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setCategory_tree_id(Integer category_tree_id) {
-		this.category_tree_id = category_tree_id;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getChild_id() {
+		return child_id;
+	}
+
+	public void setChild_id(Integer child_id) {
+		this.child_id = child_id;
 	}
 
 	public Integer getCategory_id() {
@@ -26,14 +38,6 @@ public class TpCategoryTree {
 
 	public void setCategory_id(Integer category_id) {
 		this.category_id = category_id;
-	}
-
-	public Integer getChild_category_id() {
-		return child_category_id;
-	}
-
-	public void setChild_category_id(Integer child_category_id) {
-		this.child_category_id = child_category_id;
 	}
 
 }

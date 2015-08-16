@@ -7,7 +7,7 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_MENUE")
+@Table("t_sys_menue")
 public class SysMenue {
 	@Id
 	@GenerateByDb

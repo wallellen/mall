@@ -7,25 +7,49 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_CATEGORY")
-public class TpCategory{
-	@GenerateByDb
+@Table("t_p_category")
+public class TpCategory {
+	/** 目录ID。主键 */
 	@Id
+	@GenerateByDb
 	private Integer category_id;
-	private Integer parent_category_id;
+
+	private Integer par_category_id;
+
+	/** 目录名称 */
 	private String category_name;
+
+	/** 目录状态 */
 	private String status;
+
+	/** 目录对应链接 */
 	private String category_url;
-	private Integer display_order;
+
+	/** 目录显示顺序 */
+	private Integer sort;
+
 	private Date active_start_date;
+
 	private Date active_end_date;
-	private String description;
+
+	/** 说明 */
+	private String remark;
+
+	/** 显示模板。可以控制在页面上面显示的样式 */
 	private String display_template;
+
+	/** 图片URL.图片目录的URL */
 	private String img_url;
+
 	private Date create_time;
-	private Integer created_by;
-	private Date last_update_time;
-	private Integer last_updated_by;
+
+	private Integer create_by;
+
+	/** 最后修改时间 */
+	private Date update_time;
+
+	/** 最后一次编辑人 */
+	private Integer update_by;
 	@ColumnIgnore
 	private String pName;
 
@@ -37,12 +61,12 @@ public class TpCategory{
 		this.category_id = category_id;
 	}
 
-	public Integer getParent_category_id() {
-		return parent_category_id;
+	public Integer getPar_category_id() {
+		return par_category_id;
 	}
 
-	public void setParent_category_id(Integer parent_category_id) {
-		this.parent_category_id = parent_category_id;
+	public void setPar_category_id(Integer par_category_id) {
+		this.par_category_id = par_category_id;
 	}
 
 	public String getCategory_name() {
@@ -69,12 +93,12 @@ public class TpCategory{
 		this.category_url = category_url;
 	}
 
-	public Integer getDisplay_order() {
-		return display_order;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setDisplay_order(Integer display_order) {
-		this.display_order = display_order;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	public Date getActive_start_date() {
@@ -93,12 +117,12 @@ public class TpCategory{
 		this.active_end_date = active_end_date;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public String getDisplay_template() {
@@ -125,28 +149,28 @@ public class TpCategory{
 		this.create_time = create_time;
 	}
 
-	public Integer getCreated_by() {
-		return created_by;
+	public Integer getCreate_by() {
+		return create_by;
 	}
 
-	public void setCreated_by(Integer created_by) {
-		this.created_by = created_by;
+	public void setCreate_by(Integer create_by) {
+		this.create_by = create_by;
 	}
 
-	public Date getLast_update_time() {
-		return last_update_time;
+	public Date getUpdate_time() {
+		return update_time;
 	}
 
-	public void setLast_update_time(Date last_update_time) {
-		this.last_update_time = last_update_time;
+	public void setUpdate_time(Date update_time) {
+		this.update_time = update_time;
 	}
 
-	public Integer getLast_updated_by() {
-		return last_updated_by;
+	public Integer getUpdate_by() {
+		return update_by;
 	}
 
-	public void setLast_updated_by(Integer last_updated_by) {
-		this.last_updated_by = last_updated_by;
+	public void setUpdate_by(Integer update_by) {
+		this.update_by = update_by;
 	}
 
 	public String getpName() {
@@ -156,6 +180,5 @@ public class TpCategory{
 	public void setpName(String pName) {
 		this.pName = pName;
 	}
-	
-	
+
 }

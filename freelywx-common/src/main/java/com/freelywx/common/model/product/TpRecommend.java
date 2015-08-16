@@ -4,15 +4,21 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_RECOMMEND")
+@Table("t_p_recommend")
 public class TpRecommend {
-	@GenerateByDb
+	/** 主键 */
 	@Id
+	@GenerateByDb
 	private Integer recommend_id;
-	private Integer prod_type_id;
+
+	/** 标签类型 */
+	private Integer tag_id;
+
 	private Integer prod_id;
+
 	private Integer sort;
-	private String description;
+
+	private String desc;
 
 	public Integer getRecommend_id() {
 		return recommend_id;
@@ -22,12 +28,12 @@ public class TpRecommend {
 		this.recommend_id = recommend_id;
 	}
 
-	public Integer getProd_type_id() {
-		return prod_type_id;
+	public Integer getTag_id() {
+		return tag_id;
 	}
 
-	public void setProd_type_id(Integer prod_type_id) {
-		this.prod_type_id = prod_type_id;
+	public void setTag_id(Integer tag_id) {
+		this.tag_id = tag_id;
 	}
 
 	public Integer getProd_id() {
@@ -46,11 +52,12 @@ public class TpRecommend {
 		this.sort = sort;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
+
 }

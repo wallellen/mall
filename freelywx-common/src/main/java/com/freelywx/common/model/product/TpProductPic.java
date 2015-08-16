@@ -4,22 +4,26 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_PRODUCT_PIC")
+@Table("t_p_prod_pic")
 public class TpProductPic {
-	@GenerateByDb
 	@Id
-	private Integer prod_pic_id;
+	@GenerateByDb
+	private Integer id;
+
 	private Integer prod_id;
-	private String pic_url;
-	private String pic_desc;
+
+	private String url;
+
+	private String remark;
+
 	private Integer sort;
 
-	public Integer getProd_pic_id() {
-		return prod_pic_id;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setProd_pic_id(Integer prod_pic_id) {
-		this.prod_pic_id = prod_pic_id;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getProd_id() {
@@ -30,20 +34,20 @@ public class TpProductPic {
 		this.prod_id = prod_id;
 	}
 
-	public String getPic_url() {
-		return pic_url;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setPic_url(String pic_url) {
-		this.pic_url = pic_url;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
-	public String getPic_desc() {
-		return pic_desc;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setPic_desc(String pic_desc) {
-		this.pic_desc = pic_desc;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Integer getSort() {

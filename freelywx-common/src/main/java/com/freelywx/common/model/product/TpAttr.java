@@ -7,35 +7,44 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_ATTR")
+@Table("t_p_attr")
 public class TpAttr {
-	@GenerateByDb
+	/** 属性ID */
 	@Id
+	@GenerateByDb
 	private Integer attr_id;
+
 	private String attr_name;
+
 	private String status;
-	private Integer display_order;
+
+	/** 显示顺序 */
+	private Integer sort;
+
+	/** 1静态属性；2动态属性 */
 	private String attr_type;
+
+	/** 属性类型为单位属性的时候，对应的单位资源的ID.在也页面以下拉选择框供选择。 */
 	private String res_id;
-	private String description;
+
+	/** 说明 */
+	private String remark;
+
 	private Date create_time;
-	private Integer created_by;
-	private Date last_update_time;
-	private Integer last_updated_by;
-	
-	@ColumnIgnore
-	private String resName; //资源单位名称。从dict中取值
-	
-	@ColumnIgnore
-	private String attrValue;//属性值
 
-	public String getAttrValue() {
-		return attrValue;
-	}
+	private Integer create_by;
 
-	public void setAttrValue(String attrValue) {
-		this.attrValue = attrValue;
-	}
+	/** 最后修改时间 */
+	private Date update_time;
+
+	/** 最后一次编辑人 */
+	private Integer update_by;
+
+	@ColumnIgnore
+	private String resName; // 资源单位名称。从dict中取值
+
+	@ColumnIgnore
+	private String attrValue;// 属性值
 
 	public Integer getAttr_id() {
 		return attr_id;
@@ -61,12 +70,12 @@ public class TpAttr {
 		this.status = status;
 	}
 
-	public Integer getDisplay_order() {
-		return display_order;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setDisplay_order(Integer display_order) {
-		this.display_order = display_order;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	public String getAttr_type() {
@@ -85,12 +94,12 @@ public class TpAttr {
 		this.res_id = res_id;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Date getCreate_time() {
@@ -101,28 +110,28 @@ public class TpAttr {
 		this.create_time = create_time;
 	}
 
-	public Integer getCreated_by() {
-		return created_by;
+	public Integer getCreate_by() {
+		return create_by;
 	}
 
-	public void setCreated_by(Integer created_by) {
-		this.created_by = created_by;
+	public void setCreate_by(Integer create_by) {
+		this.create_by = create_by;
 	}
 
-	public Date getLast_update_time() {
-		return last_update_time;
+	public Date getUpdate_time() {
+		return update_time;
 	}
 
-	public void setLast_update_time(Date last_update_time) {
-		this.last_update_time = last_update_time;
+	public void setUpdate_time(Date update_time) {
+		this.update_time = update_time;
 	}
 
-	public Integer getLast_updated_by() {
-		return last_updated_by;
+	public Integer getUpdate_by() {
+		return update_by;
 	}
 
-	public void setLast_updated_by(Integer last_updated_by) {
-		this.last_updated_by = last_updated_by;
+	public void setUpdate_by(Integer update_by) {
+		this.update_by = update_by;
 	}
 
 	public String getResName() {
@@ -132,5 +141,13 @@ public class TpAttr {
 	public void setResName(String resName) {
 		this.resName = resName;
 	}
-	
+
+	public String getAttrValue() {
+		return attrValue;
+	}
+
+	public void setAttrValue(String attrValue) {
+		this.attrValue = attrValue;
+	}
+
 }

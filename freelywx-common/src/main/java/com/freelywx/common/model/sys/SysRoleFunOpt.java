@@ -3,7 +3,7 @@ package com.freelywx.common.model.sys;
 import com.rps.util.dao.annotation.Pk;
 import com.rps.util.dao.annotation.Table;
 
-@Table("t_sts_role_fun_opt")
+@Table("t_sys_role_fun_opt")
 public class SysRoleFunOpt {
 
 	@Pk

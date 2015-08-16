@@ -4,14 +4,14 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_P_CATEGORY_ATTR")
+@Table("t_p_category_attr")
 public class TpCategoryAttr {
 	@GenerateByDb
 	@Id
 	private Integer category_attr_id;
 	private Integer attr_id;
 	private Integer category_id;
-	private Integer display_order;
+	private Integer sort;
 
 	public Integer getCategory_attr_id() {
 		return category_attr_id;
@@ -37,11 +37,12 @@ public class TpCategoryAttr {
 		this.category_id = category_id;
 	}
 
-	public Integer getDisplay_order() {
-		return display_order;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setDisplay_order(Integer display_order) {
-		this.display_order = display_order;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
+
 }
