@@ -22,19 +22,19 @@
                 <tr>
                     <td style="width:100px;">品牌名称：</td>
                     <td style="width:150px;">    
-                        <input name="brand_name" class="mini-textbox" required="true" onvalidation="checkCnName" emptyText="请输入品牌名称"/>
+                        <input name="name" class="mini-textbox" required="true" onvalidation="checkCnName" emptyText="请输入品牌名称"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width:100px;">英文名称：</td>
                     <td style="width:150px;">    
-                        <input name="brand_name_en" class="mini-textbox" required="true" onvalidation="checkEnName" emptyText="请输入品牌名称"/>
+                        <input name="name_en" class="mini-textbox" required="true" onvalidation="checkEnName" emptyText="请输入品牌名称"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width:100px;">品牌排序：</td>
                     <td style="width:150px;">    
-                        <input name="display_order" class="mini-textbox" vtype="int"/>
+                        <input name="sort" class="mini-textbox" vtype="int"/>
                     </td>
                 </tr>
                 <tr>
@@ -48,7 +48,7 @@
                 <tr>
                     <td>品牌说明：</td>
                     <td>    
-                        <input name="description"  class="mini-textArea"  style="width: 300px;"  />
+                        <input name="remark"  class="mini-textArea"  style="width: 300px;"  />
                     </td>
                 </tr> 
             </table>

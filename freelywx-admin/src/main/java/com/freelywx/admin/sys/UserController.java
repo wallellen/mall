@@ -73,9 +73,9 @@ public class UserController {
 		String login_id = request.getParameter("login_id");
 		SysUser user;
 		if(!"".equals(user_name)){
-			user = D.sql("select * from T_P_USER where LOGIN_ID = ? and user_name != ?").oneOrNull(SysUser.class, login_id,user_name);
+			user = D.sql("select * from t_sys_user where login_id = ? and user_name != ?").oneOrNull(SysUser.class, login_id,user_name);
 		}else{
-			user = D.sql("select * from T_P_USER where LOGIN_ID = ?").oneOrNull(SysUser.class, login_id);
+			user = D.sql("select * from t_sys_user where login_id = ?").oneOrNull(SysUser.class, login_id);
 		}
 		if(user == null){
 			return true;
@@ -169,9 +169,9 @@ public class UserController {
 	public List<Map<String, Object>> getAllUserGroup(@PathVariable("userId") Integer userId){
 		// 1、查询出所有用户组
 //		List<UserGroup> userGroupList = userGroupService.selectByExample(null);
-		List<SysUserGroup> userGroupList = D.sql("select * from   T_P_USER_GRP  ").many(SysUserGroup.class);
+		List<SysUserGroup> userGroupList = D.sql("select * from   t_sys_user_grp  ").many(SysUserGroup.class);
 		// 2、找出与用户组关联的信息
-		List<SysUserGroupUser> keyList = D.sql("select * from   T_P_USER_GRP_USER where user_id = ?  ").many(SysUserGroupUser.class,userId);
+		List<SysUserGroupUser> keyList = D.sql("select * from   t_sys_user_role where user_id = ?  ").many(SysUserGroupUser.class,userId);
 		// 3、将与用户关联的用户组信息保存到Set中
 		Set<Integer> userGroupUserSet = Sets.newHashSet();
 		for (SysUserGroupUser key : keyList) {
@@ -203,7 +203,7 @@ public class UserController {
 				public Object call() {
 					// TODO Auto-generated method stub
 					// 1、删除已绑定的用户组信息
-					D.sql("delete from  T_P_USER_GRP_USER where user_id = ?").update(userId);
+					D.sql("delete from  t_sys_user_role where user_id = ?").update(userId);
 					// 2、添加用户组用户
 					if(boundInfos!=null){
 						for(Integer grpId : boundInfos){
@@ -231,9 +231,9 @@ public class UserController {
 	public List<Map<String, Object>> getAllRole(
 			@PathVariable("uesrId") Long uesrId) {
 		// 1、查询出所有角色
-		List<SysRole> roleList = D.sql("select * from T_P_ROLE where user_type = ? ").many(SysRole.class,SystemConstant.UserType.SYSTEM_USER);
+		List<SysRole> roleList = D.sql("select * from t_sys_role where user_type = ? ").many(SysRole.class,SystemConstant.UserType.SYSTEM_USER);
 		// 2、找出与用户角色关联的信息
-		List<SysUserRole> keyList = D.sql("select * from T_P_USER_ROLE where user_id = ?").many(SysUserRole.class,uesrId);
+		List<SysUserRole> keyList = D.sql("select * from t_sys_user_role where user_id = ?").many(SysUserRole.class,uesrId);
 		
 		// 3、将与用户关联的角色编号保存到Set集合中
 		Set<Integer> roleIdSet = Sets.newHashSet();
@@ -268,7 +268,7 @@ public class UserController {
 				public Object call() {
 					// TODO Auto-generated method stub
 					// 1、删除已绑定的用户组信息
-					D.sql("delete from  T_P_USER_ROLE where user_id = ?").update(userId);
+					D.sql("delete from  t_sys_user_role where user_id = ?").update(userId);
 					// 2、添加用户组用户
 					if(boundInfos!=null){
 						for(Integer roleId : boundInfos){

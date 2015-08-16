@@ -17,7 +17,7 @@
 	<input name="server_url" id="server_url" class="mini-hidden" value="${server_url }" />
 	 <form id="form1" method="post">
         <input name="category_id" id="category_id" class="mini-hidden" />
-        <input name="parent_category_id" id="parent_category_id" class="mini-hidden" />
+        <input name="par_category_id" id="par_category_id" class="mini-hidden" />
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
                 <tr>
@@ -35,7 +35,7 @@
                 <tr>
                      <td>排序：</td>
                      <td>    
-                         <input name="display_order" class="mini-textbox" vtype="int"/>
+                         <input name="sort" class="mini-textbox" vtype="int"/>
                      </td>
                 </tr>
                 <tr>
@@ -49,7 +49,7 @@
                 <tr>
                     <td>分类描述：</td>
                     <td>    
-                        <input name="description"  class="mini-textArea"  style="width: 300px;"  />
+                        <input name="remark"  class="mini-textArea"  style="width: 300px;"  />
                     </td>
                 </tr>
             </table>
@@ -97,7 +97,7 @@
         function opeoTreeWindow() {
             var btnEdit = this;
             mini.open({
-                url: "${ctx}/prodCate/selectCategory?id="+mini.get("category_id").getValue()+"&pid="+ mini.get("parent_category_id").getValue(),
+                url: "${ctx}/prodCate/selectCategory?id="+mini.get("category_id").getValue()+"&pid="+ mini.get("par_category_id").getValue(),
                 showMaxButton: false,
                 title: "选择上级分类",
                 width: 350,
@@ -108,7 +108,7 @@
                         var data = iframe.contentWindow.GetData();
                         data = mini.clone(data);
                         if (data) {
-                            mini.get("parent_category_id").setValue(data.category_id);
+                            mini.get("par_category_id").setValue(data.category_id);
                             btnEdit.setValue(data.category_name);
                             btnEdit.setText(data.category_name);
                         }
@@ -140,7 +140,7 @@
                         var o = mini.decode(text);
                         form.setData(o);
                         //父级分类的填充
-                        mini.get("parent_category_id").setValue(o.parent_category_id);
+                        mini.get("par_category_id").setValue(o.par_category_id);
                         mini.get("buttonedit").setValue(o.pName);
                         mini.get("buttonedit").setText(o.pName);
                         var url = (mini.get("server_url").getValue()+o.category_url).replace("\"","");
@@ -151,7 +151,7 @@
             }else{
             	var pid=data.pid?data.pid:1;
             	var pname=data.pname?data.pname:"产品分类";
-            	mini.get("parent_category_id").setValue(pid);
+            	mini.get("par_category_id").setValue(pid);
             	
             	mini.get("buttonedit").setText(pname);
             	mini.get("buttonedit").setValue(pname);

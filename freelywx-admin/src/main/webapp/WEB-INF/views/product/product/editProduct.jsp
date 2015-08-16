@@ -53,12 +53,9 @@ html,body {
 						</tr>
 						<tr>
 							<td>商品产地：</td>
-							<td><input name="origin" class="mini-textbox"
+							<td  colspan="3"><input name="origin" class="mini-textbox"
 								required="true" width="250px" /></td>
-							<td style="width: 100px;">商品价格(元)：</td>
-							<td><input id="sale_price_float" class="mini-textbox"
-								onvalidation="checkSaleMoney" required="true" width="250px" /> <input
-								name="sale_price" id="sale_price" class="mini-hidden" /></td>
+							
 						</tr>
 						<tr>
 							<td style="width: 100px;">生效时间：</td>
@@ -75,12 +72,28 @@ html,body {
 							<td style="width: 100px;">是否免运费：</td>
 							<td><input name="free_shipping" id="free_shipping"
 								class="mini-comboBox"
-								url="${ctx}/comboBox/dictDetail?dictKey=COMMON_BOOLEAN_STATUS"
+								url="${ctx}/combox/dict/YESORNO"
 								required="true" onvaluechanged="onTypeChanged" width="250px" />
 							</td>
-							<td style="width: 100px;">库存：</td>
-							<td><input name="stock" class="mini-textbox" required="true"
-								vtype="int" width="250px" /></td>
+							<td>是否返积分：</td>
+							<td> 
+								<input name="is_return" id="is_return"
+								class="mini-comboBox"
+								url="${ctx}/combox/dict/YESORNO"
+								required="true" onvaluechanged="onReturnChanged" width="250px" />
+							</td>
+						</tr>
+						<tr id="integralDiv" style="display: none">
+							<td>返还类型：</td>
+							<td>
+								<input name="cycle_id" id="cycle_id"
+								class="mini-comboBox"
+								url="${ctx}/integral/type/comboBox"  width="250px" />
+							</td>
+							<td>返还周期：</td>
+							<td> 
+								<input id="cycle_num" name="cycle_num"	class="mini-textbox"  width="250px"  />
+							</td>
 						</tr>
 						<tr id="prodFreigh" style="display: none">
 							<td style="width: 100px;">商品运费(元)：</td>
@@ -93,15 +106,17 @@ html,body {
 							<td>商品品牌：</td>
 							<td><input name="brand_id" class="mini-comboBox"
 								url="${ctx}/comboBox/brand" width="250px" /></td>
-							<td>剩余数量：</td>
-							<td><input name="remain_num" class="mini-textbox"
-								required="true" vtype="int" width="250px" /></td>
+							<td>排序：</td>
+							<td><input name="sort" class="mini-textbox"
+								vtype="int" value="0" required="true" width="250px" /></td>
+							
 						</tr>
 						<tr>
-							<td>排序：</td>
-							<td><input name="display_order" class="mini-textbox"
-								vtype="int" value="0" required="true" width="250px" /></td>
-							<td style="width: 100px;">商品原价(元)：</td>
+							<td style="width: 100px;">商品价格(元)：</td>
+							<td><input id="sale_price_float" class="mini-textbox"
+								onvalidation="checkSaleMoney" required="true" width="250px" /> <input
+								name="sale_price" id="sale_price" class="mini-hidden" /></td>
+							<td style="width: 100px;">商品原价(元)：</td>	
 							<td><input id="retail_price_float" class="mini-textbox"
 								onvalidation="checkRetailMoney" required="true" width="250px" />
 								<input name="retail_price" id="retail_price" class="mini-hidden" />
@@ -109,14 +124,14 @@ html,body {
 						</tr>
 						<tr>
 							<td style="width: 100px;">商品描述：</td>
-							<td colspan="3"><input name="description"
+							<td colspan="3"><input name="remark"
 								class="mini-textArea" style="width: 550px; height: 100px;"
 								required="true" /></td>
 						</tr>
 						<tr>
 							<td style="width: 100px;">功能描述：</td>
-							<td colspan="3"><input id="long_description"
-								name="long_description" class="mini-hidden"
+							<td colspan="3"><input id="long_remark"
+								name="long_remark" class="mini-hidden"
 								style="width: 550px; height: 100px;" required="true" /> <script
 									id="editor" charset="UTF-8" type="text/plain"
 									style="width: 600px; height: 300px;"></script></td>
@@ -324,7 +339,7 @@ html,body {
 
 		});
 		function SaveData() {
-			mini.get("#long_description").setValue(editor.getContent());
+			mini.get("#long_remark").setValue(editor.getContent());
 
 			var o1 = form1.getData(true, false);
 			form1.validate();
@@ -362,7 +377,7 @@ html,body {
 			}
 		}
 		function timeOutFun() {
-			editor.setContent(mini.get("#long_description").getValue());
+			editor.setContent(mini.get("#long_remark").getValue());
 		}
 		//标准方法接口定义
 		function SetData(data) {
@@ -378,6 +393,9 @@ html,body {
 						form1.setData(o);
 						if (o.free_shipping === "2") {
 							$("#prodFreigh").show();
+						}
+						if (o.is_return  === "1") {
+							$("#integralDiv").show();
 						}
 
 						mini.get("sale_price_float").setValue(o.sale_price / 100);
@@ -414,8 +432,8 @@ html,body {
 						for ( var i = 0; i < o.length; i++) {
 							var id = "url_" + (i + 1);
 							var picId = "pic" + (i + 1);
-							var url = ("${server_url}"+o[i].pic_url).replace("\"","");
-							mini.getbyName(id).setValue(o[i].pic_url);
+							var url = ("${server_url}"+o[i].url).replace("\"","");
+							mini.getbyName(id).setValue(o[i].url);
 							$("img[name=" + picId + "]").attr('src', url);
 						}
 					}
@@ -457,6 +475,16 @@ html,body {
 				$("#prodFreigh").show();
 			} else {
 				$("#prodFreigh").hide();
+			}
+			//positionCombo.setValue("");
+		}
+		function onReturnChanged(e) {
+			var text = e.selected.text;
+			//1、文本属性；2、单位属性
+			if (text === "是") {
+				$("#integralDiv").show();
+			} else {
+				$("#integralDiv").hide();
 			}
 			//positionCombo.setValue("");
 		}

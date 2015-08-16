@@ -51,7 +51,7 @@ public class ProdBrandController {
 	@ResponseBody
 	public List<TpCategory> listAll(HttpServletRequest request, HttpServletResponse response) throws 
 			IOException {
-		String sql = "select * from T_P_BRAND order by display_order ";
+		String sql = "select * from t_p_brand order by sort ";
 		return D.sql(sql).many(TpCategory.class);
 	}
 
@@ -61,13 +61,13 @@ public class ProdBrandController {
 		try {
 			ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 			if (brand.getBrand_id() != null) {
-				brand.setLast_update_time(new Date());
-				brand.setLast_updated_by(user.getUser_id());
+				brand.setUpdate_time(new Date());
+				brand.setUpdate_by(user.getUser_id());
 				D.updateWithoutNull(brand);
 			} else {
 				//brand.setBrand_status("");
 				brand.setCreate_time(new Date());
-				brand.setCreated_by(user.getUser_id());
+				brand.setCreate_by(user.getUser_id());
 				D.insert(brand);
 			}
 			return true;
@@ -122,7 +122,7 @@ public class ProdBrandController {
 		final HashMap<String, String> map = new HashMap<String, String>();
 		try {
 			Long brandId = Long.valueOf(request.getParameter("brandId"));
-			List<TpProduct> prodList = D.sql("select * from T_P_PRODUCT where brand_id = ? ").many(TpProduct.class, brandId);
+			List<TpProduct> prodList = D.sql("select * from t_p_product where brand_id = ? ").many(TpProduct.class, brandId);
 			if(prodList.size()>0 ){
 				map.put("status", "1");
 			}else{
@@ -144,12 +144,12 @@ public class ProdBrandController {
 			String brandName =  request.getParameter("brandName") ;
 			String brandId =  request.getParameter("brandId") ;
 			if(!StringUtils.isEmpty(brandId)){
-				List<TpBrand> brandList = D.sql("select * from T_P_BRAND where brand_name = ? and brand_id != ?").many(TpBrand.class, brandName,brandId);
+				List<TpBrand> brandList = D.sql("select * from t_p_brand where name = ? and brand_id != ?").many(TpBrand.class, brandName,brandId);
 				if(brandList.size()>0){
 					return false;
 				}
 			}else{
-				TpBrand brand = D.sql("select * from T_P_BRAND where brand_name = ?").oneOrNull(TpBrand.class, brandName);
+				TpBrand brand = D.sql("select * from t_p_brand where name = ?").oneOrNull(TpBrand.class, brandName);
 				if(brand != null){
 					return false;
 				}
@@ -168,12 +168,12 @@ public class ProdBrandController {
 			String brandEnName =  request.getParameter("brandEnName") ;
 			String brandId =  request.getParameter("brandId") ;
 			if(!StringUtils.isEmpty(brandId)){
-				List<TpBrand> brandList = D.sql("select * from T_P_BRAND where brand_name_en = ? and brand_id != ?").many(TpBrand.class, brandEnName,brandId);
+				List<TpBrand> brandList = D.sql("select * from t_p_brand where name_en = ? and brand_id != ?").many(TpBrand.class, brandEnName,brandId);
 				if(brandList.size()>0){
 					return false;
 				}
 			}else{
-				TpBrand brand = D.sql("select * from T_P_BRAND where brand_name_en = ?").oneOrNull(TpBrand.class, brandEnName);
+				TpBrand brand = D.sql("select * from t_p_brand where name_en = ?").oneOrNull(TpBrand.class, brandEnName);
 				if(brand != null){
 					return false;
 				}

@@ -57,10 +57,10 @@ public class ProdCategoryController {
 		String categoryName = request.getParameter("category_name");
 		String sql;
 		if (StringUtils.isEmpty(categoryName)) {
-			sql = "select * from T_P_CATEGORY   order by display_order ";
+			sql = "select * from t_p_category where par_category_id > 0  order by sort ";
 			return D.sql(sql).many(TpCategory.class);
 		} else {
-			sql = "select * from T_P_CATEGORY where  category_name like ?  order by display_order ";
+			sql = "select * from t_p_category where  par_category_id > 0   and category_name like ?  order by sort ";
 			return D.sql(sql).many(TpCategory.class, "%" + categoryName + "%");
 		}
 	}
@@ -72,10 +72,10 @@ public class ProdCategoryController {
 		String categoryName = request.getParameter("category_name");
 		String sql;
 		if (StringUtils.isEmpty(categoryName)) {
-			sql = "select * from T_P_CATEGORY  where  parent_category_id > 0   order by display_order ";
+			sql = "select * from t_p_category  where  par_category_id > 0   order by sort ";
 			return D.sql(sql).many(TpCategory.class);
 		} else {
-			sql = "select * from T_P_CATEGORY where parent_category_id > 0 and category_name like ?  order by display_order ";
+			sql = "select * from t_p_category where par_category_id > 0 and category_name like ?  order by sort ";
 			return D.sql(sql).many(TpCategory.class, "%" + categoryName + "%");
 		}
 	}
@@ -86,20 +86,20 @@ public class ProdCategoryController {
 		try {
 			ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 			if (category.getCategory_id() != null) {
-				category.setLast_update_time(new Date());
-				category.setLast_updated_by(user.getUser_id());
+				category.setUpdate_time(new Date());
+				category.setUpdate_by(user.getUser_id());
 				D.startTranSaction(new Callable() {
 					@Override
 					public Object call() {
 						// TODO Auto-generated method stub
 						Integer id = category.getCategory_id();
-						Integer pid = category.getParent_category_id();
-						D.sql("DELETE FROM T_P_CATEGORY_TREE   WHERE child_category_id IN (select child_category_id  from (SELECT child_category_id FROM T_P_CATEGORY_TREE  WHERE category_id = ?) p1) AND category_id"
-								+ " IN  (select category_id from ( SELECT category_id FROM T_P_CATEGORY_TREE t3 WHERE t3.child_category_id = ? AND t3.category_id != t3.child_category_id) p2)")
+						Integer pid = category.getPar_category_id();
+						D.sql("DELETE FROM t_p_category_tree   WHERE child_id IN (select child_id  from (SELECT child_id FROM t_p_category_tree  WHERE category_id = ?) p1) AND category_id"
+								+ " IN  (select category_id from ( SELECT category_id FROM t_p_category_tree t3 WHERE t3.child_id = ? AND t3.category_id != t3.child_id) p2)")
 								.update(id, id);
 
-						D.sql("INSERT INTO T_P_CATEGORY_TREE (category_id, child_category_id) SELECT supertree.category_id, subtree.child_category_id FROM T_P_CATEGORY_TREE "
-								+ "AS supertree CROSS JOIN T_P_CATEGORY_TREE AS subtree WHERE supertree.child_category_id = ? AND subtree.category_id = ?")
+						D.sql("INSERT INTO t_p_category_tree (category_id, child_id) SELECT supertree.category_id, subtree.child_id FROM t_p_category_tree "
+								+ "AS supertree CROSS JOIN t_p_category_tree AS subtree WHERE supertree.child_id = ? AND subtree.category_id = ?")
 								.update(pid, id);
 
 						D.updateWithoutNull(category);
@@ -109,7 +109,7 @@ public class ProdCategoryController {
 			} else {
 				category.setStatus(SystemConstant.State.STATE_ENABLE);
 				category.setCreate_time(new Date());
-				category.setCreated_by(user.getUser_id());
+				category.setCreate_by(user.getUser_id());
 				D.startTranSaction(new Callable() {
 					@Override
 					public Object call() {
@@ -118,11 +118,11 @@ public class ProdCategoryController {
 						// 在关系结构表插入数据
 						TpCategoryTree tpCategoryTree = new TpCategoryTree();
 						tpCategoryTree.setCategory_id(cateGoryId);
-						tpCategoryTree.setChild_category_id(cateGoryId);
+						tpCategoryTree.setChild_id(cateGoryId);
 						D.insert(tpCategoryTree);
-						if (category.getParent_category_id() != null) {
-							D.sql("INSERT INTO T_P_CATEGORY_TREE (category_id, child_category_id) SELECT t.category_id, ? FROM T_P_CATEGORY_TREE AS t WHERE t.child_category_id = ?")
-									.update(cateGoryId, category.getParent_category_id());
+						if (category.getPar_category_id() != null) {
+							D.sql("INSERT INTO t_p_category_tree (category_id, child_id) SELECT t.category_id, ? FROM t_p_category_tree AS t WHERE t.child_id = ?")
+									.update(cateGoryId, category.getPar_category_id());
 						}
 						return null;
 					}
@@ -160,7 +160,7 @@ public class ProdCategoryController {
 				@Override
 				public Object call() {
 					// 先删除原有的关系
-					D.sql("delete   from T_P_CATEGORY_ATTR where category_id = ?").update(categoryId);
+					D.sql("delete   from t_p_category_attr where category_id = ?").update(categoryId);
 					String[] ids = attrIds.split(",");
 					int num = 0;
 					for (String id : ids) {
@@ -168,7 +168,7 @@ public class ProdCategoryController {
 							TpCategoryAttr tpca = new TpCategoryAttr();
 							tpca.setAttr_id(Integer.parseInt(id));
 							tpca.setCategory_id(categoryId);
-							tpca.setDisplay_order(++num);
+							tpca.setSort(++num);
 							D.insert(tpca);
 						}
 					}
@@ -217,10 +217,10 @@ public class ProdCategoryController {
 		try {
 			final Long categoryId = Long.valueOf(request.getParameter("categoryId"));
 			// 查询该分类是否绑定产品
-			List<TpProduct> prodList = D.sql("select * from T_P_PRODUCT where category_id = ?").many(TpProduct.class,
+			List<TpProduct> prodList = D.sql("select * from t_p_product where category_id = ?").many(TpProduct.class,
 					categoryId);
 			// 查询是否有子分类
-			List<TpCategory> cateList = D.sql("select * from T_P_CATEGORY where parent_category_id = ?").many(
+			List<TpCategory> cateList = D.sql("select * from t_p_category where par_category_id = ?").many(
 					TpCategory.class, categoryId);
 			if (prodList.size() > 0) {
 				map.put("status", "1");
@@ -232,7 +232,7 @@ public class ProdCategoryController {
 					public Object call() {
 						// TODO Auto-generated method stub
 						D.deleteById(TpCategory.class, categoryId);
-						D.sql("delete from T_P_CATEGORY_TREE where child_category_id = ?").update(categoryId);
+						D.sql("delete from t_p_category_tree where child_id = ?").update(categoryId);
 						map.put("status", "3");
 						return null;
 					}
@@ -255,13 +255,13 @@ public class ProdCategoryController {
 			String categoryId = request.getParameter("categoryId");
 			if (!StringUtils.isEmpty(categoryId)) {
 				List<TpCategory> categoryList = D.sql(
-						"select * from T_P_CATEGORY where category_name = ? and category_id != ?").many(
+						"select * from t_p_category where category_name = ? and category_id != ?").many(
 						TpCategory.class, categoryName, categoryId);
 				if (categoryList.size() > 0) {
 					return false;
 				}
 			} else {
-				List<TpCategory> categoryList = D.sql("select * from T_P_CATEGORY where category_name = ?").many(
+				List<TpCategory> categoryList = D.sql("select * from t_p_category where category_name = ?").many(
 						TpCategory.class, categoryName);
 				if (categoryList.size() > 0) {
 					return false;

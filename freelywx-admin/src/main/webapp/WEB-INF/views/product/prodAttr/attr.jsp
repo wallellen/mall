@@ -37,8 +37,8 @@
 				<!-- <div field="attr_type" renderer="onTypeRenderer" name="attr_type" align="left" headerAlign="center" allowSort="true">属性分类</div> -->
 				<!-- <div field="resName" name="name" align="left" headerAlign="center" allowSort="true">属性单位</div> -->
 				<!-- <div field="category_url" align="center" headerAlign="center" allowSort="true">菜单url</div> -->
-				<div field="display_order" align="center" headerAlign="center" allowSort="true">排序</div>
-				<div field="description" align="center" headerAlign="center" allowSort="true">属性描述</div>
+				<div field="sort" align="center" headerAlign="center" allowSort="true">排序</div>
+				<div field="remark" align="center" headerAlign="center" allowSort="true">属性描述</div>
 				<div field="create_time" dateFormat="yyyy-MM-dd HH:mm:ss" align="center" headerAlign="center" allowSort="true">创建时间</div>
 			</div>
 		</div>

@@ -33,14 +33,14 @@
 	<div class="mini-fit">
 		<div id="datagrid1" class="mini-treegrid"   style="width: 100%; height: 100%;"
 			url="${ctx}/prodCate/listAll" showTreeIcon="true"
-			treeColumn="name" idField="category_id" parentField="parent_category_id"
+			treeColumn="name" idField="category_id" parentField="par_category_id"
 			resultAsTree="false" expandOnLoad="true">
 			<div property="columns">
 				<div type="indexcolumn" headerAlign="center">序号</div>
 				<div field="category_name" name="name" align="left" headerAlign="center" allowSort="true">分类名称</div>
 				<!-- <div field="category_url" align="center" headerAlign="center" allowSort="true">菜单url</div> -->
-				<div field="display_order" align="center" headerAlign="center" allowSort="true">排序</div>
-				<div field="description" align="center" headerAlign="center" allowSort="true">分类描述</div>
+				<div field="sort" align="center" headerAlign="center" allowSort="true">排序</div>
+				<div field="remark" align="center" headerAlign="center" allowSort="true">分类描述</div>
 				<div field="create_time" dateFormat="yyyy-MM-dd HH:mm:ss" align="center" headerAlign="center" allowSort="true">创建时间</div>
 			</div>
 		</div>

@@ -48,7 +48,7 @@ public class DictController {
 				return false;
 			}
 		}
-		List<SysDict> list = D.sql("select * from T_B_DICT where dict_id = ?   ").many(SysDict.class, dictId);
+		List<SysDict> list = D.sql("select * from t_sys_dict where dict_id = ?   ").many(SysDict.class, dictId);
 		return list.size() > 0 ? true : false;
 	}
 	

@@ -62,9 +62,9 @@ public class RoleController {
 		String roleId = request.getParameter("role_id");
 		SysUser user;
 		if(!StringUtils.isEmpty(roleId)){
-			user = D.sql("select * from T_P_ROLE where role_id = ? and role_name != ?").oneOrNull(SysUser.class, roleId,roleNm);
+			user = D.sql("select * from t_sys_role where role_id = ? and role_name != ?").oneOrNull(SysUser.class, roleId,roleNm);
 		}else{
-			user = D.sql("select * from T_P_ROLE where role_nm = ?").oneOrNull(SysUser.class, roleNm);
+			user = D.sql("select * from t_sys_role where role_nm = ?").oneOrNull(SysUser.class, roleNm);
 		}
 		if(user == null){
 			return true;
@@ -103,14 +103,14 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping(value = "allOpt/{roleId}")
 	public List<Map<String, Object>> allOpt(@PathVariable("roleId") Integer roleId) {
-		List<SysRoleFunOpt> funRoleList = D.sql("select * from T_P_ROLE_FUN_OPT   where role_id = ?").many(SysRoleFunOpt.class, roleId);
+		List<SysRoleFunOpt> funRoleList = D.sql("select * from t_sys_role_fun_opt   where role_id = ?").many(SysRoleFunOpt.class, roleId);
 		
 		Set<Integer> idList = Sets.newHashSet();// 已绑定资源Id
 		for (SysRoleFunOpt key : funRoleList) {
 			idList.add(key.getFun_opt_id());
 		}
 
-		List<SysFunOpt> list = D.sql("select *  from T_P_FUN_OPT where user_type = ? ").many(SysFunOpt.class,SystemConstant.UserType.SYSTEM_USER);
+		List<SysFunOpt> list = D.sql("select *  from t_sys_fun_opt   ").many(SysFunOpt.class );
 		Map<Integer, Map<String, Object>> allFunOptMap = Maps.newHashMap();
 		List<Map<String, Object>> rootFunOptList = Lists.newArrayList();
 
@@ -163,7 +163,7 @@ public class RoleController {
 					@Override
 					public Object call() {
 						// TODO Auto-generated method stub
-						D.sql("delete from T_P_ROLE_FUN_OPT where role_id = ?").update( roleId);
+						D.sql("delete from t_sys_role_fun_opt where role_id = ?").update( roleId);
 						for(Integer id : detailId){
 							SysRoleFunOpt tp = new SysRoleFunOpt();
 							tp.setRole_id(Integer.parseInt (roleId));
@@ -207,7 +207,7 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping(value = "roleCheckExits/{roleId}")
 	public boolean roleCheckExits(@PathVariable("roleId") Integer roleId) {
-		List<SysUserRole> userRoleKey = D.sql("select * from T_P_USER_ROLE where role_id = ?").many(SysUserRole.class, roleId);
+		List<SysUserRole> userRoleKey = D.sql("select * from t_sys_user_role where role_id = ?").many(SysUserRole.class, roleId);
 		return userRoleKey.size() >0 ? false:true;
 	}
 
@@ -221,7 +221,7 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping(value = "delete/{roleId}")
 	public boolean delete(@PathVariable("roleId") String roleId) {
-		D.sql("delete from T_P_ROLE where role_id = ? ").update(roleId);
+		D.sql("delete from t_sys_role where role_id = ? ").update(roleId);
 		return true;
 	}
 

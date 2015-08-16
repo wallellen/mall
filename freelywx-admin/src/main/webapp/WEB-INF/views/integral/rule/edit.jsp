@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ include file="/taglibs.jsp" %>
+<%@ include file="/taglibs.jsp"%>
 <!doctype html>
 <html>
 <head>
@@ -13,37 +13,47 @@
 </head>
 <body>
 	 <form id="form1" method="post">
-        <input name="attr_id" id="attr_id" class="mini-hidden" />
+        <input name="interal_rule_id" id="interal_rule_id" class="mini-hidden" value="0"/>
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:100px;">属性名称：</td>
+                    <td style="width:100px;">积分规则代码：</td>
                     <td style="width:150px;">    
-                        <input name="attr_name" class="mini-textbox" required="true" onvalidation="checkName"  emptyText="请输入名称"/>
+                        <input name="interal_rule_code" class="mini-textbox" required="true"  emptyText="请输入名称" onvalidation="checkName"  maxLength="256"  enabled=false/>
                     </td>
-                </tr>
-               <!--  <tr>
-                    <td style="width:100px;">属性类型：</td>
-                    <td style="width:150px;">    
-                        <input id="attrTypeCombo" name="attr_type" valueField="id" class="mini-comboBox" url="${ctx}/comboBox/attrType"   required="true" emptyText="请选择类型"/>
-                    </td>
-                </tr>
-                <tr id="res" style="display: none">
-                    <td style="width:100px;">属性单位：</td>
-                    <td style="width:150px;">    
-                        <input id="attrResCombo" name="res_id" class="mini-comboBox" />
-                    </td>
-                </tr> -->
-                <tr>
-                     <td>排序：</td>
-                     <td>    
-                         <input name="sort" class="mini-textbox" vtype="int" />
-                     </td>
                 </tr>
                 <tr>
-                    <td>属性描述：</td>
+                    <td style="width:100px;">积分规则名称：</td>
+                    <td style="width:150px;">    
+                        <input name="interal_rule_name" class="mini-textbox" required="true"  emptyText="请输入名称" onvalidation="checkName"  maxLength="256"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:100px;">积分数量：</td>
+                    <td style="width:150px;">    
+                        <input name="interal_rule_value" class="mini-textbox" required="true"  vtype="int"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>有效时间范围：</td>
                     <td>    
-                        <input name="remark"  class="mini-textArea"  style="width: 300px;"  />
+                        <input name="rule_start_time"  class="mini-datepicker"  style="width: 100px;" required="true"  vtype="date:yyyy-MM-dd" />
+                        至
+                        <input name="rule_end_time"  class="mini-datepicker"  style="width: 100px;" required="true"  vtype="date:yyyy-MM-dd"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>使用时间范围：</td>
+                    <td>    
+                        <input name="use_start_time"  class="mini-datepicker"  style="width: 100px;" required="true"  vtype="date:yyyy-MM-dd" />
+                        至
+                        <input name="use_end_time"  class="mini-datepicker"  style="width: 100px;" required="true"  vtype="date:yyyy-MM-dd"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>简介：</td>
+                    <td>    
+                        <input name="interal_rule_desc"  class="mini-textArea"  style="width: 300px;" maxLength="256"/>
                     </td>
                 </tr>
             </table>
@@ -57,21 +67,15 @@
      <script type="text/javascript">
         mini.parse();
         var form = new mini.Form("form1");
-        var attrTypeCombo = mini.get("attrTypeCombo");
-        var attrResCombo = mini.get("attrResCombo");
         
-        function onDrawCell(e) {
-            var item = e.record, field = e.field, value = e.value;
-            //组织HTML设置给cellHtml
-            e.cellHtml = '<span class="'+e.value+' myiconspan">'+value+'</span>';   
-        }
         function SaveData() {
             var o = form.getData();            
             form.validate();
             var json = mini.encode(o);
+            json = json.replace(/T00:00:00/g,' 00:00:00');
             if (form.isValid() == false) return;
             $.ajax({
-				url : "${ctx}/prodAttr/save",
+				url : "${ctx}/interal/rule/save",
 				type : "POST",
 				dataType : "json",
 				contentType : 'application/json;charset=UTF-8',
@@ -95,21 +99,11 @@
                 //跨页面传递的数据对象，克隆后才可以安全使用
                 data = mini.clone(data);
                 $.ajax({
-                    url: "${ctx}/prodAttr/attr?attrId=" + data.id,
+                    url: "${ctx}/interal/rule/getEditR?interal_rule_id=" + data.interal_rule_id,
                     cache: false,
                     success: function (text) {
                         var o = mini.decode(text);
                         form.setData(o);
-                        //设置属性单位的默认值
-                        var text = attrTypeCombo.getText();
-                        //1、文本属性；2、单位属性
-            			if(text === "单位属性"){
-            				$("#res").show();
-            				attrResCombo.setValue("");
-            				var url = "${ctx}/comboBox/attrDict";
-            				attrResCombo.load(url);
-            				attrResCombo.setValue(o.res_id);
-            			}
                         form.setChanged(false);
                     }
                 });
@@ -135,35 +129,17 @@
         function onCancel(e) {
             CloseWindow("cancel");
         }
-       
-        var attrTypeCombo = mini.get("attrTypeCombo");
-        var attrResCombo = mini.get("attrResCombo");
-        function onTypeChanged(e) {
-            var id = attrTypeCombo.getValue();
-            var text = attrTypeCombo.getText();
-            //1、文本属性；2、单位属性
-			if(text === "单位属性"){
-				$("#res").show();
-				attrResCombo.setValue("");
-				var url = "${ctx}/comboBox/attrDict";
-				attrResCombo.load(url);
-				attrResCombo.select(0);
-			}else{
-				attrResCombo.setValue("");
-				$("#res").hide();
-			}
-            //positionCombo.setValue("");
-        }
+        
         function checkName(e){
 			if (e.isValid) {
 				$.ajax({
-                    url: "${ctx}/prodAttr/check",
-                    data : {"attrName":e.value,"attrId":mini.get("attr_id").getValue()},
+                    url: "${ctx}/interal/rule/checkName",
+                    data : {"interal_rule_name":e.value,"interal_rule_id":mini.get("interal_rule_id").getValue()},
                     cache: false,
                 	async: false,
                     success: function (text) {
                     	if(!text){
-                    		 e.errorText = "该属性名称已经存在!";
+                    		 e.errorText = "该名称已经存在!";
                              e.isValid = false;
                     	}
                     }

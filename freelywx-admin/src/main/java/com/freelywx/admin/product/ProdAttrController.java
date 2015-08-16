@@ -50,18 +50,17 @@ public class ProdAttrController {
 
 	@RequestMapping("/save")
 	@ResponseBody
-	public boolean saveCategory(@RequestBody TpAttr attr,
-			HttpServletRequest request) {
+	public boolean saveCategory(@RequestBody TpAttr attr,	HttpServletRequest request) {
 		try {
 			ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 			if (attr.getAttr_id() != null) {
-				attr.setLast_update_time(new Date());
-				attr.setLast_updated_by(user.getUser_id());
+				attr.setUpdate_time(new Date());
+				attr.setUpdate_by(user.getUser_id());
 				D.updateWithoutNull(attr);
 			} else {
 				attr.setStatus(SystemConstant.State.STATE_ENABLE);
 				attr.setCreate_time(new Date());
-				attr.setCreated_by(user.getUser_id());
+				attr.setCreate_by(user.getUser_id());
 				D.insert(attr);
 			}
 			return true;
@@ -108,7 +107,7 @@ public class ProdAttrController {
 		final HashMap<String, String> map = new HashMap<String, String>();
 		try {
 			Long attrId = Long.valueOf(request.getParameter("attrId"));
-			List<TpAttr> prodList = D.sql("select * from T_P_CATEGORY_ATTR where attr_id = ? ").many(TpAttr.class, attrId);
+			List<TpAttr> prodList = D.sql("select * from t_p_category_attr where attr_id = ? ").many(TpAttr.class, attrId);
 			
 			
 			if(prodList.size()>0 ){
@@ -137,11 +136,11 @@ public class ProdAttrController {
 		String categoryId = request.getParameter("categoryId");
 		List<TpAttr> list = new ArrayList<TpAttr>();
 		if (StringUtils.isEmpty(categoryId)) {
-			list = D.sql("select * from T_P_ATTR ").many(TpAttr.class);
+			list = D.sql("select * from t_p_attr ").many(TpAttr.class);
 		} else {
 			list = D.sql(
-					"select t1.* from T_P_ATTR t1 where t1.ATTR_ID not in  ( select ATTR_ID from  T_P_CATEGORY_ATTR t2 where  t2.ATTR_ID = t1.ATTR_ID  and t2.category_id in " +
-					" (select t1.CATEGORY_ID  from  T_P_CATEGORY_TREE t1 where t1.CHILD_CATEGORY_ID = ? ) )")
+					"select t1.* from t_p_attr t1 where t1.attr_id not in  ( select attr_id from  t_p_category_attr t2 where  t2.attr_id = t1.attr_id  and t2.category_id in " +
+					" (select t1.category_id  from  t_p_category t1 where t1.child_id = ? ) )")
 					.many(TpAttr.class, categoryId);
 		}
 		return list;
@@ -159,9 +158,9 @@ public class ProdAttrController {
 		List<TpAttr> list = new ArrayList<TpAttr>();
 		if (!StringUtils.isEmpty(categoryId)) {
 			list = D.sql(
-					"select t1.* from  T_P_CATEGORY_ATTR t2 left join T_P_ATTR t1 on t2.ATTR_ID = t1.attr_id" +
+					"select t1.* from  t_p_category_attr t2 left join t_p_attr t1 on t2.attr_id = t1.attr_id" +
 					" where  t2.category_id in" +
-					" (select t1.CATEGORY_ID  from  T_P_CATEGORY_TREE t1 where t1.CHILD_CATEGORY_ID = ? ) order by t2.display_order")
+					" (select t1.category_id  from  t_p_category_tree t1 where t1.child_id = ? ) order by t2.sort")
 					.many(TpAttr.class, categoryId);
 		}
 		return list;
@@ -173,12 +172,12 @@ public class ProdAttrController {
 			String attrName =  request.getParameter("attrName") ;
 			String attrId =  request.getParameter("attrId") ;
 			if(!StringUtils.isEmpty(attrId)){
-				List<TpAttr> categoryList = D.sql("select * from T_P_ATTR where attr_name = ? and attr_id != ?").many(TpAttr.class, attrName,attrId);
+				List<TpAttr> categoryList = D.sql("select * from t_p_attr where attr_name = ? and attr_id != ?").many(TpAttr.class, attrName,attrId);
 				if(categoryList.size()>0){
 					return false;
 				}
 			}else{
-				TpAttr attr = D.sql("select * from T_P_ATTR where attr_name = ?").oneOrNull(TpAttr.class, attrName);
+				TpAttr attr = D.sql("select * from t_p_attr where attr_name = ?").oneOrNull(TpAttr.class, attrName);
 				if(attr != null){
 					return false;
 				}

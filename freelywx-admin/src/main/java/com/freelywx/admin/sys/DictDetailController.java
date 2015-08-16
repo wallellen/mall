@@ -33,7 +33,7 @@ public class DictDetailController {
 	@ResponseBody
 	@RequestMapping(value = "list")
 	public PageModel list(String dictId){
-		List<SysDictDetail> ddList = D.sql("select * from  T_B_DICT_DETAIL where dict_id = ?").many(SysDictDetail.class, dictId);
+		List<SysDictDetail> ddList = D.sql("select * from t_sys_dict_detail where dict_id = ?").many(SysDictDetail.class, dictId);
 		return new PageModel(ddList.size(), ddList);
 	}
 	/*
@@ -53,7 +53,7 @@ public class DictDetailController {
 	@RequestMapping(value = "{dictId}/{dictParamValue}/{dictParamName}")
 	public SysDictDetail get(@PathVariable("dictId") String dictId, 
 			@PathVariable("dictParamValue") String dictParamValue, @PathVariable("dictParamName") String dictParamName){
-		SysDictDetail d = D.sql("select * from T_B_DICT_DETAIL where dict_id = ? and dict_param_value = ?  ").oneOrNull(SysDictDetail.class,dictId,dictParamValue);
+		SysDictDetail d = D.sql("select * fromt_sys_dict_detail where dict_id = ? and dict_param_value = ?  ").oneOrNull(SysDictDetail.class,dictId,dictParamValue);
 		return d;
 	}
 	/*
@@ -77,14 +77,14 @@ public class DictDetailController {
 	@ResponseBody
 	@RequestMapping(value = "delete/{dictId}/{dictParamValue}")
 	public boolean delete(@PathVariable("dictId") String dictId, @PathVariable("dictParamValue") String dictParamValue){	
-		D.sql("delete from T_B_DICT_DETAIL where dict_id = ? and dict_param_value = ?  ").update(dictId,dictParamValue);
+		D.sql("delete fromt_sys_dict_detail where dict_id = ? and dict_param_value = ?  ").update(dictId,dictParamValue);
 		return true;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "all")
 	public List<SysDictDetail> listAll(String dictId){
-		List<SysDictDetail> list = D.sql("select * from T_B_DICT_DETAIL where dict_id = ?").many(SysDictDetail.class, dictId);
+		List<SysDictDetail> list = D.sql("select * fromt_sys_dict_detail where dict_id = ?").many(SysDictDetail.class, dictId);
 		return list;
 	}
 }

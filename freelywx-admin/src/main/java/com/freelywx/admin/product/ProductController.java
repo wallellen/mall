@@ -30,7 +30,7 @@ import com.freelywx.common.model.product.TpCategory;
 import com.freelywx.common.model.product.TpCategoryTree;
 import com.freelywx.common.model.product.TpProdCategory;
 import com.freelywx.common.model.product.TpProduct;
-import com.freelywx.common.model.product.TpProductAttr;
+import com.freelywx.common.model.product.TpProdAttr;
 import com.freelywx.common.model.product.TpProductPic;
 import com.freelywx.common.model.product.TpProductPicPc;
 import com.freelywx.common.util.CodeUtil;
@@ -87,18 +87,18 @@ public class ProductController {
 			}*/
 			final ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 			if (product.getProd_id() != null) {
-				product.setLast_update_time(new Date());
-				product.setLast_updated_by(user.getUser_id());
+				product.setUpdate_time(new Date());
+				product.setUpdate_by(user.getUser_id());
 				D.updateWithoutNull(product);
 
 				// 编辑图片
-				D.sql("delete from T_P_PRODUCT_PIC where prod_id = ?").update(product.getProd_id());
+				D.sql("delete from t_p_prod_pic where prod_id = ?").update(product.getProd_id());
 				int prod_id = product.getProd_id();
 				savePic(picStr, prod_id);
 				//D.sql("delete from T_P_PRODUCT_PIC_PC where prod_id = ?").update(product.getProd_id());
 				//savePcPic(pcPicStr, smallPcPicStr, prod_id);
 				// 编辑属性
-				D.sql("delete from T_P_PRODUCT_ATTR where prod_id = ?").update(product.getProd_id());
+				D.sql("delete from t_p_prod_attr where prod_id = ?").update(product.getProd_id());
 				if (!StringUtils.isEmpty(attrStr)) {
 
 					int count = 0;
@@ -112,7 +112,7 @@ public class ProductController {
 
 							// 盘底属性是否为动态属性
 							boolean attr_type = Boolean.valueOf((String) map.get(attr_id + "_attr_type"));
-							TpProductAttr prodAttr = new TpProductAttr();
+							TpProdAttr prodAttr = new TpProdAttr();
 							prodAttr.setProd_id(product.getProd_id());
 							prodAttr.setAttr_id(Integer.parseInt(attr_id));
 							prodAttr.setAttr_value(value);
@@ -122,7 +122,7 @@ public class ProductController {
 							// 静态属性
 							String staticType = SystemConstant.ProdAttrType.INSTATIC;
 							prodAttr.setAttr_type(attr_type ? dynamicType : staticType);
-							prodAttr.setDisplay_order(++count);
+							prodAttr.setSort(++count);
 							D.insert(prodAttr);
 
 						}
@@ -159,15 +159,15 @@ public class ProductController {
 						product.setProd_id(prod_id);
 						product.setProd_code(prodCode);
 						product.setCreate_time(new Date());
-						product.setCreated_by(user.getUser_id());
-						product.setStatus(SystemConstant.ProdShelf.ENABLE);
+						product.setCreate_by(user.getUser_id());
+						product.setStatus(SystemConstant.ProdShelf.DISABLE);
 						product.setSite_id(user.getSite_id());
 						// product.setStatus("2");
 						D.insert(product);
 						
 						// 保存分类和商品的关联关系
 						List<TpCategoryTree> categoryTreeList = D.sql(
-								"select * from  T_P_CATEGORY_TREE where CHILD_CATEGORY_ID = ?").many(
+								"select * from  t_p_category_tree where child_id = ?").many(
 								TpCategoryTree.class, product.getCategory_id());
 						for (TpCategoryTree categoryTree : categoryTreeList) {
 							TpProdCategory prodCategory = new TpProdCategory();
@@ -185,12 +185,12 @@ public class ProductController {
 								if (!StringUtils.isEmpty(attr)) {
 									String[] url = attr.split(":");
 									if (!StringUtils.isEmpty(url[1]) && !"\"\"".equals(url[1]) && !"\"false\"".equals(url[1])) {
-										TpProductAttr prodAttr = new TpProductAttr();
+										TpProdAttr prodAttr = new TpProdAttr();
 										prodAttr.setProd_id(prod_id);
 										String id1 = url[0].split("_")[0].replace("\"", "");
 										prodAttr.setAttr_id(Integer.parseInt(id1));
 										prodAttr.setAttr_value(url[1].replace("\"", ""));
-										prodAttr.setDisplay_order(++count);
+										prodAttr.setSort(++count);
 										D.insert(prodAttr);
 									}
 								}
@@ -220,7 +220,7 @@ public class ProductController {
 				if (!StringUtils.isEmpty(url[1]) && !"\"\"".equals(url[1])) {
 					TpProductPic prodPic = new TpProductPic();
 					prodPic.setProd_id(prod_id);
-					prodPic.setPic_url(url[1].replace("\"", ""));
+					prodPic.setUrl(url[1].replace("\"", ""));
 					D.insert(prodPic);
 				}
 			}
@@ -245,13 +245,13 @@ public class ProductController {
 				if (!StringUtils.isEmpty(url[1]) && !"\"\"".equals(url[1])) {
 					TpProductPicPc proPcPic = new TpProductPicPc();
 					proPcPic.setProd_id(prod_id);
-					proPcPic.setPic_url_small(url[1].replace("\"", ""));
+					proPcPic.setUrl_small(url[1].replace("\"", ""));
 					
 					String[] smallPics = str1.split(",");
 					if (smallPics.length > i && !StringUtils.isEmpty(smallPics[i])) {
 						String[] smallUrl = smallPics[i].split(":");
 						if (!StringUtils.isEmpty(smallUrl[1]) && !"\"\"".equals(smallUrl[1])) {
-							proPcPic.setPic_url(smallUrl[1].replace("\"", ""));
+							proPcPic.setUrl(smallUrl[1].replace("\"", ""));
 						}
 					}
 					D.insertWithoutNull(proPcPic);
@@ -268,13 +268,13 @@ public class ProductController {
 			String prodName = request.getParameter("prodName");
 			String prodId = request.getParameter("prodId");
 			if (!StringUtils.isEmpty(prodId)) {
-				List<TpCategory> categoryList = D.sql("select * from T_P_PRODUCT where prod_name = ? and prod_id != ?")
+				List<TpCategory> categoryList = D.sql("select * from t_p_product where prod_name = ? and prod_id != ?")
 						.many(TpCategory.class, prodName, prodId);
 				if (categoryList.size() > 0) {
 					return false;
 				}
 			} else {
-				TpProduct product = D.sql("select * from T_P_PRODUCT where prod_name = ?").oneOrNull(TpProduct.class,
+				TpProduct product = D.sql("select * from t_p_product where prod_name = ?").oneOrNull(TpProduct.class,
 						prodName);
 				if (product != null) {
 					return false;
@@ -302,10 +302,10 @@ public class ProductController {
 						final Long prodId = Long.valueOf(str);
 						// TODO Auto-generated method stub
 						D.deleteById(TpProduct.class, prodId);
-						D.sql(" delete from T_P_PRODUCT_PIC where prod_id = ? ").update(prodId);
-						D.sql(" delete from T_P_PRODUCT_ATTR where prod_id = ? ").update(prodId);
-						D.sql(" delete from T_P_PROD_CATEGORY where prod_id = ? ").update(prodId);
-						D.sql(" delete from T_P_PRODUCT_PIC_PC where prod_id = ? ").update(prodId);
+						D.sql(" delete from t_p_prod_pic where prod_id = ? ").update(prodId);
+						D.sql(" delete from t_p_prod_attr where prod_id = ? ").update(prodId);
+						D.sql(" delete from t_p_prod_category where prod_id = ? ").update(prodId);
+						D.sql(" delete from t_p_prod_pic_pc where prod_id = ? ").update(prodId);
 					}
 					return null;
 				}
@@ -393,8 +393,8 @@ public class ProductController {
 				TpProduct product = new TpProduct();
 				product.setProd_id(prodId);
 				product.setStatus(status);
-				product.setLast_update_time(new Date());
-				product.setLast_updated_by(user.getUser_id());
+				product.setUpdate_time(new Date());
+				product.setUpdate_by(user.getUser_id());
 				D.updateWithoutNull(product);
 			}
 			return true;
@@ -409,7 +409,7 @@ public class ProductController {
 	@ResponseBody
 	public TpProduct getProduct(HttpServletRequest request) {
 		try {
-			Long prodId = Long.valueOf(request.getParameter("prodId"));
+			int prodId = Integer.parseInt(request.getParameter("prodId"));
 			// TpProduct product = D.selectById(TpProduct.class, prodId);
 			return D.selectById(TpProduct.class, prodId);
 		} catch (Exception e) {
@@ -422,9 +422,9 @@ public class ProductController {
 	@ResponseBody
 	public List<TpProductPic> getProductPic(HttpServletRequest request) {
 		try {
-			Long prodId = Long.valueOf(request.getParameter("prodId"));
+			int prodId = Integer.parseInt(request.getParameter("prodId"));
 			// TpProduct product = D.selectById(TpProduct.class, prodId);
-			List<TpProductPic> picList = D.sql("select * from T_P_PRODUCT_PIC where prod_id = ?").many(
+			List<TpProductPic> picList = D.sql("select * from t_p_prod_pic where prod_id = ?").many(
 					TpProductPic.class, prodId);
 			return picList;
 		} catch (Exception e) {
@@ -437,9 +437,9 @@ public class ProductController {
 	@ResponseBody
 	public List<TpProductPicPc> getProductPicPc(HttpServletRequest request) {
 		try {
-			Long prodId = Long.valueOf(request.getParameter("prodId"));
+			int prodId = Integer.parseInt(request.getParameter("prodId"));
 			// TpProduct product = D.selectById(TpProduct.class, prodId);
-			List<TpProductPicPc> picList = D.sql("select * from T_P_PRODUCT_PIC_PC where prod_id = ?").many(
+			List<TpProductPicPc> picList = D.sql("select * from t_p_prod_pic_pc where prod_id = ?").many(
 					TpProductPicPc.class, prodId);
 			return picList;
 		} catch (Exception e) {
@@ -450,12 +450,12 @@ public class ProductController {
 
 	@RequestMapping("/attr")
 	@ResponseBody
-	public List<TpProductAttr> getProductAttr(HttpServletRequest request) {
+	public List<TpProdAttr> getProductAttr(HttpServletRequest request) {
 		try {
 			Long prodId = Long.valueOf(request.getParameter("prodId"));
 			// TpProduct product = D.selectById(TpProduct.class, prodId);
-			List<TpProductAttr> attrList = D.sql("select * from T_P_PRODUCT_ATTR where prod_id = ?").many(
-					TpProductAttr.class, prodId);
+			List<TpProdAttr> attrList = D.sql("select * from t_p_prod_attr where prod_id = ?").many(
+					TpProdAttr.class, prodId);
 			return attrList;
 		} catch (Exception e) {
 			e.printStackTrace();
