@@ -53,7 +53,7 @@ public class DictDetailController {
 	@RequestMapping(value = "{dictId}/{dictParamValue}/{dictParamName}")
 	public SysDictDetail get(@PathVariable("dictId") String dictId, 
 			@PathVariable("dictParamValue") String dictParamValue, @PathVariable("dictParamName") String dictParamName){
-		SysDictDetail d = D.sql("select * fromt_sys_dict_detail where dict_id = ? and dict_param_value = ?  ").oneOrNull(SysDictDetail.class,dictId,dictParamValue);
+		SysDictDetail d = D.sql("select * from t_sys_dict_detail where dict_id = ? and dict_param_value = ?  ").oneOrNull(SysDictDetail.class,dictId,dictParamValue);
 		return d;
 	}
 	/*

@@ -140,7 +140,7 @@ public class ProdAttrController {
 		} else {
 			list = D.sql(
 					"select t1.* from t_p_attr t1 where t1.attr_id not in  ( select attr_id from  t_p_category_attr t2 where  t2.attr_id = t1.attr_id  and t2.category_id in " +
-					" (select t1.category_id  from  t_p_category t1 where t1.child_id = ? ) )")
+					" (select t1.category_id  from  t_p_category_tree t1 where t1.child_id = ? ) )")
 					.many(TpAttr.class, categoryId);
 		}
 		return list;
