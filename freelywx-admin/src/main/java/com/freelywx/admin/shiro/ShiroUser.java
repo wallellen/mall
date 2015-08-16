@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.freelywx.common.model.store.TmSite;
 import com.freelywx.common.model.sys.SysUser;
-import com.freelywx.common.model.sys.TPMerchantWx;
+import com.freelywx.common.model.wx.WxInfo;
 
 /**
  * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.
@@ -13,7 +13,7 @@ public class ShiroUser extends SysUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String menuData;
-	private TPMerchantWx merchantWx;
+	private WxInfo wxInfo;
 	//private TmSite site;
 
 	public ShiroUser(Integer userId, String loginId, String userName,
@@ -40,13 +40,12 @@ public class ShiroUser extends SysUser implements Serializable {
 		this.menuData = menuData;
 	}
 
-	
-	public TPMerchantWx getMerchantWx() {
-		return merchantWx;
+	public WxInfo getWxInfo() {
+		return wxInfo;
 	}
 
-	public void setMerchantWx(TPMerchantWx merchantWx) {
-		this.merchantWx = merchantWx;
+	public void setWxInfo(WxInfo wxInfo) {
+		this.wxInfo = wxInfo;
 	}
 
 	/*public TmSite getSite() {

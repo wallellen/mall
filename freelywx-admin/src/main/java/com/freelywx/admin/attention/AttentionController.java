@@ -47,7 +47,7 @@ public class AttentionController {
 		
 		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		tPubAttention.setUid(loginUser.getUser_id());
-		tPubAttention.setWx_id(loginUser.getMerchantWx().getWx_id()); 
+		tPubAttention.setWx_id(loginUser.getWxInfo().getWx_id()); 
 		if(tPubAttention.getId()!=null)
 		{
 			return D.updateWithoutNull(tPubAttention)>0;

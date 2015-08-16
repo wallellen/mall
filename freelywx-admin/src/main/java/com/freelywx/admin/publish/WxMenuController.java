@@ -165,7 +165,7 @@ public class WxMenuController {
 			System.out.println("开始打印菜单");
 			System.out.println(jsonMenu);
 			MenuApi menuApi=new MenuApi(); 
-			ApiResult apiResult = menuApi.createMenu(loginUser.getMerchantWx().getApp_id(),loginUser.getMerchantWx().getApp_secret(),jsonMenu);
+			ApiResult apiResult = menuApi.createMenu(loginUser.getWxInfo().getApp_id(),loginUser.getWxInfo().getApp_secrect(),jsonMenu);
 			return apiResult.isSucceed();
 		}
 		else
@@ -235,7 +235,7 @@ public class WxMenuController {
 	public boolean save(@RequestBody final TPubMenu tPubMenu){
 		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		tPubMenu.setUid(loginUser.getUser_id());
-		tPubMenu.setWx_id(loginUser.getMerchantWx().getWx_id());
+		tPubMenu.setWx_id(loginUser.getWxInfo().getWx_id());
 		System.out.println("tPubMenu.getMenu_id():"+tPubMenu.getMenu_id());
 		if(tPubMenu.getMenu_id()!=null)
 		{

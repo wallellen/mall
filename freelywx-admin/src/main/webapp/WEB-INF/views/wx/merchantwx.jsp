@@ -36,15 +36,10 @@
         </div>
     <div class="mini-fit" >
     <div id="userDategrid" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true"
-        url="${ctx}/merchantwx/list"  idField="wx_id" multiSelect="true" >
+        url="${ctx}/wx/list"  idField="wx_id" multiSelect="true" >
         <div property="columns">
         	<div type="indexcolumn"></div>
              <div type="checkcolumn"></div> 
-            
-            
-            <div name="user_id"  field="user_id" headerAlign="center" allowSort="true" width="60" >帐号
-                <input   class="mini-textbox" style="width:100%;" minWidth="200" />
-            </div>
             
             <div name="public_name"  field="public_name" headerAlign="center" allowSort="true" width="60" >公众号名称
                 <input   class="mini-textbox" style="width:100%;" minWidth="200" />
@@ -115,11 +110,10 @@
         var grid = mini.get("userDategrid");
         grid.load();
         
-        grid.sortBy("user_id", "asc");
         function add() {
         	var data = { action : "new" };
         	mini.open({
-				url : "${ctx }/merchantwx/add",
+				url : "${ctx }/wx/add",
 				title : "新增",
 				width : 650,
 				height : 350,
@@ -139,7 +133,7 @@
        		//删除之前验证所选记录是否存在
     			if (confirm("确定删除选中记录？")) {
     				//删除
-					$.post('${ctx}/merchantwx/delete/' + row.wx_id, function(data) {
+					$.post('${ctx}/wx/delete/' + row.wx_id, function(data) {
 						if (data) {
 							notify('记录删除成功!');
 							 grid.reload();
@@ -157,7 +151,7 @@
              if (row) {
             	 var data = { action : "edit",wx_id : row.wx_id };
              	mini.open({
-     				url : "${ctx }/merchantwx/edit",
+     				url : "${ctx }/wx/edit",
      				title : "新增",
      				width : 650,
      				height : 450,

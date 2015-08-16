@@ -72,9 +72,9 @@
 	           
 	           
 	            <tr>
-	                <td style="width:80px;">app_secret:</td>
+	                <td style="width:80px;">app_secrect:</td>
 	                <td style="width:150px;">
-	                	<input name="app_secret" class="mini-textbox" required="true" />
+	                	<input name="app_secrect" class="mini-textbox" required="true" />
 	                </td>
 	           </tr>
 	           
@@ -108,7 +108,7 @@
 	
 	
 	$.ajax({
-        url: "${ctx}/merchantwx/add_getdata",
+        url: "${ctx}/wx/add_getdata",
         type:"POST",  
         contentType:'application/json;charset=UTF-8', 
         success: function (text) {
@@ -127,7 +127,7 @@
         	var o = form.getData();
             var json = mini.encode(o);
             $.ajax({
-                url: "${ctx}/merchantwx/addsubmit",
+                url: "${ctx}/wx/addsubmit",
                 type:"POST", 
                 dataType:"json",      
                 contentType:'application/json;charset=UTF-8',  

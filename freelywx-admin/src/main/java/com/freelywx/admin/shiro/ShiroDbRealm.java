@@ -23,7 +23,7 @@ import com.freelywx.common.common.JsonMapper;
 import com.freelywx.common.config.SystemConstant;
 import com.freelywx.common.model.store.TmSite;
 import com.freelywx.common.model.sys.SysUser;
-import com.freelywx.common.model.sys.TPMerchantWx;
+import com.freelywx.common.model.wx.WxInfo;
 import com.freelywx.common.model.sys.SysMenue;
 import com.freelywx.common.util.Encodes;
 import com.google.common.collect.ImmutableMap;

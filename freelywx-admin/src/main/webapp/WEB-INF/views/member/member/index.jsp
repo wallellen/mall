@@ -22,6 +22,7 @@
 			<tr>
 				<td style="width: 100%;">
 					<a class="mini-button" iconCls="icon-reload" onclick="reloadLevel()">手动刷新会员等级</a> 
+					<!-- <a class="mini-button" iconCls="icon-reload" onclick="reloadLevel()">查看会员收货地址</a>  -->
 					<!-- <a class="mini-button" iconCls="icon-edit" onclick="edit()">编辑</a>  -->
 				</td>
 			</tr>

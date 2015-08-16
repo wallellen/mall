@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
-import com.freelywx.common.model.sys.TPMerchantWx;
+import com.freelywx.common.model.wx.WxInfo;
 import com.freelywx.common.util.CodeUtil;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
@@ -21,15 +21,15 @@ import com.rps.util.D;
  * 方法上的注释为页面中Button的标题
  */
 @Controller
-@RequestMapping("/merchantwx/")
-public class MerchantWxController {
+@RequestMapping("/wx/")
+public class WxController {
 	@RequestMapping("init")
 	public String init() {
 		
 	//	ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 	//	return user.getMerchantWx();
 		
-		return "merchantwx/merchantwx";
+		return "wx/merchantwx";
 	}
 	
 	
@@ -38,7 +38,7 @@ public class MerchantWxController {
 	@RequestMapping("list")
 	public PageModel SearchEmployees(HttpServletRequest request) throws Exception
 	{ 		
-		return PageUtil.getPageModel(TPMerchantWx.class, "sql.merchantwx/getPageMerchantWx",request);
+		return PageUtil.getPageModel(WxInfo.class, "sql.merchantwx/getPageMerchantWx",request);
 	}
 	
 	
@@ -49,8 +49,8 @@ public class MerchantWxController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="add_getdata")
-	public TPMerchantWx add_getdata(){
-		TPMerchantWx tpm=new TPMerchantWx();
+	public WxInfo add_getdata(){
+		WxInfo tpm=new WxInfo();
 		tpm.setToken(CodeUtil.getRandomString(10));
 		tpm.setEncodekey(CodeUtil.getRandomString(43));
 		return tpm;
@@ -61,7 +61,7 @@ public class MerchantWxController {
 	
 	@RequestMapping(value="add")
 	public String toAdd(){
-		return "merchantwx/merchantwx_add";
+		return "wx/merchantwx_add";
 	}
 	
 	
@@ -69,7 +69,7 @@ public class MerchantWxController {
 
 	@RequestMapping(value="edit")
 	public String edit(){
-		return "merchantwx/merchantwx_edit";
+		return "wx/merchantwx_edit";
 	}
 	
 	
@@ -77,7 +77,7 @@ public class MerchantWxController {
 	@RequestMapping(value = "delete/{wx_id}")
 	public int delete(@PathVariable("wx_id") Integer wx_id) {
 		System.out.println(wx_id);
-		return D.deleteById(TPMerchantWx.class, wx_id);
+		return D.deleteById(WxInfo.class, wx_id);
 		 
 	}
 	
@@ -87,8 +87,8 @@ public class MerchantWxController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "{wx_id}")
-	public TPMerchantWx get(@PathVariable("wx_id") Integer wx_id) {
-		TPMerchantWx u = D.selectById(TPMerchantWx.class, wx_id);
+	public WxInfo get(@PathVariable("wx_id") Integer wx_id) {
+		WxInfo u = D.selectById(WxInfo.class, wx_id);
 		return u;
 	}
 	
@@ -102,15 +102,13 @@ public class MerchantWxController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "addsubmit")
-	public boolean addsubmit(@RequestBody final TPMerchantWx tp){
-		System.out.println("VVVV");
+	public boolean addsubmit(@RequestBody final WxInfo tp){
 		int wxId=D.insertAndReturnInteger(tp);
 		if(wxId>0)
 		{
 			ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		//	String serverIp = IpUtil.getServerIp();
 			tp.setPort_url("http://27.54.237.27/system/wxService?wxid="+wxId);
-			tp.setUser_id(user.getUser_id());
 			D.updateWithoutNull(tp); 
 			return true;
 		}
@@ -129,7 +127,7 @@ public class MerchantWxController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "save")
-	public boolean save(@RequestBody final TPMerchantWx user){
+	public boolean save(@RequestBody final WxInfo user){
 		try{
 			if(null != user.getWx_id() && user.getWx_id() > 0 ){ 
 				D.updateWithoutNull(user);
@@ -151,7 +149,7 @@ public class MerchantWxController {
 	 */
 	@ResponseBody
 	@RequestMapping("updata")
-	public boolean update(@RequestBody TPMerchantWx tPMerchantWx){
+	public boolean update(@RequestBody WxInfo tPMerchantWx){
 		try{
 			//System.out.println(tmmember.getOpen_id());
 			D.updateWithoutNull(tPMerchantWx);

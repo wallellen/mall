@@ -80,7 +80,7 @@ public class ImgMultiNewsController {
 			tPubImgMulti.setImgids(ids);
 			tPubImgMulti.setKeyword(key);
 			tPubImgMulti.setUid(user.getUser_id());
-			tPubImgMulti.setWx_id(user.getMerchantWx().getWx_id());
+			tPubImgMulti.setWx_id(user.getWxInfo().getWx_id());
 			
 			String id = req.getParameter("id");
 			if(StringUtils.isEmpty(id)){
@@ -93,7 +93,7 @@ public class ImgMultiNewsController {
 						keyword.setContent_id(keyId);
 						keyword.setModule(SystemConstant.ReplyType.REPLY_GRAPHIC_MULTI);
 						keyword.setType(SystemConstant.MatchType.COMPLETE);
-						keyword.setWx_id(user.getMerchantWx().getWx_id());
+						keyword.setWx_id(user.getWxInfo().getWx_id());
 						keyword.setUid(user.getUser_id());
 						D.insert(keyword);
 						return true;
