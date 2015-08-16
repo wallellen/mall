@@ -7,7 +7,7 @@
 		<artifactId>shop</artifactId>
 		<version>1.0</version>
 	</parent>
-	<groupId>com.freelywx.common</groupId>
+	<groupId>com.freelywx</groupId>
 	<artifactId>wx-common</artifactId>
 	<name>wx-common</name>
 	<version>1.0.0</version>
