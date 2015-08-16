@@ -88,7 +88,7 @@ html,body {
 							<td>
 								<input name="cycle_id" id="cycle_id"
 								class="mini-comboBox"
-								url="${ctx}/integral/type/comboBox"  width="250px" />
+								url="${ctx}/combox/dict/DATETYPE"  width="250px" />
 							</td>
 							<td>返还周期：</td>
 							<td> 

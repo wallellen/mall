@@ -31,6 +31,7 @@
 					<a class="mini-button" iconCls="icon-filter" onclick="detail()">详情</a> 
 					<a class="mini-button" iconCls="icon-redo" onclick="send()">发货</a> 
 					<a class="mini-button" iconCls="icon-undo" onclick="receive()">收货</a> 
+					<a class="mini-button" iconCls="icon-undo" onclick="compute()">计算积分</a> 
 				</td>
 			</tr>
 		</table>
@@ -44,13 +45,18 @@
 				<div field="order_id" name="order_id" align="left" headerAlign="left" allowSort="true">订单编号</div>
 				<div field="member_id" name="member_id" align="left" headerAlign="left" allowSort="true">会员编号</div>
 				<div field="member_name" name="member_name" align="left" headerAlign="left" allowSort="true">会员名称</div>
+				<div field="amount_price" name="amount_price" align="left" headerAlign="left" allowSort="true" renderer="gridPriceRender">总金额</div>
+				<div field="integral_price" name="integral_price" align="left" headerAlign="left" allowSort="true" renderer="gridPriceRender">积分支付</div>
+				<div field="discount_price" name="discount_price" align="left" headerAlign="left" allowSort="true" renderer="gridPriceRender">优惠金额</div>
 				<div field="payment_price" name="payment_price" align="left" headerAlign="left" allowSort="true" renderer="gridPriceRender">支付金额</div>
 				<div field="shipper" name="shipper" align="left" headerAlign="left" allowSort="true">收货人</div>
 				<div field="phone" align="left" headerAlign="left" allowSort="true">收货人手机号</div>
 				<div field="create_time" dateFormat="yyyy-MM-dd HH:mm:ss" align="center" headerAlign="center" allowSort="true">收单时间</div>
 				<div field="payment_time" dateFormat="yyyy-MM-dd HH:mm:ss" align="center" headerAlign="center" allowSort="true">支付时间</div>
 				<div field="receiver_time" dateFormat="yyyy-MM-dd HH:mm:ss" align="center" headerAlign="center" allowSort="true">收货取货时间</div>
-				<div field=store_id name="store_id" align="left" headerAlign="left" allowSort="true">订单渠道</div>
+				<div field=integral_num  align="center" headerAlign="center" allowSort="true">积分数量</div>
+				<div field="cycle_num"  align="center" headerAlign="center" allowSort="true" renderer="onReturn">返还周期</div>
+				<div field="is_computed"  align="center" headerAlign="center" allowSort="true" renderer="onDict">积分任务是否成功</div>
 			</div>
 		</div>
 	</div>
@@ -136,6 +142,26 @@
 			}
 		}
 		
+		function compute() {
+			var row = grid.getSelected();
+			if (row) {
+				if(row.is_return != '1' && row.is_computed =='2') {
+					notify("只有送积分且为计算的才可以进行计算!");
+					return;
+				}
+				$.post("${ctx}/order/generateTaskInfo/" + row.order_id, function(data) {
+					if(data) {
+						notify("操作成功!");
+					} else {
+						notify("操作失败!");
+					}
+					grid.reload();
+				});
+			} else {
+				alert("请选中一条记录");
+			}
+		}
+		
 		function search() {
 			grid.load({
 				order_id : mini.get("order_id").getValue(),
@@ -158,7 +184,12 @@
 		function onDict(e){
 			if (e.column.field=='order_status'){
 				return getDict (e,e.column.field,"ORDER_STATUS");
+			}else if (e.column.field=='is_computed'){
+				return getDict (e,e.column.field,"YESORNO");
 			}
+		}
+		function onReturn(e){
+			return "";
 		}
 		
 	</script>
