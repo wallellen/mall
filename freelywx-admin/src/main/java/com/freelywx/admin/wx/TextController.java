@@ -1,4 +1,4 @@
-package com.freelywx.admin.publish;
+package com.freelywx.admin.wx;
 
 import java.util.HashMap;
 import java.util.List;

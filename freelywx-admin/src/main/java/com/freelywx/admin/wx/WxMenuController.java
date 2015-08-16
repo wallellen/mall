@@ -1,16 +1,11 @@
-package com.freelywx.admin.publish;
+package com.freelywx.admin.wx;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,20 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
-import com.freelywx.admin.wx.api.ApiResult;
-import com.freelywx.admin.wx.api.MenuApi;
-import com.freelywx.admin.wx.menu.Button;
-import com.freelywx.admin.wx.menu.CommonButton;
-import com.freelywx.admin.wx.menu.CommonButton2;
-import com.freelywx.admin.wx.menu.ComplexButton;
-import com.freelywx.admin.wx.menu.Menu;
 import com.freelywx.common.cache.DictCache;
-import com.freelywx.common.config.SystemConstant;
 import com.freelywx.common.model.pub.TPubMenu;
-import com.freelywx.common.model.sys.SysUser;
-import com.freelywx.common.util.PageModel;
-import com.freelywx.common.util.PageUtil;
+import com.freelywx.common.wx.api.ApiResult;
+import com.freelywx.common.wx.api.MenuApi;
+import com.freelywx.common.wx.menu.Button;
+import com.freelywx.common.wx.menu.CommonButton;
+import com.freelywx.common.wx.menu.CommonButton2;
+import com.freelywx.common.wx.menu.ComplexButton;
+import com.freelywx.common.wx.menu.Menu;
 import com.rps.util.D;
+
+import net.sf.json.JSONObject;
 
  
 @Controller
