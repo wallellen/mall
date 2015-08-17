@@ -7,7 +7,7 @@
 ;   :pageDefaultSize 30
 ;   :pageDefaultIndex 1
 ;   :sortOrder "mysortorder"
-   :show-log  true
-   :sqlLevel 2
+   :show-log  false
+   :sqlLevel 0
 ;0,不打印sql;1、sql;2、sql和参数;3、sql、参数和操作耗时
     })

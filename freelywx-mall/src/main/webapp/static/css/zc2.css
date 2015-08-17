@@ -1,0 +1,149 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin:0px; padding:0px;}
+html{-webkit-text-size-adjust: none;/*禁止页面文字自动调整大小*/}
+body{color: #333;font-family:"黑体";min-width: 320px;font-size:16px;}
+ul,li{ list-style:none;}
+h1{ font-size:18px;}
+h2,h3{ font-size:16px;}
+h4{ font-size:14px;}
+.clearfix:after{clear:both;content:'.';display:block;font-size:0;line-height:0;height:0;visibility:hidden;}
+.clear{ clear:both;}
+.fl{float:left;}
+.fr{float:right;}
+a{text-decoration:none;}
+a,button,input,select{-webkit-tap-highlight-color:rgba(255,0,0,0);}
+input,textarea,select{border:0px;border-radius:0px;-webkit-border-radius:0;outline:none;vertical-align:middle}
+input,textarea{-webkit-appearance:none;}
+img{ border:0px; vertical-align:middle}
+
+
+.body-bj{ background:#ebebeb;}
+/* 众筹详情*/
+.head-shoop{ padding:10px 0px; display:table; width:100%; }
+.head-img{ padding:0 10px 0 10px;text-align:center; display:table-cell; width:85px;}
+.head-img p{ margin-top:5px; }
+.crowd-desc{display:table-cell; vertical-align: middle;}
+.crowd-desc p{color:#eb6100;} 
+.crowd-show{  overflow:hidden; color:#454545; font-size:16px; max-height:34px; line-height:17px;}  
+.crowd-info{ overflow:hidden;padding-top:6px; color:#7a7a7a; }  
+.wave-m{ position:relative;}
+.more{ position:absolute; right:10%; top:0; background:url(../images/more.png) no-repeat; width:34px; height:56px; background-size:100% 100%;line-height:35px; font-size:16px; text-align:center; color:#4bc1d2;}
+.bor-w{ padding-bottom:55px; border-bottom:1px solid #b6b6b6;}
+.bar{width:90%; margin:20px auto 0px;}
+.cj-name  span{ display:block; height:28px; line-height:28px;}
+.cj{ padding-left:10px; float:left;}
+.bar div{position:relative;}
+.bar-left{position:absolute; color:#4444;left:30px;height:20px;top:-8px;}
+.bar-right{position:absolute;color:#4444;right:15px;height:20px;top:-10px;}
+.button{width:100%;}
+.button tr td{ padding:15px 0px; width:33.333333%; text-align:center;}
+.button tr td a{ display:block; width:95%; margin:0 auto; border-radius:20px; height:18px; line-height:18px; padding:10px 0px;  font-size:14px; color:#fff;}
+.button tr td a img{position: relative;top:-2px; margin-right:5px;}
+.button tr td a span{ display:inline-block; padding-left:5px; border-left:1px solid #fcfcfc;}
+.share{ background:#54ccb3;}
+.bq{ background:#f1d06f;}
+.query{ background:#b2b3e1;}
+/*我的记录查询*/
+.my-from{ padding:10px 0 10px 15px; border-bottom:1px solid #c9c9c9; background:#fff;}
+.shoop{ background:#fff; padding:10px 5px 10px 15px; }
+.shoop-table{display:table; width:100%; text-align:left;}
+.shoop-img{ width:120px;display:table-cell;}
+.shoop-je{ display:table-cell; vertical-align: middle;}
+.shoop-user-name{ margin-bottom:5px; color:#f19149;}
+.form-time{ margin-top:5px; color:#6b6d70; font-size:14px;}
+.mar-top{ margin-top:8px;}
+.shoop-title{line-height:20px; overflow:hidden; max-height:40px;}
+.color-a{ color:#808080;}
+.color-b{ color:#e20000; margin-top:5px;}
+.my-fireds{ margin-top:20px; background:#fff; padding-bottom:40px;}
+.my-f-t{ padding:13px 0 13px 15px;border-bottom:1px solid #ececec; font-size:18px; color:#000;}
+.public{ padding:7px 15px; border-bottom:1px solid #ececec;}
+.my-give{ margin-top:5px; text-align:left; font-size:14px}
+.my-give span{ color:#ff0000; }
+.fireds-name{ font-size:18px; color:#6b6d70;}
+.shoop-user-name img{ margin-right:5px;}
+.tool-price{padding-left:5px;width:40px; vertical-align:top; color:#8e8e8e;}
+.fy-time{ font-size:14px; color:#6b6d70; margin-top:3px;}
+.press{ width:90%; margin:0 auto; padding:20px 0px;}
+.press a{ display:block; padding:11px 0px;color:#fff;  border-radius:5px; text-align:center; font-size:18px;}
+.bj-blue{background:#4bc1d2;}
+/*补齐资金*/
+.my-page-mondy{ background:#fff;}
+.my-page-mondy p{ padding:20px 0 15px; text-align:center; font-size:18px; }
+.my-page-mondy p span{ color:#ff0000;}
+.weight{color:#4f5f6f; font-weight:bold;}
+.input-box{ padding:15px;}
+.box-boder{ border:1px solid #d1d5d9; padding:5px 10px; border-radius:5px;}
+.box-boder input{ height:30px; line-height:30px; width:100%; background:url(../images/mondy-iocn.png) no-repeat 0px 50%; background-size:20px 28px; text-indent:30px; font-size:14px; font-family:"微软雅黑";}
+.tips{ padding:10px 15px; background:#fff;color:#4f5f6f}
+.tips p{line-height:20px;margin-top:5px;  }
+/*输入赞助金额*/
+.red_center{ color:#e4393c; font-size:12px; margin-top:3px; display:block;}
+.message{padding:5px 0;}
+.ly-title{padding-left:10px;padding:10px 10px 5px;}
+.ly-textarea{color:#a8a8a8;border:1px solid #d1d5d9;border-radius:5px;width:100%;padding:5px 10px;resize:none;box-sizing:border-box;font-family:"微软雅黑";}
+.support{ background:#fa365e;}
+.ask{ background:#f59f84;}
+.no-fq{ background:#fff; padding:15px}
+.you-name{ display:table-cell; color:#868686;}
+.me-from{ display:table-cell; width:110px; padding-right:10px; }
+.me-from a{border-radius: 5px; background:#ff6a69; color:#fff; padding:10px 0px; display:block; text-align:center;}
+.no_public{ padding:10px 15px; color:#b4b4b4; } 
+
+
+.tab_ul{ border-bottom:1px solid #ccc;border-top:1px solid #ccc;}
+.tab_ul li{ float:left; width:50%; float:left; box-sizing:border-box;}
+.tab_ul li a{ display:block; text-align:center;  font-size:16px; color:#000;padding:15px 0px;}
+.tab_ul li:first-child a{ border-right:1px solid #ccc;}
+.tab_ul .on a{color:#79a6e6;}
+.zc-qk{ padding:0 10px; font-family:"微软雅黑";}
+.zc-qk table{ padding:10px 0px; border-bottom:1px solid #ccc;color:#565656}
+.zc-qk table:last-child{ border-bottom:0px;}
+.zc-qk table td{ vertical-align:top; font-size:12px;}
+.c-red{ color:#ff3743;}
+.f-p-r{ padding-right:6px;}
+.jk-pj-name{ margin-top:3px;}
+.jk-pj-name span{ margin-right:4px; float:left; width:60px; overflow:hidden; display:inline-block;}
+.jk-pj-name font{ float:left;}
+.good-pj{ margin-top:5px; max-height:36px; line-height:19px; overflow:hidden; }
+.zc-qk table .c-mondy{ width:80px;}
+.c-mondy p{ margin-top:5px;}
+.c-mondy p:last-child{ margin-top:15px;}
+.m-l{ margin-left:12px;}
+.new-shoop{border-bottom:1px solid #ccc; padding:10px 0px; padding-left:10px; font-family:"微软雅黑";  color:#343434;}
+
+
+/*微商加盟*/
+.edit{ padding:20px 0 40px; text-align:center;}
+.edit a{ display:inline-block; padding:8px 20px; color:#6b97a8; font-size:16px; border:1px solid #c9cdd0; background:#fff;}
+.user{ background:#fff; padding:20px 15px;}
+.user p{ border-radius:5px; border:1px solid #d1d5d9; padding:5px 5px 5px 35px; margin-top:15px;}
+.user p:first-child{ margin-top:0px;}
+.user p input{ height:25px; border-left:1px solid #dcdcdc; width:100%; text-indent:10px; color:#c7c7c7; font-family:"黑体";}
+.user-name{ background: url(../images/uaer-img.png) no-repeat 10px 50%; background-size:20px 20px;}
+.user-phone{ background:url(../images/phone.png) no-repeat 10px 50%; background-size:20px 20px;}
+.user-mail{ background:url(../images/mail-img.jpg) no-repeat 10px 50%; background-size:20px 15px;}
+.submit-applications{ padding:0 15px;margin-top:20px;}
+.submit-applications input{ width:100%; height:44px; font-size:16px; font-family:"黑体"; color:#fff;background:#4bc1d2; border-radius:5px;}
+
+/*弹出框*/
+.dialog{ background:#0d0d0d; width:60%;border-radius:10px;padding:0 20px; box-sizing:border-box;position: absolute; left: 50%; top:50%; margin-left: -30%;}
+.header{ color:#fff; text-align:center; margin-top:10px; border-bottom:1px solid #fff;padding-bottom:10px; height: 25px; line-height: 25px;}
+.dialog p{ color:#fff; text-align:center; padding:20px 0px;}
+.dialog input{ background:#ff9702; border-radius:10px; width:100%; height:30px; text-align:center; color:#b52a00; margin-bottom: 10px; font-family: "微软雅黑";}
+.bg{ /* background:#616161; */background: rgba(0,0,0,0.5);width:100%; height:100%; position:fixed; left: 0; top:0; z-index: 1000; display: none}
+.dialog img{float: right;}
+
+.shoop_share{position:fixed; width:100%; top:0px; left:0px; right:0px; bottom:0px; background:rgba(0,0,0,0.5); z-index:1;}
+
+
+.my_wechat_shoop{ padding:40px 0px; text-align:center; border-bottom:1px solid #cbcbcb; color:#ff8a00; font-size:16px;}
+.touch_we{ margin-top:10px; font-family:"微软雅黑";margin-left:12px;}
+.touch_name{ width:80px; color:#333; float:left; padding:8px 0px; height:21px; line-height:21px; font-size:15px;}
+.touch_input{ margin-left:80px;border:1px solid #cbcbcb;border-radius:5px;}
+.touch_input input{width:95%;padding:8px 0px;height:30px;line-height:30px;font-family:"微软雅黑";border-radius:5px;padding-left:1%;}
+.pay{ padding:10px 0px;}
+.wx{ color:#f7f7f7; background:#e4393c;display: block;width: 100%;border-radius: 5px;text-align: center;padding: 11px 0px;}
+.wx1{ color:#f7f7f7; background:#4bc1d2;display: block;width: 100%;border-radius: 5px;text-align: center;padding: 11px 0px;}
+.new_pay{ margin-top:16px;}

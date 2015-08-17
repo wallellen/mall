@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* CSS Document */
+/*角色*/
+.role-shoop{ padding:10px 0px; display:table; width:100%;border-bottom:1px solid #ddd;}
+.role-img{ padding:0 10px; display:table-cell; width:63px;text-align:center;}
+.role-img p{ margin-top:5px; }
+.shoop_nr{display:table-cell; vertical-align:middle;}
+.jk-shoop-name{ max-height:38px; line-height:18px; overflow:hidden;}
+.shoop_nr p{ margin-top:8px;}
+
+.c-boder-b{ border-bottom:1px solid #ff3743;}

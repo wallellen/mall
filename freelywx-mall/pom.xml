@@ -7,10 +7,10 @@
 		<artifactId>shop</artifactId>
 		<version>1.0</version>
 	</parent>
-	<groupId>com.freelywx.mall</groupId>
+	<groupId>com.freelywx </groupId>
 	<artifactId>wx-mall</artifactId>
 	<packaging>war</packaging>
-	<name>wx-admin</name>
+	<name>wx-mall</name>
 	<version>1.0.0</version>
 
 
@@ -25,7 +25,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.freelywx.common</groupId>
+			<groupId>com.freelywx</groupId>
 			<artifactId>wx-common</artifactId>
 			<version>1.0.0</version>
 		</dependency>
