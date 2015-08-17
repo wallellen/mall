@@ -41,7 +41,7 @@ html,body {
 				<td style="width: 150px;">触发的关键词：</td>
 				<td style="width: 250px;">
 					<input id="keyword_id"  name="keyword_id" class="mini-combobox" style="width:150px;" textField="keyword" valueField="keyword_id" emptyText="请选择..."
-   					 url="${ctx}/keyword/list"  allowInput="false" showNullItem="true" nullItemText="请选择..."/>   
+   					 url="${ctx}/keyword/listAll"  allowInput="false" showNullItem="true" nullItemText="请选择..."/>   
 				</td>
 			</tr>
 			<tr>

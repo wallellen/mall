@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,8 +20,6 @@ import com.freelywx.common.model.wx.WxAttention;
 import com.freelywx.common.model.wx.WxKeyword;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
-import com.freelywx.common.wx.token.AccessToken;
-import com.freelywx.common.wx.utils.WeixinUtil;
 //import com.rps.util.ClojureUtil;
 import com.rps.util.D;
 
@@ -31,9 +30,26 @@ public class KeywordController {
 
 	@RequestMapping("")
 	public String init(HttpServletRequest request) {
-		return "publish/k_init";
+		return "publish/keyword";
+	}
+	
+	@RequestMapping("/list")
+	@ResponseBody
+	public PageModel list(HttpServletRequest request) {
+		return PageUtil.getPageModel(WxKeyword.class, "sql.publish/getPageKeyword", request );
 	}
 
+	@RequestMapping(value = "/edit")
+	public String edit(WxKeyword keyword) {
+		return "publish/keyword_edit";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/{keyword_id}")
+	public WxKeyword get(@PathVariable("keyword_id") int keyword_id) {
+		return D.selectById(WxKeyword.class, keyword_id);
+	}
+	
 	/**
 	 * 新增
 	 * 
@@ -42,12 +58,14 @@ public class KeywordController {
 	 */
 
 	@ResponseBody
-	@RequestMapping(value = "/addKeyword")
-	public boolean create(WxKeyword keyword) {
+	@RequestMapping(value = "/save")
+	public boolean create(@RequestBody WxKeyword keyword) {
 		try {
-//			ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-//			keyword.setUser_id(Integer.parseInt(loginUser.getUser_id().toString()));
-			D.insert(keyword);
+			if(keyword.getKeyword_id() == null ){
+				D.insert(keyword);
+			}else{
+				D.update(keyword);
+			}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,16 +77,22 @@ public class KeywordController {
 	 * 修改
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/update")
-	public boolean updatess(WxKeyword keyword) {
-		boolean result = true;
+	@RequestMapping(value = "/del/{ids}")
+	public boolean delete(@PathVariable("ids") final int[] ids) {
 		try {
-			D.updateWithoutNull(keyword);
+			D.startTranSaction(new Callable() {
+				@Override
+				public Object call() throws Exception {
+					for (Integer id : ids) {
+						D.deleteById(WxKeyword.class, id);
+					}
+					return true;
+				}
+			});
+			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
-			result = false;
+			return false;
 		}
-		return result;
 	}
 
 	/**
@@ -116,7 +140,7 @@ public class KeywordController {
 	@ResponseBody
 	@RequestMapping("/getReply_id")
 	public List<WxKeyword> getReply_id(HttpServletRequest request) {
-		return D.sql("select * from WX_PUB_MENU").many(WxKeyword.class);
+		return D.sql("select * from t_wx_keyword").many(WxKeyword.class);
 	}
 	
 	/**
@@ -182,9 +206,9 @@ public class KeywordController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/list")
+	@RequestMapping("/listAll")
 	@ResponseBody
-	public List<WxKeyword> list(HttpServletRequest request) {
+	public List<WxKeyword> listAll(HttpServletRequest request) {
 		return D.selectAll(WxKeyword.class);
 	}
 

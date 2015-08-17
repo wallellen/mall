@@ -1,6 +1,7 @@
 package com.freelywx.admin.wx;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +32,6 @@ public class ImgNewsController {
 	public String edit(){
 		return "publish/imgNews_edit";
 	}
-	
-	
-	
-	@RequestMapping(value="select_url_tree")
-	public String select_context_temp(){
-		return "publish/select_url_tree";
-	}
-	
-	
 	 
 	@ResponseBody
 	@RequestMapping(value = "list")
@@ -49,6 +41,12 @@ public class ImgNewsController {
 		map.put("uid", user.getUser_id()); 
 		
 		return PageUtil.getPageModel(WxImg.class, "sql.publish/getImgPage",request,map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "listAll")
+	public List<WxImg> listAll() {
+		return D.selectAll(WxImg.class);
 	}
 	 
 	@ResponseBody

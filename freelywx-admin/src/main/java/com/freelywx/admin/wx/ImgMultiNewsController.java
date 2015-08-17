@@ -1,5 +1,6 @@
 package com.freelywx.admin.wx;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
+import com.freelywx.common.model.wx.WxImg;
 import com.freelywx.common.model.wx.WxImgMulti;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
@@ -39,7 +41,11 @@ public class ImgMultiNewsController {
 		 
 		return PageUtil.getPageModel(WxImgMulti.class,	"sql.publish/getImgMultiPage", request,map);
 	}
-
+	@ResponseBody
+	@RequestMapping(value = "listAll")
+	public List<WxImgMulti> listAll() {
+		return D.selectAll(WxImgMulti.class);
+	}
 	/*
 	 * 添加用户.后台只能创建系统用户。
 	 */

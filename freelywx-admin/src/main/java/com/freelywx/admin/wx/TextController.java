@@ -6,7 +6,6 @@ import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
-import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.wx.WxKeyword;
 import com.freelywx.common.model.wx.WxText;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
@@ -69,6 +66,11 @@ public class TextController {
 	public WxText getText(@PathVariable("id") int id) {
 		WxText text = D.selectById(WxText.class, id);
 		return text;
+	}
+	@ResponseBody
+	@RequestMapping(value = "listAll")
+	public List<WxText> listAll() {
+		return D.selectAll(WxText.class);
 	}
 	
 	@ResponseBody
