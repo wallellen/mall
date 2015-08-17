@@ -24,11 +24,9 @@
 
 ;; text
 (defsql getTextPage {
-   :sql "SELECT * FROM T_PUB_TEXT"
+   :sql "SELECT * FROM t_wx_text"
    :where (AND 
-       {"uid"  "uid = ?"}
        {"id" "id = ?" }
-       ("keyword"  "keyword like ?" "%" "%")
        ("content"  "content like ?" "%" "%")
     )
    :page true
@@ -38,9 +36,8 @@
 
 ;;图文消息
 (defsql getImgPage {
-   :sql "SELECT * FROM T_PUB_IMG"
+   :sql "SELECT * FROM t_wx_img"
    :where (AND 
-       {"uid"  "uid = ?"}
        {"id" "id = ?" }
        ("title"  "title like ?" "%" "%")
        ("content"  "content like ?" "%" "%")
@@ -65,9 +62,8 @@
  
 ;;多图文消息
 (defsql getImgMultiPage {
-   :sql "SELECT a.*,b.PUBLIC_NAME  FROM t_pub_img_multi  a left join  t_p_merchant_wx b on a.WX_ID=b.WX_ID "
+   :sql "SELECT a.*   FROM t_wx_img_multi  a   "
    :where (AND  
-        {"uid"  "uid = ?"}
        ("keyword"  " a.keyword like ?" "%" "%")
     )
    :page true
@@ -78,6 +74,6 @@
 
 ;;根据ID查询对应的图文信息
 (deftemplate getImgByIds [ids]
-  "select * from  T_PUB_IMG WHERE id IN @{ids}"
+  "select * from  t_wx_img WHERE id IN @{ids}"
 )
  
