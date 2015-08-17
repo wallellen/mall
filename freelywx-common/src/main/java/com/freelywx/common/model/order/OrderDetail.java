@@ -8,20 +8,30 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_O_ORDER_DETAIL")
+@Table("t_o_order_detail")
 public class OrderDetail {
 	@Id
 	@GenerateByDb
 	private Integer detail_id;
 
 	private Integer order_id;
+
 	private Integer prod_id;
+
 	private String prod_code;
+
 	private String prod_name;
-	private Integer prod_amount;
-	private Integer prod_price;
-	private Integer prod_discount_price;
-	private Integer prod_transit_price;
+	
+	private Integer amount;			//数量
+
+	private Integer price;			//单价
+
+	private Integer discount_price;
+
+	private Integer transit_price;
+
+	private Integer pay_price;
+
 	private String prod_img_url;
 	@ColumnIgnore
 	private List<OrderDetailAttr> detailAttr;
@@ -68,36 +78,44 @@ public class OrderDetail {
 		this.prod_name = prod_name;
 	}
 
-	public Integer getProd_amount() {
-		return prod_amount;
+	public Integer getAmount() {
+		return amount;
 	}
 
-	public void setProd_amount(Integer prod_amount) {
-		this.prod_amount = prod_amount;
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 
-	public Integer getProd_price() {
-		return prod_price;
+	public Integer getPrice() {
+		return price;
 	}
 
-	public void setProd_price(Integer prod_price) {
-		this.prod_price = prod_price;
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 
-	public Integer getProd_discount_price() {
-		return prod_discount_price;
+	public Integer getDiscount_price() {
+		return discount_price;
 	}
 
-	public void setProd_discount_price(Integer prod_discount_price) {
-		this.prod_discount_price = prod_discount_price;
+	public void setDiscount_price(Integer discount_price) {
+		this.discount_price = discount_price;
 	}
 
-	public Integer getProd_transit_price() {
-		return prod_transit_price;
+	public Integer getTransit_price() {
+		return transit_price;
 	}
 
-	public void setProd_transit_price(Integer prod_transit_price) {
-		this.prod_transit_price = prod_transit_price;
+	public void setTransit_price(Integer transit_price) {
+		this.transit_price = transit_price;
+	}
+
+	public Integer getPay_price() {
+		return pay_price;
+	}
+
+	public void setPay_price(Integer pay_price) {
+		this.pay_price = pay_price;
 	}
 
 	public String getProd_img_url() {
