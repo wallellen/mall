@@ -10,23 +10,23 @@ import com.rps.util.dao.annotation.Table;
 public class TVProdVisit {
 	@Id
 	@GenerateByDb
-	private Long id;
+	private int id;
 
 	private Long store_id;
 
-	private Long share_id;
+	private int share_id;
 
 	/** 微商ID */
 	private Integer merchant_id;
 
-	private Long member_id;
+	private int member_id;
 
 	private String open_id;
 
 	private Date visit_time;
 
 	/** 产品ID */
-	private Long prod_id;
+	private int prod_id;
 
 	/** IP地址 */
 	private String ip_address;
@@ -47,11 +47,11 @@ public class TVProdVisit {
 
 	private String ext5;
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -63,11 +63,11 @@ public class TVProdVisit {
 		this.store_id = store_id;
 	}
 
-	public Long getShare_id() {
+	public int getShare_id() {
 		return share_id;
 	}
 
-	public void setShare_id(Long share_id) {
+	public void setShare_id(int share_id) {
 		this.share_id = share_id;
 	}
 
@@ -79,11 +79,11 @@ public class TVProdVisit {
 		this.merchant_id = merchant_id;
 	}
 
-	public Long getMember_id() {
+	public int getMember_id() {
 		return member_id;
 	}
 
-	public void setMember_id(Long member_id) {
+	public void setMember_id(int member_id) {
 		this.member_id = member_id;
 	}
 
@@ -103,11 +103,11 @@ public class TVProdVisit {
 		this.visit_time = visit_time;
 	}
 
-	public Long getProd_id() {
+	public int getProd_id() {
 		return prod_id;
 	}
 
-	public void setProd_id(Long prod_id) {
+	public void setProd_id(int prod_id) {
 		this.prod_id = prod_id;
 	}
 
@@ -174,4 +174,5 @@ public class TVProdVisit {
 	public void setExt5(String ext5) {
 		this.ext5 = ext5;
 	}
+
 }

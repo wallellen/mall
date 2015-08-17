@@ -36,7 +36,7 @@ public class Order {
 	/**积分抵用金额*/
 	private Integer integral_price;
 
-	private Integer total_coupon_price;
+	private Integer coupon_price;
 
 	private Integer transit_price;
 
@@ -188,12 +188,12 @@ public class Order {
 		this.integral_price = integral_price;
 	}
 
-	public Integer getTotal_coupon_price() {
-		return total_coupon_price;
+	public Integer getCoupon_price() {
+		return coupon_price;
 	}
 
-	public void setTotal_coupon_price(Integer total_coupon_price) {
-		this.total_coupon_price = total_coupon_price;
+	public void setCoupon_price(Integer coupon_price) {
+		this.coupon_price = coupon_price;
 	}
 
 	public Integer getTransit_price() {

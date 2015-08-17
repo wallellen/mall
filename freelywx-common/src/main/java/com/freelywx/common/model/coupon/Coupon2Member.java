@@ -10,7 +10,7 @@ import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
 
-@Table("T_C_COUPON_2_MEMBER")
+@Table("t_c_coupon_2_member")
 public class Coupon2Member {
 	@GenerateByDb
 	@Id
