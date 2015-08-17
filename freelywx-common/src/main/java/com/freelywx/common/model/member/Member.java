@@ -14,7 +14,7 @@ public class Member {
 	private Integer member_id;
 
 	/** 商户编号 */
-	private Integer merchant_id;
+	private Integer wx_id;
 
 	private String openid;
 
@@ -50,12 +50,13 @@ public class Member {
 		this.member_id = member_id;
 	}
 
-	public Integer getMerchant_id() {
-		return merchant_id;
+
+	public Integer getWx_id() {
+		return wx_id;
 	}
 
-	public void setMerchant_id(Integer merchant_id) {
-		this.merchant_id = merchant_id;
+	public void setWx_id(Integer wx_id) {
+		this.wx_id = wx_id;
 	}
 
 	public String getOpenid() {
