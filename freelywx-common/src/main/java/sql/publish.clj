@@ -4,18 +4,16 @@
            [com.rps.util.dao SqlAndParams]
            [java.util ArrayList]))
 
-(def getWxSysMenu " SELECT * FROM WX_SYS_MENU ")
-
-(def getWxMPublic " SELECT * FROM WX_M_MERCHANT_INFO ")
 
 (defsql getPageKeyword {
-   :sql "SELECT * FROM WX_PUB_KEYWORD"
+   :sql "SELECT * FROM t_wx_keyword  "
    :where (AND 
-       {"user_id"  "user_id = ? "}
        {"keyword_id" "keyword_id = ?" }
-       {"public_id" "public_id = ?" }
        {"keyword" "keyword = ?" }
        {"keyword_type" "keyword_type = ?" }
+       ("keyword_id" "keyword_id = ?" )
+       ("keyword" "keyword = ?" )
+       ("keyword_type" "keyword_type = ?" )
     )
    :page true
    :orderby true
@@ -50,14 +48,15 @@
 })
 
 (defsql getAttentionPage {
-   :sql "SELECT * FROM T_PUB_ATTENTION  "
+   :sql "SELECT a.*,b.keyword  FROM t_wx_attention a left join t_wx_keyword b on a.keyword_id = b.keyword_id  "
    :where (AND 
        ("startTime" "a.start_time>=?")
        ("endTime" "a.start_time<=?")
+       ("title" "a.title like ?" "%" "%")
     )
    :page true
    :orderby true
-   :orderby-default " order by attention_id asc "
+   :orderby-default " order by a.attention_id asc "
 })
  
 ;;多图文消息

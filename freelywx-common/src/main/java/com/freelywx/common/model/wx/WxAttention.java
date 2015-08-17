@@ -2,6 +2,7 @@ package com.freelywx.common.model.wx;
 
 import java.util.Date;
 
+import com.rps.util.dao.annotation.ColumnIgnore;
 import com.rps.util.dao.annotation.GenerateByDb;
 import com.rps.util.dao.annotation.Id;
 import com.rps.util.dao.annotation.Table;
@@ -28,6 +29,9 @@ public class WxAttention {
 
 	/** 状态1、有效；2、无效 */
 	private String status;
+	
+	@ColumnIgnore
+	private String keyword;
 
 	public Integer getAttention_id() {
 		return attention_id;
@@ -84,4 +88,14 @@ public class WxAttention {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
+	
 }
