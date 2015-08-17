@@ -44,10 +44,11 @@ html,body {
     <div property="columns">
         <div type="checkcolumn" ></div>        
         <!-- <div field="id" width="120" headerAlign="center" allowSort="true">编号</div> -->
-        <div field="title" width="120" headerAlign="center" allowSort="true">说明</div>
-        <div field="keyword" width="120" headerAlign="center" allowSort="true">关键字</div>
+        <div field="title" width="120" headerAlign="center" allowSort="true">标题</div>
+        <div field="pic_url" width="120" headerAlign="center" allowSort="true">圖片</div>
         <div field="content" width="120" headerAlign="center" allowSort="true">内容</div>
-        <div field="type" width="120" headerAlign="center" allowSort="true" renderer="onDict">匹配類型</div>
+        <div field="link_url" width="120" headerAlign="center" allowSort="true">鏈接</div>
+        <div field="text_content" width="120" headerAlign="center" allowSort="true">詳情</div>
     </div>
 </div>
 </div>
@@ -135,15 +136,6 @@ html,body {
         search();
     }
     
-    //数据处理显示
-    var dictMap = new Map();
-    function onDict(e) {
-		if (e.column.field == 'type'){
-			return getDict(e, e.column.field, "MATCH_TYPE");
-		}else if(e.column.field == 'status'){
-			return getDict(e, e.column.field, "STATE");
-		}
-	}	
 </script>
 
 </body>

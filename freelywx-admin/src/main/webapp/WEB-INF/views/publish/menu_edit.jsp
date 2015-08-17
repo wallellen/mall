@@ -22,57 +22,40 @@ html,body {
 <body>
 	<form id="form1" method="post">
 	  	<input class="mini-hidden" name="menu_id" id="menu_id" />  
-		<input class="mini-hidden" name="uid" id="uid" />
-		<input class="mini-hidden" name="wx_id" id="wx_id" />
 		<input class="mini-hidden" name="pid" id="pid" />
 		
 		
 		<table style="width: 100%;">
 			<tr>
-				<td style="width: 80px;">菜单文本：</td>
-				<td style="width: 150px;"><input name="menu_name" id="menu_name"
+				<td style="width: 150px;">菜单文本：</td>
+				<td style="width: 250px;"><input name="menu_name" id="menu_name"
 					class="mini-textbox"  errorMode="border" required="true" /></td>
 			</tr>
-			
-			
-			
 			<tr>
-				<td style="width: 80px;">菜单类型：</td>
-				<td style="width: 150px;"><input name="menu_type"
-					id="menu_type" onvaluechanged="valueChanged" class="mini-combobox" allowinput="true"
-					textField="text" valueField="id" url="${ctx}/combox/dict/MENU_TYPE">
+				<td style="width: 150px;">菜单类型：</td>
+				<td style="width: 250px;">
+				<input name="type" id="type" onvaluechanged="valueChanged" class="mini-combobox" allowinput="true" textField="text" valueField="id" url="${ctx}/combox/dict/MENU_TYPE">
 				</td>
 			</tr>
 			<tr>
-			
-			<tr>
-				<td style="width: 80px;">触发的关键词：</td>
-				<td style="width: 150px;"><input name="keyword" id="keyword"
-					class="mini-textbox" onvalidation="onNmInValidation"
-					errorMode="border" required="true" /></td>
-			</tr>
-			
-			
-			<tr>
-				<td style="width: 80px;">链接地址：</td>
-				
-					
-					<td style="width:600px;">
-	                	<input id="btnEdit" class="mini-buttonedit" vtype="url" onbuttonclick="onButtonEdit" name="url"  />
-	                </td>
-	                
-			</tr>
-			
-			 
-			<tr>
-				<td style="width: 80px;">是否启用：</td>
-				<td style="width: 150px;"><input name="is_show" id="is_show"
-					class="mini-combobox" errorMode="border" required="true"
-					textField="text" valueField="id" url="${ctx}/combox/dict/STATE">
+				<td style="width: 150px;">触发的关键词：</td>
+				<td style="width: 250px;">
+					<input id="keyword_id"  name="keyword_id" class="mini-combobox" style="width:150px;" textField="keyword" valueField="keyword_id" emptyText="请选择..."
+   					 url="${ctx}/keyword/list"  allowInput="false" showNullItem="true" nullItemText="请选择..."/>   
 				</td>
 			</tr>
-			
-			
+			<tr>
+				<td style="width: 150px;">链接地址：</td>
+				<td style="width:250px;">
+	                <input id="url" class="mini-textbox"  vtype="url" name="url"  />
+	            </td>
+			</tr>
+				<tr>
+				<td style="width: 150px;">排序：</td>
+				<td style="width:250px;">
+	                <input id="sort" class="mini-textbox"  vtype="int" name="sort"  />
+	            </td>
+			</tr>
 			<tr>
 				<td></td>
 				<td><a class="mini-button" onclick="SaveData()"
@@ -94,7 +77,7 @@ html,body {
 			console.log(o);
 			var json = mini.encode(o);
 			$.ajax({
-                url: "${ctx}/wxmenu/save",
+                url: "${ctx}/wxMenu/save",
                 type:"POST", 
                 dataType:"json",      
                 contentType:'application/json;charset=UTF-8',  
@@ -112,47 +95,13 @@ html,body {
                 }
             });   
 		}
-		
-		
-		
-
-	   	 function onButtonEdit(e) {
-	            var btnEdit = this;
-	            mini.open({
-	                url: "${ctx }/reply/img/select_url_tree",
-	                title: "选择微网站页面",
-	                width: 650,
-	                height: 380,
-	                ondestroy: function (action) {
-	                    //if (action == "close") return false;
-	                    if (action == "ok") {
-	                        var iframe = this.getIFrameEl();
-	                        var data = iframe.contentWindow.GetData();
-	                        data = mini.clone(data);    //必须
-	                        if (data) {
-	                        	
-	                        	btnEdit.setValue("");
-	                            btnEdit.setText("");
-	                            
-	                            btnEdit.setValue(data.url);
-	                            btnEdit.setText(data.url);
-	                            
-	                            
-	                        }
-	                    }
-	                }
-	            });     
-	        }      
-	   	 
-	   	 
-	   	 
 	   	 
 		//标准方法接口定义
 		function SetData(data) {
 			if (data.action == "edit") {
 				data = mini.clone(data);
 				$.ajax({
-					url : "${ctx }/wxmenu/" + data.menu_id,
+					url : "${ctx }/wxMenu/" + data.menu_id,
 					cache : false,
 					success : function(text) {
 						var o = mini.decode(text);
@@ -220,7 +169,7 @@ html,body {
 				var menu_name = mini.get("menu_name").getValue();
 				if (menu_name != e.value) {
 					$.ajax({
-						url : '${ctx}/menu/checkName/' + e.value,
+						url : '${ctx}/wxMenu/checkName/' + e.value,
 						async : false,
 						type : "post",
 						success : function(text) {

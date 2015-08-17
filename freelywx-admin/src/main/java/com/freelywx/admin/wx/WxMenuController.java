@@ -34,7 +34,7 @@ public class WxMenuController {
 	@Autowired
 	DictCache dictCache;
 
-	@RequestMapping("init")
+	@RequestMapping("")
 	public String init() {
 		return "publish/menu";
 	}
@@ -43,8 +43,7 @@ public class WxMenuController {
 	@RequestMapping("list")
 	public List<WxMenu> SearchEmployees(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		List<WxMenu> allMenue = D.sql("select * from t_pub_menu where uid= ?   order by menu_id  ").many(WxMenu.class,
-				loginUser.getUser_id());
+		List<WxMenu> allMenue = D.sql("select * from t_wx_menu  order by menu_id  ").many(WxMenu.class );
 		return allMenue;
 	}
 
@@ -60,7 +59,7 @@ public class WxMenuController {
 
 		// 父按钮
 		ArrayList<Button> listParent = new ArrayList<Button>();
-		List<WxMenu> list = D.sql("select * from t_pub_menu where UID= ?").many(WxMenu.class, loginUser.getUser_id());
+		List<WxMenu> list = D.sql("select * from t_wx_menu ").many(WxMenu.class );
 		for (WxMenu tp : list) {
 			if (tp.getPid() == -1) // 表示是父按钮
 			{
@@ -179,7 +178,7 @@ public class WxMenuController {
 	@ResponseBody
 	@RequestMapping(value = "/getChilds/{menu_id}")
 	public List<WxMenu> getChilds(@PathVariable("menu_id") String menu_id) {
-		List<WxMenu> list = D.sql("select * from t_pub_menu where pid =?").many(WxMenu.class, menu_id);
+		List<WxMenu> list = D.sql("select * from t_wx_menu where pid =?").many(WxMenu.class, menu_id);
 		return list;
 	}
 
@@ -199,8 +198,6 @@ public class WxMenuController {
 	@ResponseBody
 	@RequestMapping(value = "/save")
 	public boolean save(@RequestBody final WxMenu tPubMenu) {
-		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		System.out.println("tPubMenu.getMenu_id():" + tPubMenu.getMenu_id());
 		if (tPubMenu.getMenu_id() != null) {
 			return D.updateWithoutNull(tPubMenu) > 0;
 		} else {
@@ -214,9 +211,7 @@ public class WxMenuController {
 	@ResponseBody
 	@RequestMapping("/getMenuSize")
 	public List<WxMenu> getMenuSize() {
-		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		List<WxMenu> list = D.sql("select * from t_pub_menu where pid=-1 and uid=?").many(WxMenu.class,
-				loginUser.getUser_id());
+		List<WxMenu> list = D.sql("select * from t_wx_menu where pid=-1  ").many(WxMenu.class );
 		return list;
 	}
 

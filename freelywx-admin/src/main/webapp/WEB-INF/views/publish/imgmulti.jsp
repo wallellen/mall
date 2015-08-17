@@ -12,16 +12,16 @@
     </style>
 </head>
 <body>
-	<div style="padding-bottom:5px;">
+<!-- 	<div style="padding-bottom:5px;">
         <span>多图文回复的关键字：</span><input type="text" id="keyword"  />
-        <!--  
+         
         <span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span>公众号名称：</span><input type="text" id="public_name"  />
-        -->
+       
         <input type="button" value="查找" onclick="search()"/>
         <span >&nbsp;</span>
         <input type="button" value="重置" onclick="reset()"/>
-    </div>
+    </div> -->
         <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
             <table style="width:100%;">
                 <tr>
@@ -44,28 +44,13 @@
              <div type="checkcolumn"></div> 
             
             
-            <div name="uid"  field="uid" headerAlign="center" allowSort="true" width="100" >uid
+            <div name="title"  field="title" headerAlign="center" allowSort="true" width="100" >標題
                 <input   class="mini-textbox" style="width:100%;" minWidth="100" />
             </div>
-            
-            <div name="keyword"  field="keyword" headerAlign="center" allowSort="true" width="150" >回复关键字
-                <input   class="mini-textbox" style="width:100%;" minWidth="100" />
-            </div>
-             
              
              <div name="imgids"  field="imgids" headerAlign="center" allowSort="true" width="150" >单图文列表
                 <input   class="mini-textbox" style="width:100%;" minWidth="100" />
             </div>
-            
-            
-             
-             <div name="public_name"  field="public_name" headerAlign="center" allowSort="true" width="150" >微信用户
-                <input   class="mini-textbox" style="width:100%;" minWidth="100" />
-            </div>
-            
-            
-             
-            
         </div>
     </div>
     </div>
@@ -77,11 +62,6 @@
         grid.load(); 
         grid.sortBy("id", "asc");
         
-        function search() { 
-        	grid.load({
-        		keyword: $("#keyword").val()
-            	});
-        }
         function add() {
         	var data = { action : "new" };
         	mini.open({
@@ -140,23 +120,6 @@
                    alert("请选中一条记录");
                }
           }
-        
-        
-       
-        function reset() {
-        	$("#keyword").val("");
-        }
-        //////////// /////////////////////////////////////
-        var dictMap = new Map();
-		function onDict(e) {
-			if (e.column.field == 'industry'){
-				return getDict(e, e.column.field, "INDUSTRY");
-			}else if(e.column.field == 'label'){
-				return getDict(e, e.column.field, "LABEL");
-			}
-				
-		}
-
     </script>
 </body>
 </html>

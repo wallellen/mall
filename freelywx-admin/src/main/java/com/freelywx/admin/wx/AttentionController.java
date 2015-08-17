@@ -17,7 +17,7 @@ import com.rps.util.D;
 @RequestMapping("/attention")
 public class AttentionController {
 
-	@RequestMapping("/init")
+	@RequestMapping("")
 	public String init() {
 		return "attention/attention";
 	}

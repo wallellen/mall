@@ -31,7 +31,6 @@ html,body {
                     <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
                 </td>
                 <td style="white-space:nowrap;">
-                    <input id="keyword" class="mini-textbox" emptyText="请输入关键字" style="width:150px;" onenter="onKeyEnter"/>
                     <input id="content" class="mini-textbox" emptyText="请输入内容" style="width:150px;" onenter="onKeyEnter"/>
                     <a class="mini-button" onclick="search()">查询</a>
                 </td>
@@ -45,7 +44,7 @@ html,body {
         <div type="checkcolumn" ></div>        
         <!-- <div field="id" width="120" headerAlign="center" allowSort="true">编号</div> -->
         <!--  <div field="title" width="120" headerAlign="center" allowSort="true">说明</div>-->
-        <div field="keyword" width="120" headerAlign="center" allowSort="true">关键字</div>
+        <div field="title" width="120" headerAlign="center" allowSort="true">title</div>
          <div field="content" width="120" headerAlign="center" allowSort="true">内容</div>
         <div field="type" width="120" headerAlign="center" allowSort="true" renderer="onMatchType"   >匹配類型</div>
         
@@ -154,17 +153,6 @@ html,body {
 			return getDict(e, e.column.field, "STATUS");
 		}
 	}	
-    
-    
-    
-    var match_type = [{ id: 1, text: '模糊匹配' }, { id: 2, text: '完全匹配'}];
-    function onMatchType(e) {
-        for (var i = 0, l = match_type.length; i < l; i++) {
-            var g = match_type[i];
-            if (g.id == e.value) return g.text;
-        }
-        return "";
-    }
 	
     
     

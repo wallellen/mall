@@ -48,52 +48,13 @@ public class TextController {
 	}
 	 
 	@ResponseBody
-	@RequestMapping(value = "check")
-	public boolean check(String keyword,String id) {
-		if(!StringUtils.isEmpty(id)){
-			int keyId = Integer.parseInt(id);
-			WxText key = D.selectById(WxText.class, keyId);
-			if(key == null){
-				return true;
-			}
-		} 
-		List<WxKeyword> list = D.sql("select * from T_PUB_KEYWORD where keyword = ?").many(WxKeyword.class, keyword);
-		if(list != null && list.size() > 0 ){
-			return false;
-		}else{
-			return true;
-		}
-	}
-	 
-	@ResponseBody
 	@RequestMapping(value = "save")
 	public boolean save(@RequestBody final WxText text){
 		try{
 			if(null != text.getId() && text.getId() > 0 ){
-				D.startTranSaction(new Callable() {
-					@Override
-					public Object call() throws Exception {
-						D.updateWithoutNull(text);
-						WxKeyword keyword =  D.selectById(WxKeyword.class,text.getId());
-						D.updateWithoutNull(keyword);
-						return true;
-					}
-				});
-				
+				D.updateWithoutNull(text);
 			}else{
-				D.startTranSaction(new Callable() {
-					@Override
-					public Object call() throws Exception {
-						ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-						//text.setWx_id(user.getMerchantWx().getWx_id());
-						int id = D.insertAndReturnInteger(text);
-						WxKeyword keyword = new WxKeyword();
-					//	keyword.setWx_id(user.getMerchantWx().getWx_id());
-						D.insert(keyword);
-						return true;
-					}
-				});
-				
+				D.insertAndReturnInteger(text);
 			}
 			return true;
 		}catch(Exception e){
@@ -119,7 +80,6 @@ public class TextController {
 				public Object call() throws Exception {
 					for (Integer id : ids) {
 						D.deleteById(WxText.class, id);
-						D.deleteByWhere(WxKeyword.class, "content_id = ? and MODULE = ?",  id,SystemConstant.ReplyType.REPLY_TEXT);
 					}
 					return true;
 				}

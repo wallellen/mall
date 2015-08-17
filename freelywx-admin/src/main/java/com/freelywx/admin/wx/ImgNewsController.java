@@ -1,12 +1,10 @@
 package com.freelywx.admin.wx;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
-import com.freelywx.common.config.SystemConstant;
 import com.freelywx.common.model.wx.WxImg;
-import com.freelywx.common.model.wx.WxKeyword;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
@@ -56,51 +52,13 @@ public class ImgNewsController {
 	}
 	 
 	@ResponseBody
-	@RequestMapping(value = "check")
-	public boolean check(String keyword,String id) {
-		if(!StringUtils.isEmpty(id)){
-			int keyId = Integer.parseInt(id);
-			WxImg key = D.selectById(WxImg.class, keyId);
-			if(key == null){
-				return true;
-			}
-		} 
-		List<WxKeyword> list = D.sql("select * from T_PUB_KEYWORD where keyword = ?").many(WxKeyword.class, keyword);
-		if(list != null && list.size() > 0 ){
-			return false;
-		}else{
-			return true;
-		}
-	}
-	 
-	@ResponseBody
 	@RequestMapping(value = "save")
 	public boolean save(@RequestBody final WxImg img){
 		try{
 			if(null != img.getId() && img.getId() > 0 ){
-				D.startTranSaction(new Callable() {
-					@Override
-					public Object call() throws Exception {
-						D.updateWithoutNull(img);
-						WxKeyword keyword =  D.selectById(WxKeyword.class,img.getId());
-						D.updateWithoutNull(keyword);
-						return true;
-					}
-				});
+				D.updateWithoutNull(img);
 			}else{
-				D.startTranSaction(new Callable() {
-					@Override
-					public Object call() throws Exception {
-						ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-						//text.setWx_id(user.getMerchantWx().getWx_id());
-						int id = D.insertAndReturnInteger(img);
-						WxKeyword keyword = new WxKeyword();
-					//	keyword.setWx_id(user.getMerchantWx().getWx_id());
-						D.insert(keyword);
-						return true;
-					}
-				});
-				
+				D.insertAndReturnInteger(img);
 			}
 			return true;
 		}catch(Exception e){
@@ -125,7 +83,6 @@ public class ImgNewsController {
 				public Object call() throws Exception {
 					for (Integer id : ids) {
 						D.deleteById(WxImg.class, id);
-						D.deleteByWhere(WxKeyword.class, "content_id = ? and MODULE = ?",  id,SystemConstant.ReplyType.REPLY_GRAPHIC);
 					}
 					return true;
 				}

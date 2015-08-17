@@ -23,7 +23,7 @@ import com.rps.util.D;
 @Controller
 @RequestMapping("/wx/")
 public class WxController {
-	@RequestMapping("init")
+	@RequestMapping("")
 	public String init() {
 		
 	//	ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();

@@ -1,7 +1,5 @@
 package com.freelywx.admin.wx;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.freelywx.admin.shiro.ShiroUser;
-import com.freelywx.common.config.SystemConstant;
-import com.freelywx.common.model.wx.WxImg;
 import com.freelywx.common.model.wx.WxImgMulti;
-import com.freelywx.common.model.wx.WxKeyword;
 import com.freelywx.common.util.PageModel;
 import com.freelywx.common.util.PageUtil;
 import com.rps.util.D;
@@ -24,13 +19,13 @@ import com.rps.util.D;
 @Controller
 @RequestMapping("/reply/imgmulti")
 public class ImgMultiNewsController {
-	@RequestMapping("init")
+	@RequestMapping("")
 	public String init() {
-		return "publish/imgmulti/imgmulti";
+		return "publish/imgmulti";
 	}
 	@RequestMapping(value = "edit")
 	public String edit() {
-		return "publish/imgmulti/imgmulti_edit";
+		return "publish/imgmulti_edit";
 	}
 
 	@ResponseBody
@@ -42,28 +37,7 @@ public class ImgMultiNewsController {
 		map.put("uid", user.getUser_id());
 		
 		 
-		return PageUtil.getPageModel(WxImgMulti.class,
-				"sql.publish/getImgMultiPage", request,map);
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "check")
-	public boolean check(String keyword, String id) {
-		if (!StringUtils.isEmpty(id)) {
-			int keyId = Integer.parseInt(id);
-			WxImg key = D.selectById(WxImg.class, keyId);
-			if (key == null) {
-				return true;
-			}
-		}
-		List<WxKeyword> list = D.sql(
-				"select * from T_PUB_KEYWORD where keyword = ?").many(
-				WxKeyword.class, keyword);
-		if (list != null && list.size() > 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return PageUtil.getPageModel(WxImgMulti.class,	"sql.publish/getImgMultiPage", request,map);
 	}
 
 	/*
@@ -74,33 +48,17 @@ public class ImgMultiNewsController {
 	public boolean save(HttpServletRequest req) {
 		try {
 			String ids = req.getParameter("ids");
-			String key = req.getParameter("keyword");
-			final ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+			String title = req.getParameter("title");
 			final WxImgMulti tPubImgMulti = new WxImgMulti();
 			tPubImgMulti.setImgids(ids);
+			tPubImgMulti.setTitle(title);
 			
 			String id = req.getParameter("id");
 			if(StringUtils.isEmpty(id)){
-				D.startTranSaction(new Callable() {
-					@Override
-					public Object call() throws Exception {
-						int keyId = D.insertAndReturnInteger(tPubImgMulti);
-						WxKeyword keyword = new WxKeyword();
-						D.insert(keyword);
-						return true;
-					}
-				});
+				 D.insertAndReturnInteger(tPubImgMulti);
 			}else{
 				tPubImgMulti.setId(Integer.parseInt(req.getParameter("id")));
-				D.startTranSaction(new Callable() {
-					@Override
-					public Object call() throws Exception {
-						D.updateWithoutNull(tPubImgMulti);
-						WxKeyword keyword =  D.selectById(WxKeyword.class,tPubImgMulti.getId());
-						D.updateWithoutNull(keyword);
-						return true;
-					}
-				});
+				D.updateWithoutNull(tPubImgMulti);
 			}
 			return true;
 		} catch (Exception e) {

@@ -23,15 +23,10 @@ html,body {
 <body>
 
 
-
- 
-
-
-
 <div class="mini-splitter" vertical="true" style="width:100%;height:100%;">
     <div size="20px" showCollapseButton="true">
-        <input id="keyword"  class="mini-textbox" emptyText="请输入关键词" style="width:150px;" />
-                  <input type="text" id="id"  class="mini-hidden" />
+        多图文标题：<input id="title"  class="mini-textbox" emptyText="请输入多图文标题" style="width:150px;" />
+        <input type="text" id="id"  class="mini-hidden" />
     </div>
     <div showCollapseButton="false">
         
@@ -42,17 +37,8 @@ html,body {
     <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
         <table style="width:100%;">
             <tr>
-                <td style="width:100%;">
-                <!--  
-                    <a class="mini-button" iconCls="icon-add" onclick="add()">增加多图文</a>
-                    <a class="mini-button" iconCls="icon-edit" onclick="edit()">修改多图文</a>
-                    <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除多图文</a>
-                  -->  
-                  
-                 
-                </td>
                 <td style="white-space:nowrap;">
-                    <input id="title" class="mini-textbox" emptyText="请输入说明" style="width:150px;" onenter="onKeyEnter"/>
+                    <input id="title1" class="mini-textbox" emptyText="请输入说明" style="width:150px;" onenter="onKeyEnter"/>
                     <input id="content" class="mini-textbox" emptyText="请输入内容" style="width:150px;" onenter="onKeyEnter"/>
                     <a class="mini-button" onclick="search()">查询</a>
                 </td>
@@ -67,13 +53,11 @@ html,body {
     <div property="columns">
      
         <div type="checkcolumn" ></div> 
-        
-        
-               
-        <div field="title" width="120" headerAlign="center" allowSort="true">说明</div>
-        <div field="keyword" width="120" headerAlign="center" allowSort="true">关键字</div>
+        <div field="title" width="120" headerAlign="center" allowSort="true">标题</div>
+        <div field="pic_url" width="120" headerAlign="center" allowSort="true">圖片</div>
         <div field="content" width="120" headerAlign="center" allowSort="true">内容</div>
-        <div field="type" width="120" headerAlign="center" allowSort="true" renderer="onDict">匹配類型</div>
+        <div field="link_url" width="120" headerAlign="center" allowSort="true">鏈接</div>
+        <div field="text_content" width="120" headerAlign="center" allowSort="true">詳情</div>
     </div>
 </div>
 </div>
@@ -113,9 +97,8 @@ html,body {
     
     //查询
     function search() {
-        var titles = mini.get("title").getValue();
+        var titles = mini.get("title1").getValue();
         var contents = mini.get("content").getValue();
-        alert(titles);
         grid.load({ title: titles, content: contents });
     }
   
@@ -130,7 +113,7 @@ html,body {
                 }
                 $.ajax({
                     url: "${ctx}/reply/imgmulti/save" ,
-                    data:{ids:ids.toString(),keyword:mini.get("keyword").getValue(),id: mini.get("id").getValue()},
+                    data:{ids:ids.toString(),title:mini.get("title").getValue(),id: mini.get("id").getValue()},
                     success: function (result) {
                     	if(result){
                         	grid.reload();

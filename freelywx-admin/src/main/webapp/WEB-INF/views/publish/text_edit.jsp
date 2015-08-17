@@ -16,15 +16,15 @@
     <div>
 	    <input name="id" id="id" class="mini-hidden" />
 		<table style="width: 100%;">
-			<tr>
+			<%-- <tr>
 				<td> 匹配类型：</td>
 				<td><input id="type" name="type" url="${ctx}/combox/dict/MATCH_TYPE" class="mini-combobox" required="true"  width="250"/></td>
-			</tr>
+			</tr> --%>
 			
 			
 			<tr>
-				<td>关键字：</td>
-				<td><input id="keyword" name="keyword" class="mini-textarea"  required="true" width="250"  onvalidation="onKeyValidation"/></td>
+				<td>title：</td>
+				<td><input id="title" name="title" class="mini-textarea"  required="true" width="250"   /></td>
 			</tr>
 			
 			<tr>
@@ -105,27 +105,6 @@
 		function onCancel(e) {
 			CloseWindow("cancel");
 		}
-		function onKeyValidation(e){
-	    	if (e.isValid) {
-	        	$.ajax({
-		            url: "${ctx}/reply/text/check",
-		            type: "post",
-		            data: { keyword: e.value ,id:mini.get("id").getValue()},
-		            success: function (result) {
-		           		if(!result){
-	                   	   e.errorText = "该名称已经存在!";
-	                       e.isValid = false; 
-	                    }
-	                },
-	                error: function () {
-	                  	notify("表单加载错误");
-	                   	// e.errorText = "密码不能少于5个字符";
-	                    e.isValid = false;
-	               }
-		       }); 
-	        }
-	    }
-
     </script>
 </body>
 </html>
